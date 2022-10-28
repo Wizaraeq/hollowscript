@@ -12,9 +12,9 @@ end
 function c49905576.drop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not re:IsHasType(EFFECT_TYPE_ACTIVATE) or not re:IsActiveType(TYPE_COUNTER) or not c:IsLocation(LOCATION_MZONE) or c:IsFacedown() then return end
-	Duel.Recover(tp,1000,REASON_EFFECT)
-	if not Duel.IsEnvironment(56433456) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
-	Duel.Destroy(g,REASON_EFFECT)
+	if Duel.Recover(tp,1000,REASON_EFFECT)>0 and Duel.IsEnvironment(56433456) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+		local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
+		Duel.Destroy(g,REASON_EFFECT)
+	end
 end

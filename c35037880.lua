@@ -27,15 +27,17 @@ function c35037880.filter(c)
 	return ((c:IsSetCard(0xd) and c:IsType(TYPE_SPELL+TYPE_TRAP)) or c:IsSetCard(0xb0)) and c:IsAbleToHand()
 end
 function c35037880.operation(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Recover(tp,ev,REASON_EFFECT,true)
-	Duel.Damage(1-tp,ev,REASON_EFFECT,true)
-	Duel.RDComplete()
-	local g=Duel.GetMatchingGroup(c35037880.filter,tp,LOCATION_DECK,0,nil)
-	if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(35037880,0)) then
-		Duel.BreakEffect()
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		local sg=g:Select(tp,1,1,nil)
-		Duel.SendtoHand(sg,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,sg)
+	local rec=Duel.Recover(tp,ev,REASON_EFFECT,true)
+	if rec==ev then
+		Duel.Damage(1-tp,rec,REASON_EFFECT,true)
+		Duel.RDComplete()
+		local g=Duel.GetMatchingGroup(c35037880.filter,tp,LOCATION_DECK,0,nil)
+		if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(35037880,0)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+			local sg=g:Select(tp,1,1,nil)
+			Duel.SendtoHand(sg,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-tp,sg)
+		end
 	end
 end

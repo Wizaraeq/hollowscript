@@ -43,6 +43,7 @@ function c37582948.reccon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c37582948.recop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,37582948)
-	Duel.Recover(tp,200,REASON_EFFECT)
-	Duel.Damage(1-tp,200,REASON_EFFECT)
+	if Duel.Recover(tp,200,REASON_EFFECT)>0 then
+		Duel.Damage(1-tp,200,REASON_EFFECT)
+	end
 end
