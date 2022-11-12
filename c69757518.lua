@@ -64,9 +64,9 @@ function c69757518.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	local g=Duel.GetMatchingGroup(Card.IsCanBeEffectTarget,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e)
 	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ)
-		and g:CheckSubGroup(aux.gffcheck,2,2,Card.IsAbleToDeck,nil,Card.IsCanOverlay,nil) end
+		and g:CheckSubGroup(aux.gffcheck,2,2,Card.IsAbleToDeck,0,Card.IsCanOverlay,0) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local sg=g:SelectSubGroup(tp,aux.gffcheck,false,2,2,Card.IsAbleToDeck,nil,Card.IsCanOverlay,nil)
+	local sg=g:SelectSubGroup(tp,aux.gffcheck,false,2,2,Card.IsAbleToDeck,0,Card.IsCanOverlay,0)
 	Duel.SetTargetCard(sg)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,sg,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,sg,2,0,0)
