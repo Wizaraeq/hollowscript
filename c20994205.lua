@@ -31,7 +31,7 @@ function c20994205.spnofilter(c,sum)
 	return aux.GetXyzNumber(c)==sum
 end
 function c20994205.gcheck(max)
-	return	function(g)
+	return  function(g)
 				return g:GetClassCount(Card.GetRank)==#g and g:GetSum(aux.GetXyzNumber)<=max
 			end
 end
@@ -91,5 +91,5 @@ function c20994205.splimitcon(e)
 	return e:GetHandler():IsControler(e:GetOwnerPlayer())
 end
 function c20994205.splimit(e,c)
-	return not c20994205.nofilter(c)
+	return not (c:IsSetCard(0x48) and c:IsType(TYPE_XYZ))
 end
