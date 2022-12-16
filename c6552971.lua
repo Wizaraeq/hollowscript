@@ -52,6 +52,7 @@ function c6552971.activate(e,tp,eg,ep,ev,re,r,rp)
 			Duel.ConfirmCards(1-tp,g)
 		end
 	end
+	if not e:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
