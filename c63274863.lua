@@ -17,6 +17,7 @@ function c63274863.initial_effect(c)
 	local e3=e1:Clone()
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
+	c63274863.summon_effect=e1
 end
 function c63274863.filter(c)
 	return c:IsSetCard(0x9c) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
