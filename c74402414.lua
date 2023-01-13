@@ -30,7 +30,6 @@ function c74402414.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(74402414,0))
 	e3:SetCategory(CATEGORY_TOHAND)
-	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCost(c74402414.thcost)
@@ -92,19 +91,16 @@ function c74402414.thfilter(c)
 	return c:GetFlagEffect(74402414)~=0 and c:IsAbleToHand()
 end
 function c74402414.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return e:GetLabelObject():IsContains(chkc) and c74402414.thfilter(chkc) end
 	if chk==0 then return e:GetLabelObject():IsExists(c74402414.thfilter,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_ATOHAND)
-	local g=e:GetLabelObject():FilterSelect(1-tp,c74402414.thfilter,1,1,nil)
-	e:GetLabelObject():Sub(g)
-	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_REMOVED)
 end
 function c74402414.thop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
-		Duel.SendtoHand(tc,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,tc)
+	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_ATOHAND)
+	local g=e:GetLabelObject():FilterSelect(1-tp,c74402414.thfilter,1,1,nil)
+	e:GetLabelObject():Sub(g)
+	if #g>0 then
+		Duel.SendtoHand(g,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,g)
 	end
 end
 function c74402414.dfilter(c)
