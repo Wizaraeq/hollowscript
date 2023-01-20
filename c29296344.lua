@@ -16,7 +16,7 @@ function c29296344.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c29296344.mfilter(c)
-	return c:IsLinkRace(RACE_DRAGON) or c:IsHasEffect(100294006)
+	return c:IsLinkRace(RACE_DRAGON) or c:IsHasEffect(77189532)
 end
 function c29296344.lcheck(g,lc)
 	return g:IsExists(Card.IsLinkSetCard,1,nil,0x102)

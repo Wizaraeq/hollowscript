@@ -25,10 +25,10 @@ end
 function c78362751.cfilter(c)
 	if c:IsFacedown() then return false end
 	local oc=c:GetOverlayGroup()
-	return c:IsCode(24639891) or c:IsType(TYPE_XYZ) and oc and oc:IsExists(Card.IsCode,1,nil,24639891)
+	return (c:IsFaceup() and c:IsCode(24639891)) or c:IsType(TYPE_XYZ) and oc and oc:IsExists(Card.IsCode,1,nil,24639891)
 end
 function c78362751.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c78362751.cfilter,tp,LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(c78362751.cfilter,tp,LOCATION_ONFIELD,0,1,nil)
 end
 function c78362751.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
