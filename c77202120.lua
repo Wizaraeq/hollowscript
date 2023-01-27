@@ -1,5 +1,7 @@
 --アサルト・シンクロン
 function c77202120.initial_effect(c)
+	--same effect send this card to grave and spsummon another card check
+	local e0=aux.AddThisCardInGraveAlreadyCheck(c)
 	--special summon self
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(77202120,0))
@@ -15,14 +17,19 @@ function c77202120.initial_effect(c)
 	e2:SetDescription(aux.Stringid(77202120,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_LEAVE_FIELD)
+	e2:SetCode(EVENT_RELEASE)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e2:SetCountLimit(1,77202121)
 	e2:SetCost(aux.bfgcost)
+	e2:SetLabelObject(e0)
+	e2:SetCondition(c77202120.condition)
 	e2:SetTarget(c77202120.target)
 	e2:SetOperation(c77202120.activate)
 	c:RegisterEffect(e2)
+	local e3=e2:Clone()
+	e3:SetCode(EVENT_REMOVE)
+	c:RegisterEffect(e3)
 end
 function c77202120.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -50,15 +57,26 @@ end
 function c77202120.splimit(e,c)
 	return not c:IsType(TYPE_SYNCHRO) and c:IsLocation(LOCATION_EXTRA)
 end
+function c77202120.cfilter(c,e,tp,se,cre)
+	return c:IsControler(tp) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+		and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousControler(tp)
+		and (se==nil or c:GetReasonEffect()~=se)
+		and (c:GetReasonEffect()~=cre or cre and cre:IsActivated())
+end
+function c77202120.condition(e,tp,eg,ep,ev,re,r,rp)
+	local se=e:GetLabelObject():GetLabelObject()
+	local cre=e:GetHandler():GetReasonEffect()
+	return eg:IsExists(c77202120.cfilter,1,nil,e,tp,se,cre)
+end
 function c77202120.spfilter(c,e,tp)
 	return c:IsControler(tp) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
 		and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousControler(tp)
-		and c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and (c:IsLocation(LOCATION_REMOVED) or (c:IsLocation(LOCATION_GRAVE) and c:IsReason(REASON_RELEASE)))
+		and c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c77202120.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and eg:IsExists(c77202120.spfilter,1,nil,e,tp)  and not eg:IsContains(e:GetHandler()) end
+		and eg:IsExists(c77202120.spfilter,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tg
 	if #eg==1 then
