@@ -22,10 +22,10 @@ function c27870337.toexfilter(c)
 	return c:IsSetCard(0x162) and c:IsType(TYPE_PENDULUM)
 end
 function c27870337.toexfilter1(c)
-	return c:GetCurrentScale()%2~=0
+	return c:GetCurrentScale()%2~=0 and c:IsAbleToExtra()
 end
 function c27870337.toexfilter2(c)
-	return c:GetCurrentScale()%2==0
+	return c:GetCurrentScale()%2==0 and c:IsAbleToExtra()
 end
 function c27870337.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsExistingMatchingCard(c27870337.pendfilter,tp,LOCATION_DECK,0,1,nil)
