@@ -26,7 +26,7 @@ function c25669282.initial_effect(c)
 end
 c25669282.has_text_type=TYPE_DUAL
 function c25669282.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xeb) and c:IsAbleToRemoveAsCost()
+	return c:IsFaceup() and c:IsSetCard(0xeb) and c:IsAbleToRemoveAsCost() and Duel.GetMZoneCount(tp,c)>1
 end
 function c25669282.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c25669282.cfilter,tp,LOCATION_MZONE,0,1,nil) end
@@ -43,7 +43,6 @@ function c25669282.spfilter2(c,e,tp,code)
 end
 function c25669282.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(c25669282.spfilter1,tp,LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_DECK)
 end
