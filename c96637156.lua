@@ -10,13 +10,14 @@ function c96637156.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_PHASE+PHASE_BATTLE_START)
 	e1:SetRange(LOCATION_MZONE)
+	e1:SetCountLimit(1)
 	e1:SetCondition(c96637156.movcon)
 	e1:SetTarget(c96637156.movtg)
 	e1:SetOperation(c96637156.movop)
 	c:RegisterEffect(e1)
 end
 function c96637156.movcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==1-tp and e:GetHandler():GetFlagEffect(96637156)==0
+	return Duel.GetTurnPlayer()==1-tp
 end
 function c96637156.movtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -24,16 +25,15 @@ function c96637156.movtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c96637156.movop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	c:RegisterFlagEffect(96637156,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE,0,1)
 	if not c:IsRelateToEffect(e) or c:GetSequence()>=5 then return end
 	local winflag=c:GetOverlayCount()<=6
 	local dice=Duel.TossDice(tp,1)
 	if dice<1 or dice>6 then return end
 	local p=tp
 	local seq=c:GetSequence()-dice
-	if seq<0 then
+	while seq<0 do
 		seq=seq+5
-		p=1-tp
+		p=1-p
 	end
 	local zone=1<<seq
 	local tc=Duel.GetFieldCard(p,LOCATION_MZONE,seq)

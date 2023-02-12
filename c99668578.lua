@@ -36,4 +36,3 @@ function c99668578.operation(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
