@@ -28,8 +28,9 @@ function c23377694.filter1(c)
 	return c:IsFaceup() and c:IsType(TYPE_PENDULUM)
 end
 function c23377694.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local ct=Duel.GetMatchingGroupCount(c23377694.filter2,tp,LOCATION_MZONE,0,nil)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c23377694.filter1(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c23377694.filter1,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(c23377694.filter1,tp,LOCATION_MZONE,0,1,nil) and ct>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	Duel.SelectTarget(tp,c23377694.filter1,tp,LOCATION_MZONE,0,1,1,nil)
 end
