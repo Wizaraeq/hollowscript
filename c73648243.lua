@@ -13,7 +13,7 @@ function c73648243.initial_effect(c)
 end
 function c73648243.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return bit.band(c:GetReason(),0x41)==0x41 and c:IsPreviousLocation(LOCATION_MZONE)
+	return c:IsReason(REASON_DESTROY) and not c:IsReason(REASON_BATTLE) and c:IsPreviousLocation(LOCATION_MZONE)
 		and c:IsPreviousPosition(POS_FACEDOWN_DEFENSE)
 end
 function c73648243.sptg(e,tp,eg,ep,ev,re,r,rp,chk)

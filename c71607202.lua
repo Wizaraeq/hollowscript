@@ -41,24 +41,27 @@ function s.repfilter(c,tp)
 		and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 		and not c:IsReason(REASON_REPLACE)
 end
-function s.rfilter(c)
-	return c:IsReleasableByEffect() and c:IsRace(RACE_FIEND)
+function s.rfilter(c,e)
+	return c:IsReleasableByEffect(e) and c:IsRace(RACE_FIEND)
 		and not c:IsStatus(STATUS_DESTROY_CONFIRMED+STATUS_BATTLE_DESTROYED)
 end
 function s.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return eg:IsExists(s.repfilter,1,nil,tp)
-		and Duel.CheckReleaseGroup(tp,s.rfilter,1,nil) end
-	return Duel.SelectEffectYesNo(tp,c,96)
+	local ct=eg:FilterCount(s.repfilter,nil,tp)
+	if chk==0 then return ct>0 and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,nil,e)  end
+	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
+		local tg=Duel.SelectMatchingCard(tp,s.rfilter,tp,LOCATION_MZONE,0,1,1,nil,e)
+		Duel.SetTargetCard(tg)
+		return true
+	else return false end
 end
 function s.desrepval(e,c)
 	return s.repfilter(c,e:GetHandlerPlayer())
 end
 function s.desrepop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
-	local g=Duel.SelectReleaseGroup(tp,s.rfilter,1,1,nil)
-	Duel.Hint(HINT_CARD,0,id)
-	Duel.Release(g,REASON_EFFECT+REASON_REPLACE)
+	Duel.Hint(HINT_CARD,1-tp,id)
+	local tc=Duel.GetFirstTarget()
+	Duel.Release(tc,REASON_EFFECT+REASON_REPLACE)
 end
 function s.spfilter(c,e,tp)
 	return not c:IsCode(id) and c:IsRace(RACE_FIEND) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
