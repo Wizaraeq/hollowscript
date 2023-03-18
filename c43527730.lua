@@ -50,7 +50,7 @@ function c43527730.spfilter(c,e,tp,code)
 end
 function c43527730.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ec=e:GetHandler():GetEquipTarget()
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and ec:IsAbleToHand()
 		and Duel.IsExistingMatchingCard(c43527730.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp,ec:GetOriginalCodeRule()) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,ec,1,0,0)

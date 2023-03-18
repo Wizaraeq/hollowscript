@@ -24,6 +24,7 @@ function c81192859.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetCode(EVENT_DESTROYED)
 	e3:SetCondition(c81192859.limcon)
+	e3:SetTarget(c81192859.limtg)
 	e3:SetOperation(c81192859.limop)
 	c:RegisterEffect(e3)
 end
@@ -51,7 +52,9 @@ end
 function c81192859.limcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return rp==1-tp and c:IsReason(REASON_EFFECT) and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_SZONE)
-		and Duel.GetMatchingGroupCount(c81192859.cfilter,tp,LOCATION_MZONE,0,nil)>0
+end
+function c81192859.limtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(c81192859.cfilter,tp,LOCATION_MZONE,0,1,nil) end
 end
 function c81192859.limop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c81192859.cfilter,tp,LOCATION_MZONE,0,nil)
