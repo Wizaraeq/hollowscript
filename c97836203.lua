@@ -43,7 +43,6 @@ function c97836203.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 c97836203.material_type=TYPE_SYNCHRO
-c97836203.material_count={2}
 function c97836203.discon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()==0
 end

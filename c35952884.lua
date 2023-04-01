@@ -49,7 +49,7 @@ function c35952884.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 c35952884.material_type=TYPE_SYNCHRO
-c35952884.material_count={2}
+c35952884.cosmic_quasar_dragon_summon=true
 function c35952884.valcheck(e,c)
 	e:GetLabelObject():SetLabel(c:GetMaterialCount()-1)
 end
