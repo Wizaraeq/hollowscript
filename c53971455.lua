@@ -9,11 +9,7 @@ function c53971455.initial_effect(c)
 	e1:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DISABLE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
-	if EVENT_LEAVE_DECK then
-		e1:SetCode(EVENT_LEAVE_DECK)
-	else
-		e1:SetCode(EVENT_MOVE) --don't call for Duel.Overlay
-	end
+	e1:SetCode(EVENT_LEAVE_DECK)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
 	e1:SetCondition(c53971455.atkcon)

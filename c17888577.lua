@@ -34,6 +34,7 @@ function c17888577.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
 function c17888577.activate(e,tp,eg,ep,ev,re,r,rp)
+	::cancel::
 	local mg=Duel.GetRitualMaterial(tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tg=Duel.SelectMatchingCard(tp,aux.RitualUltimateFilter,tp,LOCATION_HAND,0,1,1,nil,c17888577.filter,e,tp,mg,nil,Card.GetLevel,"Greater")
@@ -47,9 +48,9 @@ function c17888577.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 		aux.GCheckAdditional=aux.RitualCheckAdditional(tc,tc:GetLevel(),"Greater")
-		local mat=mg:SelectSubGroup(tp,aux.RitualCheck,false,1,tc:GetLevel(),tp,tc,tc:GetLevel(),"Greater")
+		local mat=mg:SelectSubGroup(tp,aux.RitualCheck,true,1,tc:GetLevel(),tp,tc,tc:GetLevel(),"Greater")
 		aux.GCheckAdditional=nil
-		if not mat or mat:GetCount()==0 then return end
+		if not mat then goto cancel end
 		tc:SetMaterial(mat)
 		local lv=mat:GetSum(Card.GetLevel)
 		Duel.ReleaseRitualMaterial(mat)
@@ -72,9 +73,9 @@ function c17888577.checkfilter(c,tp)
 	local att=c:GetAttribute()
 	local race=c:GetRace()
 	return c:IsFaceup() and bit.band(c:GetType(),0x81)==0x81
-		and Duel.IsExistingMatchingCard(c17888577.tgfilter,tp,LOCATION_DECK,0,1,nil,tp,att,race)
+		and Duel.IsExistingMatchingCard(c17888577.tgfilter,tp,LOCATION_DECK,0,1,nil,att,race)
 end
-function c17888577.tgfilter(c,tp,att,race)
+function c17888577.tgfilter(c,att,race)
 	return bit.band(c:GetType(),0x81)==0x81 and (c:IsAttribute(att) or c:IsRace(race)) and c:IsAbleToGrave()
 end
 function c17888577.tgtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -90,7 +91,7 @@ function c17888577.tgop(e,tp,eg,ep,ev,re,r,rp)
 		local att=tc:GetAttribute()
 		local race=tc:GetRace()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		local g=Duel.SelectMatchingCard(tp,c17888577.tgfilter,tp,LOCATION_DECK,0,1,1,nil,tp,att,race)
+		local g=Duel.SelectMatchingCard(tp,c17888577.tgfilter,tp,LOCATION_DECK,0,1,1,nil,att,race)
 		if g:GetCount()>0 then
 			Duel.SendtoGrave(g,REASON_EFFECT)
 		end

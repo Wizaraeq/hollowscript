@@ -21,11 +21,7 @@ function c45883110.initial_effect(c)
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
-	if EVENT_LEAVE_DECK then
-		e3:SetCode(EVENT_LEAVE_DECK)
-	else
-		e3:SetCode(EVENT_MOVE) --don't call for Duel.Overlay
-	end
+	e3:SetCode(EVENT_LEAVE_DECK)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,45883111)
 	e3:SetCondition(c45883110.spcon)
