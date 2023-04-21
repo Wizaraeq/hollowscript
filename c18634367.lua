@@ -1,5 +1,6 @@
 --スクリーン・オブ・レッド
 function c18634367.initial_effect(c)
+	aux.AddCodeList(c,70902743)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -52,7 +53,8 @@ function c18634367.cfilter(c)
 	return c:IsFaceup() and c:IsCode(70902743)
 end
 function c18634367.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c18634367.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil)
+	return not e:GetHandler():IsStatus(STATUS_CHAINING)
+		and Duel.IsExistingMatchingCard(c18634367.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil)
 end
 function c18634367.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
