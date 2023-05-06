@@ -91,5 +91,5 @@ function c86066372.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function c86066372.rmlimit(e,c,tp,r,re)
-	return c:IsAttribute(e:GetLabel()) and re and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsCode(86066372) and r==REASON_COST
+	return c:IsAttribute(e:GetLabel()) and re and re:IsActiveType(TYPE_MONSTER) and (re:GetHandler():IsCode(e:GetHandler():GetCode()) or re:GetHandler():IsCode(86066372)) and r==REASON_COST
 end

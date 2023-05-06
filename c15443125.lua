@@ -19,13 +19,14 @@ function c15443125.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function c15443125.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c15443125.filter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	local tc=g:GetFirst()
-	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)>0 then
-		local lp=Duel.GetLP(tp)
-		Duel.SetLP(tp,lp-tc:GetBaseAttack())
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local g=Duel.SelectMatchingCard(tp,c15443125.filter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+		local tc=g:GetFirst()
+		if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)>0 then
+			local lp=Duel.GetLP(tp)
+			Duel.SetLP(tp,lp-tc:GetBaseAttack())
+		end
 	end
 	if not e:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
 	local e1=Effect.CreateEffect(e:GetHandler())
