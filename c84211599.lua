@@ -94,5 +94,5 @@ function c84211599.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function c84211599.damval(e,re,val,r,rp,rc)
-	return math.floor(val/2)
+	return math.ceil(val/2)
 end

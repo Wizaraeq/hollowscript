@@ -93,5 +93,5 @@ function c98020526.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c98020526.damval(e,re,val,r,rp,rc)
-	return math.floor(val/2)
+	return math.ceil(val/2)
 end

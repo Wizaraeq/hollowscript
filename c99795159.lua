@@ -44,7 +44,7 @@ function c99795159.dirtg(e,c)
 end
 function c99795159.val(e,re,dam,r,rp,rc)
 	if bit.band(r,REASON_EFFECT)~=0 then
-		return math.floor(dam/2)
+		return math.ceil(dam/2)
 	else return dam end
 end
 function c99795159.rdtg(e,c)

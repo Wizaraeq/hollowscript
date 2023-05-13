@@ -55,7 +55,7 @@ function c40352445.tgop(e,tp,eg,ep,ev,re,r,rp)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UPDATE_ATTACK)
-			e1:SetValue(math.floor(atk/2))
+			e1:SetValue(math.ceil(atk/2))
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_DISABLE+RESET_PHASE+PHASE_END)
 			c:RegisterEffect(e1)
 		end

@@ -58,7 +58,7 @@ end
 function c12527118.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if Duel.Destroy(tc,REASON_EFFECT)>0 then
-		Duel.Damage(1-tp,math.floor(tc:GetBaseAttack()/2),REASON_EFFECT)
+		Duel.Damage(1-tp,math.ceil(tc:GetBaseAttack()/2),REASON_EFFECT)
 	end
 end
 function c12527118.limcon(e,tp,eg,ep,ev,re,r,rp)

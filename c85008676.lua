@@ -70,7 +70,7 @@ function c85008676.damval2(e,re,val,r,rp,rc)
 		local cc=Duel.GetCurrentChain()
 	if cc==0 or bit.band(r,REASON_EFFECT)==0 then return end
 	local cid=Duel.GetChainInfo(0,CHAININFO_CHAIN_ID)
-	return cid==e:GetLabel() and math.floor(val/2) or val
+	return cid==e:GetLabel() and math.ceil(val/2) or val
 end
 function c85008676.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)

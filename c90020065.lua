@@ -45,6 +45,6 @@ function c90020065.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_MZONE,0,nil)
 	if Duel.Destroy(g1,REASON_EFFECT)==0 then return end
 	local og=Duel.GetOperatedGroup()
-	local dam=math.floor(og:GetSum(c90020065.damfilter)/2)
+	local dam=math.ceil(og:GetSum(c90020065.damfilter)/2)
 	Duel.Damage(1-tp,dam,REASON_EFFECT)
 end

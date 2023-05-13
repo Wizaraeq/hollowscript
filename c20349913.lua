@@ -43,5 +43,5 @@ function c20349913.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c20349913.damval(e,re,val,r,rp,rc)
-	return math.floor(val/2)
+	return math.ceil(val/2)
 end

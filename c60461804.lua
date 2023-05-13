@@ -81,6 +81,7 @@ function c60461804.spfilter(c,e,tp)
 	return c:IsSetCard(0xc008) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c60461804.spcon(e,tp,eg,ep,ev,re,r,rp)
+	if e:GetHandler():IsForbidden() then return end
 	return Duel.GetTurnCount()~=e:GetLabel() and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(c60461804.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
 end

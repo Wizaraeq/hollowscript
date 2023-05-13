@@ -52,12 +52,12 @@ function c73667937.damtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(c73667937.damfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	local g=Duel.SelectTarget(tp,c73667937.damfilter,tp,LOCATION_GRAVE,0,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,math.floor(g:GetFirst():GetAttack()/2))
+	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,math.ceil(g:GetFirst():GetAttack()/2))
 end
 function c73667937.damop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
-		Duel.Damage(1-tp,math.floor(tc:GetAttack()/2),REASON_EFFECT)
+		Duel.Damage(1-tp,math.ceil(tc:GetAttack()/2),REASON_EFFECT)
 	end
 end
 function c73667937.descon(e,tp,eg,ep,ev,re,r,rp)

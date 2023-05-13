@@ -20,7 +20,7 @@ end
 function c53025096.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local bc=e:GetHandler():GetBattleTarget()
-	local dam=math.floor(bc:GetBaseAttack()/2)
+	local dam=math.ceil(bc:GetBaseAttack()/2)
 	Duel.SetTargetCard(bc)
 	Duel.SetTargetPlayer(1-tp)
 	Duel.SetTargetParam(dam)
@@ -30,7 +30,7 @@ function c53025096.damop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
-		local dam=math.floor(tc:GetBaseAttack()/2)
+		local dam=math.ceil(tc:GetBaseAttack()/2)
 		Duel.Damage(p,dam,REASON_EFFECT)
 	end
 end

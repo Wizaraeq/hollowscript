@@ -66,8 +66,9 @@ function c31241087.dspop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local dg=g:SelectSubGroup(tp,aux.mzctcheck,false,2,2,tp)
 	Duel.HintSelection(dg)
-	if Duel.Destroy(dg,REASON_EFFECT)==0 or not c:IsRelateToEffect(e) then return end
-	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+	if #dg==2 and Duel.Destroy(dg,REASON_EFFECT)==2 and c:IsRelateToEffect(e) then
+		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
 function c31241087.tgfilter(c)
 	return c:IsRace(RACE_DINOSAUR) and c:IsAbleToGrave()

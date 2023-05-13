@@ -64,7 +64,7 @@ function c67557908.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	if not tc then return end
 	Duel.HintSelection(g)
-	local dam=math.floor(tc:GetAttack()/2)
+	local dam=math.ceil(tc:GetAttack()/2)
 	if Duel.Destroy(tc,REASON_EFFECT)~=0 then
 		Duel.Damage(1-tp,dam,REASON_EFFECT)
 	end

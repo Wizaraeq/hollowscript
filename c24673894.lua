@@ -32,6 +32,6 @@ function c24673894.activate(e,tp,eg,ep,ev,re,r,rp)
 		local val=tc:GetAttack()/2
 		local op=Duel.SelectOption(1-tp,aux.Stringid(24673894,0),aux.Stringid(24673894,1))
 		if op==0 then Duel.Recover(1-tp,math.ceil(val),REASON_EFFECT)
-		else Duel.Damage(tp,math.floor(val),REASON_EFFECT) end
+		else Duel.Damage(tp,math.ceil(val),REASON_EFFECT) end
 	end
 end
