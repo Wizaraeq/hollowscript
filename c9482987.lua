@@ -27,7 +27,7 @@ function c9482987.tgfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x150)
 end
 function c9482987.eqfilter(c)
-	return c:IsSetCard(0x150) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0x150) and c:IsType(TYPE_MONSTER) and not c:IsForbidden()
 end
 function c9482987.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c9482987.tgfilter(chkc) end

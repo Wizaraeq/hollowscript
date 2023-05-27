@@ -21,7 +21,8 @@ function c938717.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c938717.eqfilter(c,e,tp)
-	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsSetCard(0x51) and c:IsRace(RACE_MACHINE) and c:IsCanBeEffectTarget(e) and c:CheckUniqueOnField(tp)
+	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsSetCard(0x51) and c:IsRace(RACE_MACHINE)
+		and c:IsCanBeEffectTarget(e) and c:CheckUniqueOnField(tp) and not c:IsForbidden()
 end
 function c938717.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end

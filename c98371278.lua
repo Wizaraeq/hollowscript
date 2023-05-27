@@ -25,7 +25,7 @@ function c98371278.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c98371278.eqfilter(c)
-	return c:IsRace(RACE_DRAGON) and c:IsLevelBelow(4)
+	return c:IsRace(RACE_DRAGON) and c:IsLevelBelow(4) and not c:IsForbidden()
 end
 function c98371278.tgfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_DRAGON)

@@ -24,7 +24,7 @@ function c35100834.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
 function c35100834.eqfilter(c,tp)
-	return c:IsRace(RACE_MACHINE) and c:IsLevel(4) and c:IsSetCard(0x51) and c:CheckUniqueOnField(tp)
+	return c:IsRace(RACE_MACHINE) and c:IsLevel(4) and c:IsSetCard(0x51) and c:CheckUniqueOnField(tp) and not c:IsForbidden()
 end
 function c35100834.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

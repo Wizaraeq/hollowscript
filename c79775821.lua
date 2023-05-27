@@ -39,7 +39,7 @@ function c79775821.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c79775821.eqfilter(c)
-	return c:IsSetCard(0x179) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0x179) and c:IsType(TYPE_MONSTER) and not c:IsForbidden()
 end
 function c79775821.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()

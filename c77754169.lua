@@ -24,7 +24,7 @@ function c77754169.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c77754169.eqfilter(c,e,tp)
-	return c:IsRace(RACE_INSECT) and c:IsCanBeEffectTarget(e) and c:CheckUniqueOnField(tp)
+	return c:IsRace(RACE_INSECT) and c:IsCanBeEffectTarget(e) and c:CheckUniqueOnField(tp) and not c:IsForbidden()
 		and Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_GRAVE,0,2,c,c:GetCode())
 end
 function c77754169.fselect(g)

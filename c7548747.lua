@@ -18,6 +18,7 @@ end
 function c7548747.eqfilter(c,check)
 	return (c:IsFaceup() or not c:IsLocation(LOCATION_MZONE)) and c:IsSetCard(0x150) and c:IsType(TYPE_MONSTER) and not c:IsLevel(4)
 		or check and c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x150) and c:IsType(TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK)
+		and not c:IsForbidden()
 end
 function c7548747.gfilter(c,type)
 	return c:IsSetCard(0x150) and c:IsType(type)
