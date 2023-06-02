@@ -24,6 +24,23 @@ function c86066372.initial_effect(c)
 	e2:SetTarget(c86066372.destg)
 	e2:SetOperation(c86066372.desop)
 	c:RegisterEffect(e2)
+	if not c86066372.global_check then
+		c86066372.global_check=true
+		c86066372.attr_list={}
+		c86066372.attr_list[0]=0
+		c86066372.attr_list[1]=0
+		local ge1=Effect.CreateEffect(c)
+		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge1:SetCode(EVENT_PHASE+PHASE_END)
+		ge1:SetCountLimit(1)
+		ge1:SetCondition(c86066372.resetop)
+		Duel.RegisterEffect(ge1,0)
+	end
+end
+function c86066372.resetop(e,tp,eg,ep,ev,re,r,rp)
+	c86066372.attr_list[0]=0
+	c86066372.attr_list[1]=0
+	return false
 end
 function c86066372.atkfilter(c,e)
 	return c:IsType(TYPE_LINK) and (c:IsLocation(LOCATION_GRAVE) or (c:IsLocation(LOCATION_REMOVED) and c:IsFaceup()))
@@ -57,13 +74,14 @@ function c86066372.atkop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterEffect(e1)
 	end
 end
-function c86066372.cfilter(c)
-	return c:IsType(TYPE_LINK) and c:IsAbleToRemoveAsCost() and (c:IsFaceup() or c:IsLocation(LOCATION_GRAVE))
+function c86066372.cfilter(c,e,tp)
+	local attr=c:GetAttribute()
+	return c:IsType(TYPE_LINK) and c:IsAbleToRemoveAsCost() and (c:IsFaceup() or c:IsLocation(LOCATION_GRAVE)) and c86066372.attr_list[tp]&attr==0
 end
 function c86066372.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c86066372.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c86066372.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c86066372.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c86066372.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,e,tp)
 	e:SetLabel(g:GetFirst():GetAttribute())
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
@@ -74,22 +92,12 @@ function c86066372.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetChainLimit(c86066372.chainlm)
 end
 function c86066372.desop(e,tp,eg,ep,ev,re,r,rp)
+	local att=e:GetLabel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
 	if g:GetCount()>0 then
 		Duel.HintSelection(g)
 		Duel.Destroy(g,REASON_EFFECT)
 	end
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetCode(EFFECT_CANNOT_REMOVE)
-	e1:SetTargetRange(1,0)
-	e1:SetTarget(c86066372.rmlimit)
-	e1:SetLabel(e:GetLabel())
-	e1:SetReset(RESET_PHASE+PHASE_END)
-	Duel.RegisterEffect(e1,tp)
-end
-function c86066372.rmlimit(e,c,tp,r,re)
-	return c:IsAttribute(e:GetLabel()) and re and re:IsActiveType(TYPE_MONSTER) and (re:GetHandler():IsCode(e:GetHandler():GetCode()) or re:GetHandler():IsCode(86066372)) and r==REASON_COST
+	c86066372.attr_list[tp]=c86066372.attr_list[tp]|att
 end
