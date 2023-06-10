@@ -34,7 +34,7 @@ function c23232295.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		if g:GetCount()==1 then
 			e:SetLabelObject(g:GetFirst())
 		else
-			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
+			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(23232295,1))
 			local cg=g:Select(tp,1,1,nil)
 			e:SetLabelObject(cg:GetFirst())
 		end
