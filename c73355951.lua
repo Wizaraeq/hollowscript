@@ -20,8 +20,7 @@ function s.filter(c,e,tp)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0
 		and Duel.IsExistingTarget(s.filter,tp,LOCATION_REMOVED,0,1,nil,e,tp)
 		and Duel.IsExistingTarget(s.filter,tp,0,LOCATION_REMOVED,1,nil,e,tp) end
@@ -35,10 +34,10 @@ end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetTargetsRelateToChain()
 	if #g==2 and Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
-	local sc=g:Filter(Card.IsControler,nil,tp):GetFirst()
-	if sc and Duel.SpecialSummonStep(sc,0,tp,1-tp,false,false,POS_FACEUP) then
-		g:RemoveCard(sc)
-		Duel.SpecialSummonStep(g:GetFirst(),0,tp,tp,false,false,POS_FACEUP)
+	local sc1=g:Filter(Card.IsControler,nil,tp):GetFirst()
+	local sc2=g:Filter(Card.IsControler,nil,1-tp):GetFirst()
+	if sc1 and Duel.SpecialSummonStep(sc1,0,tp,1-tp,false,false,POS_FACEUP) and sc2 then
+		Duel.SpecialSummonStep(sc2,0,tp,tp,false,false,POS_FACEUP)
 	end
 	Duel.SpecialSummonComplete()
 end
