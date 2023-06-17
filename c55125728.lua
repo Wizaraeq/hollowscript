@@ -86,12 +86,13 @@ function c55125728.discon(e,tp,eg,ep,ev,re,r,rp)
 		and e:GetHandler():GetFlagEffect(55125728)<=0
 end
 function c55125728.disop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.SelectEffectYesNo(tp,e:GetHandler(),aux.Stringid(55125728,2)) then
-		Duel.Hint(HINT_CARD,0,55125728)
-		local rc=re:GetHandler()
-		if Duel.NegateEffect(ev) and rc:IsRelateToEffect(re) then
-			Duel.Destroy(rc,REASON_EFFECT)
-		end
-		e:GetHandler():RegisterFlagEffect(55125728,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(55125728,3))
+	local cid=Duel.GetChainInfo(ev,CHAININFO_CHAIN_ID)
+	if Duel.GetFlagEffectLabel(tp,55125728)==cid or not Duel.SelectEffectYesNo(tp,e:GetHandler(),aux.Stringid(55125728,2)) then return end
+	Duel.Hint(HINT_CARD,0,55125728)
+	Duel.RegisterFlagEffect(tp,55125728,RESET_CHAIN,0,1,cid)
+	local rc=re:GetHandler()
+	if Duel.NegateEffect(ev) and rc:IsRelateToEffect(re) then
+		Duel.Destroy(rc,REASON_EFFECT)
 	end
+	e:GetHandler():RegisterFlagEffect(55125728,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(55125728,3))
 end

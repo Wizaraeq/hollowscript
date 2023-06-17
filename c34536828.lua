@@ -29,14 +29,14 @@ end
 function c34536828.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=re:GetHandler()
-	if rp==1-tp and Duel.IsChainDisablable(ev) and c:GetFlagEffect(34536828)==0 and re:IsActiveType(TYPE_MONSTER)
+	if rp==1-tp and Duel.IsChainDisablable(ev) and Duel.GetFlagEffect(tp,34536828)==0 and re:IsActiveType(TYPE_MONSTER)
 		and (rc:IsFaceup() and rc:IsLocation(LOCATION_MZONE) and (rc:IsAttack(0) or rc:IsDefense(0))
 			or not (rc:IsFaceup() and rc:IsLocation(LOCATION_MZONE)) and (rc:GetTextAttack()==0 or not rc:IsType(TYPE_LINK) and rc:GetTextDefense()==0))
 		and Duel.IsExistingMatchingCard(c34536828.disfilter,tp,LOCATION_MZONE,0,1,nil)
 		and Duel.SelectEffectYesNo(tp,c,aux.Stringid(34536828,0)) then
 		Duel.Hint(HINT_CARD,0,34536828)
 		Duel.NegateEffect(ev)
-		c:RegisterFlagEffect(34536828,RESET_PHASE+PHASE_END,0,0)
+		Duel.RegisterFlagEffect(tp,34536828,RESET_PHASE+PHASE_END,0,1)
 	end
 end
 function c34536828.descon(e,tp,eg,ep,ev,re,r,rp)
