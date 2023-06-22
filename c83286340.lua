@@ -1,4 +1,4 @@
---War Rock Fortia
+--ウォークライ・フォティア
 function c83286340.initial_effect(c)
 	--tohand & atkchange
 	local e1=Effect.CreateEffect(c)
@@ -32,7 +32,8 @@ function c83286340.check(c,tp)
 end
 function c83286340.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return (c83286340.check(Duel.GetAttacker(),tp) or c83286340.check(Duel.GetAttackTarget(),tp))
-		and Duel.IsExistingMatchingCard(c83286340.thfilter,tp,LOCATION_DECK,0,1,nil) and Duel.IsExistingMatchingCard(c83286340.atkfilter,tp,LOCATION_MZONE,0,1,nil) end
+		and Duel.IsExistingMatchingCard(c83286340.thfilter,tp,LOCATION_DECK,0,1,nil)
+		and Duel.IsExistingMatchingCard(c83286340.atkfilter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c83286340.atkfilter(c)

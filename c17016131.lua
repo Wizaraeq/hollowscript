@@ -46,6 +46,7 @@ function c17016131.initial_effect(c)
 end
 function c17016131.drcon(e,tp,eg,ep,ev,re,r,rp)
 	local rc=eg:GetFirst()
+	if not e:GetHandler():IsStatus(STATUS_EFFECT_ENABLED) then return end
 	return rc:IsRelateToBattle() and rc:IsStatus(STATUS_OPPO_BATTLE)
 		and rc:IsFaceup() and rc:IsSetCard(0x13f) and rc:IsControler(tp)
 end
