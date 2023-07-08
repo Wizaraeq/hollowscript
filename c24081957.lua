@@ -12,19 +12,20 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function s.filter(c,tp,ft)
+function s.filter(c,tp,hand_chk)
+	if c:IsFacedown() then return false end
+	local owner=c:GetOwner()
 	local r=LOCATION_REASON_TOFIELD
-	if not c:IsControler(c:GetOwner()) then r=LOCATION_REASON_CONTROL end
-	return c:IsFaceup() and Duel.GetLocationCount(c:GetOwner(),LOCATION_SZONE,tp,r)>ft
+	local ft=Duel.GetLocationCount(owner,LOCATION_SZONE,tp,r)
+	if owner==tp and hand_chk then ft=ft-1 end
+	return ft>0
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.filter(chkc,tp,0) end
-	if chk==0 then
-		local ft=e:IsHasType(EFFECT_TYPE_ACTIVATE) and e:GetHandler():IsLocation(LOCATION_HAND) and 1 or 0
-		return Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tp,ft)
-	end
+	local hand_chk=e:GetHandler():IsLocation(LOCATION_HAND)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.tgfilter(chkc,tp,hand_chk) end
+	if chk==0 then return Duel.IsExistingTarget(s.tgfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tp,hand_chk) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,tp,0)
+	Duel.SelectTarget(tp,s.tgfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,tp,hand_chk)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
