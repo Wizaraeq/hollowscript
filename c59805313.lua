@@ -15,7 +15,11 @@ function c59805313.tgfilter(c,e,tp)
 end
 function c59805313.rmfilter(c,tp)
 	return c:IsSetCard(0xb9) and c:IsFaceupEx() and c:IsAbleToRemove()
-		and (c:IsLocation(LOCATION_SZONE) or Duel.GetLocationCount(tp,LOCATION_SZONE)>0)
+		and (c:IsLocation(LOCATION_SZONE) or Duel.GetLocationCount(tp,LOCATION_SZONE)>0) and Duel.IsExistingMatchingCard(c59805313.setfilter2,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,tp,c)
+end
+function c59805313.setfilter2(c,tp,tc)
+	return c:IsSetCard(0xb9) and c:IsType(TYPE_CONTINUOUS)
+		and not c:IsForbidden() and ((c:IsCode(85250352) and tc:IsCode(85250352)) or c:CheckUniqueOnField(tp))
 end
 function c59805313.setfilter(c,tp)
 	return c:IsSetCard(0xb9) and c:IsType(TYPE_CONTINUOUS)
@@ -27,7 +31,6 @@ function c59805313.optg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and Duel.IsExistingMatchingCard(c59805313.tgfilter,tp,LOCATION_DECK,0,1,nil,e,tp)
 	local b2=Duel.GetFlagEffect(tp,59805314)==0
 		and Duel.IsExistingMatchingCard(c59805313.rmfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,1,nil,tp)
-		and Duel.IsExistingMatchingCard(c59805313.setfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,tp)
 	if chk==0 then return b1 or b2 end
 	local op=0
 	if b1 and b2 then op=Duel.SelectOption(tp,aux.Stringid(59805313,1),aux.Stringid(59805313,2))
