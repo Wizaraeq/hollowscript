@@ -70,17 +70,17 @@ function c41525660.seqop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if not tc:IsRelateToEffect(e) then return end
 	local seq=tc:GetSequence()
-	local sq=tc:GetControler()
 	if seq>4 then return end
 	local flag=0
-	if seq>0 and Duel.CheckLocation(sq,LOCATION_MZONE,seq-1) then flag=flag|(1<<(seq-1)) end
-	if seq<4 and Duel.CheckLocation(sq,LOCATION_MZONE,seq+1) then flag=flag|(1<<(seq+1)) end
+	local p=tc:GetControler()
+	if seq>0 and Duel.CheckLocation(p,LOCATION_MZONE,seq-1) then flag=flag|(1<<(seq-1)) end
+	if seq<4 and Duel.CheckLocation(p,LOCATION_MZONE,seq+1) then flag=flag|(1<<(seq+1)) end
 	if flag==0 then return end
+	if p~=tp then flag=flag<<16 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	local i=0
-	if sq~=tp then i=16 end
-	local s=Duel.SelectField(tp,1,LOCATION_MZONE,LOCATION_MZONE,~(flag<<i))
-	local nseq=math.log(s,2)-i
+	local s=Duel.SelectField(tp,1,LOCATION_MZONE,LOCATION_MZONE,~flag)
+	if p~=tp then s=s>>16 end
+	local nseq=math.log(s,2)
 	Duel.MoveSequence(tc,nseq)
 end
 function c41525660.mvcon(e,tp,eg,ep,ev,re,r,rp)
