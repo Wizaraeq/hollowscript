@@ -30,7 +30,7 @@ function c34568403.coinop(e,tp,eg,ep,ev,re,r,rp)
 	else res=Duel.TossCoin(tp,1) end
 	c34568403.arcanareg(c,res)
 	if res==0 then
-		Duel.GetControl(c,1-tp)
+	c34568403.arcanareg(c,res)
 	end
 end
 function c34568403.arcanareg(c,coin)
@@ -45,7 +45,15 @@ function c34568403.arcanareg(c,coin)
 	e1:SetOperation(c34568403.spop)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e1)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_ADJUST)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetOperation(c34568403.ctop)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
+	c:RegisterEffect(e2)
 	c:RegisterFlagEffect(36690018,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,coin,63-coin)
+	c:RegisterFlagEffect(34568403,RESET_EVENT+RESETS_STANDARD,0,1,coin)
 end
 function c34568403.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -63,5 +71,17 @@ function c34568403.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetHandler():GetBattleTarget()
 	if tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	end
+end
+function c34568403.ctop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	--Heads
+	if c:GetFlagEffectLabel(36690018)==1 and c:GetFlagEffectLabel(34568403)==1 then
+		c:SetFlagEffectLabel(34568403,0)
+	end
+	--Tails
+	if c:GetFlagEffectLabel(36690018)==0 and c:GetFlagEffectLabel(34568403)==0 then
+		c:SetFlagEffectLabel(34568403,1)
+		Duel.GetControl(c,1-tp,0,0)
 	end
 end

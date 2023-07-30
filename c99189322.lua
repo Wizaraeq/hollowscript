@@ -37,7 +37,7 @@ function c99189322.activate(e,tp,eg,ep,ev,re,r,rp)
 		local regfun=regc.arcanareg
 		if not regfun then return end
 		local val=tc:GetFlagEffectLabel(36690018)
-		tc:ResetEffect(RESET_DISABLE,RESET_EVENT)
+		tc:ResetEffect(RESET_EVENT+RESETS_STANDARD+RESET_DISABLE+RESET_PHASE+PHASE_END,RESET_EVENT)
 		regfun(tc,val)
 		tc:RegisterFlagEffect(99189322,RESET_EVENT+RESETS_STANDARD+RESET_DISABLE+RESET_PHASE+PHASE_END,0,1)
 		local e1=Effect.CreateEffect(e:GetHandler())
@@ -56,6 +56,6 @@ function c99189322.rec_effect(e,tp,eg,ep,ev,re,r,rp)
 	local regfun=tc.arcanareg
 	if not regfun then return end
 	local val=tc:GetFlagEffectLabel(36690018)
-	tc:ResetEffect(RESET_DISABLE,RESET_EVENT)
+	tc:ResetEffect(RESET_EVENT+RESETS_STANDARD+RESET_DISABLE+RESET_PHASE+PHASE_END,RESET_EVENT)
 	regfun(tc,val)
 end
