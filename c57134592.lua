@@ -71,7 +71,9 @@ function s.cfilter(c,tp)
 		and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function s.tgfilter(c,e,tp)
-	return c:IsCanBeEffectTarget(e)
+	return c:IsCanBeEffectTarget(e) and c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE)
+		and bit.band(c:GetPreviousAttributeOnField(),ATTRIBUTE_FIRE)~=0 and not c:IsType(TYPE_TOKEN)
+		and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter,1,nil,tp) and not eg:IsContains(e:GetHandler())
