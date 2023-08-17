@@ -66,7 +66,7 @@ function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsSummonType(SUMMON_TYPE_SPECIAL+SUMMON_VALUE_SELF) then 
+	if c:IsSummonType(SUMMON_TYPE_SPECIAL+SUMMON_VALUE_SELF) then
 		Duel.SSet(tp,c,tp,false)
 	end
 end
