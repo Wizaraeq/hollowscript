@@ -111,7 +111,8 @@ function c66425726.discon(e,tp,eg,ep,ev,re,r,rp)
 		and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 function c66425726.distg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1) end
+	if chk==0 then return e:GetHandler():GetOriginalType()&TYPE_PENDULUM~=0
+		and (Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1)) end
 	if e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL) then
 		e:SetCategory(CATEGORY_DISABLE+CATEGORY_SPECIAL_SUMMON)
 	else
@@ -124,7 +125,7 @@ function c66425726.spfilter(c,e,tp)
 end
 function c66425726.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and not c:IsImmuneToEffect(e) then
+	if c:IsRelateToEffect(e) and c:IsFaceup() and not c:IsImmuneToEffect(e) then
 		if Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true) and c:IsLocation(LOCATION_PZONE) then
 			if Duel.NegateEffect(ev) and c:IsSummonType(SUMMON_TYPE_RITUAL)
 				and Duel.IsExistingMatchingCard(c66425726.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp)
