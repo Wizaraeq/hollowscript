@@ -21,6 +21,7 @@ function c49930315.initial_effect(c)
 	e2:SetOperation(c49930315.tnop)
 	c:RegisterEffect(e2)
 end
+c49930315.self_tuner=true
 function c49930315.cfilter(c)
 	return c:IsAttribute(ATTRIBUTE_WATER) and c:IsDiscardable()
 end
