@@ -50,7 +50,7 @@ function c43527730.spfilter(c,e,tp,code)
 end
 function c43527730.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ec=e:GetHandler():GetEquipTarget()
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and ec:IsAbleToHand()
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(c43527730.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp,ec:GetOriginalCodeRule()) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,ec,1,0,0)
@@ -62,6 +62,7 @@ function c43527730.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c43527730.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp,ec:GetOriginalCodeRule())
 	local tc=g:GetFirst()
+	Duel.DisableSelfDestroyCheck()
 	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)~=0 and Duel.Equip(tp,c,tc) then
 		--Add Equip limit
 		local e1=Effect.CreateEffect(tc)
@@ -76,6 +77,7 @@ function c43527730.spop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SendtoHand(ec,nil,REASON_EFFECT)
 		end
 	end
+	Duel.DisableSelfDestroyCheck(false)
 end
 function c43527730.eqlimit(e,c)
 	return e:GetOwner()==c
