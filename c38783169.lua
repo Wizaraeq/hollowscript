@@ -31,7 +31,7 @@ function c38783169.initial_effect(c)
 	e3:SetOperation(c38783169.spop)
 	c:RegisterEffect(e3)
 end
-c38783169.self_tuner=true
+c38783169.treat_itself_tuner=true
 function c38783169.tntg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not e:GetHandler():IsType(TYPE_TUNER) end
 end
