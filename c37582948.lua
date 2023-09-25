@@ -13,6 +13,7 @@ function c37582948.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_SUMMON_SUCCESS)
 	e2:SetRange(LOCATION_SZONE)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCondition(c37582948.reccon)
 	e2:SetOperation(c37582948.recop)
 	c:RegisterEffect(e2)
@@ -43,7 +44,6 @@ function c37582948.reccon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c37582948.recop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,37582948)
-	if Duel.Recover(tp,200,REASON_EFFECT)>0 then
-		Duel.Damage(1-tp,200,REASON_EFFECT)
-	end
+	Duel.Recover(tp,200,REASON_EFFECT)
+	Duel.Damage(1-tp,200,REASON_EFFECT)
 end
