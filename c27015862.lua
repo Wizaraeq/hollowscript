@@ -61,7 +61,8 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.desfilter2(c,tp)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousControler(tp) and c:IsReason(REASON_EFFECT)
+	return c:IsPreviousControler(tp) and c:IsReason(REASON_EFFECT) and (c:IsPreviousLocation(LOCATION_MZONE) or c:IsType(TYPE_MONSTER))
+		and not c:IsPreviousLocation(LOCATION_SZONE)
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.desfilter2,1,nil,tp)
