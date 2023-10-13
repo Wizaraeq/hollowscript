@@ -54,11 +54,12 @@ function c25163979.mvop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetLocationCount(tp,LOCATION_MZONE,PLAYER_NONE,0)<=0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(25163979,3))
 		local g=Duel.SelectMatchingCard(tp,c25163979.mvfilter1,tp,LOCATION_MZONE,0,1,1,nil)
-		if g:GetCount()>0 then
+		local tc=g:GetFirst()
+		if tc and not tc:IsImmuneToEffect(e) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 			local s=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
 			local nseq=math.log(s,2)
-			Duel.MoveSequence(g:GetFirst(),nseq)
+			Duel.MoveSequence(tc,nseq)
 		end
 	else
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(25163979,3))
@@ -70,6 +71,7 @@ function c25163979.mvop(e,tp,eg,ep,ev,re,r,rp)
 		local g2=Duel.SelectMatchingCard(tp,c25163979.mvfilter3,tp,LOCATION_MZONE,0,1,1,tc1)
 		Duel.HintSelection(g2)
 		local tc2=g2:GetFirst()
+		if tc1:IsImmuneToEffect(e) or tc2:IsImmuneToEffect(e) then return end
 		Duel.SwapSequence(tc1,tc2)
 	end
 end
