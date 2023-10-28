@@ -45,6 +45,9 @@ function bit.replace(r,v,field,width)
 	return (r&~(m<<f))|((v&m)<< f)
 end
 
+--Group check functions
+Auxiliary.GCheckAdditional=nil
+
 --the table of xyz number
 Auxiliary.xyz_number={}
 function Auxiliary.GetXyzNumber(v)
@@ -64,7 +67,6 @@ function Auxiliary.TurnPlayers()
 			end
 end
 
---the chain id of the results modified by EVENT_TOSS_DICE_NEGATE
 Auxiliary.idx_table=table.pack(1,2,3,4,5,6,7,8)
 
 function Auxiliary.Stringid(code,id)
@@ -292,7 +294,7 @@ function Auxiliary.EnableUnionAttribute(c,f)
 	e1:SetType(EFFECT_TYPE_EQUIP)
 	e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 	e1:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e1:SetValue(aux.UnionReplaceFilter)
+	e1:SetValue(Auxiliary.UnionReplaceFilter)
 	c:RegisterEffect(e1)
 	--limit
 	local e2=Effect.CreateEffect(c)
@@ -532,7 +534,7 @@ function Auxiliary.NegateAnyFilter(c)
 	elseif c:IsType(TYPE_SPELL+TYPE_TRAP) then
 		return c:IsFaceup() and not c:IsDisabled()
 	else
-		return aux.NegateMonsterFilter(c)
+		return Auxiliary.NegateMonsterFilter(c)
 	end
 end
 --alias for compatibility
@@ -849,7 +851,7 @@ function Auxiliary.LabrynthDestroyOp(e,tp,res)
 	local te=Duel.IsPlayerAffectedByEffect(tp,33407125)
 	if chk and te
 		and Duel.IsExistingMatchingCard(nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,exc)
-		and Duel.SelectYesNo(tp,aux.Stringid(33407125,0)) then
+		and Duel.SelectYesNo(tp,Auxiliary.Stringid(33407125,0)) then
 		if res>0 then Duel.BreakEffect() end
 		Duel.Hint(HINT_CARD,0,33407125)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
@@ -927,7 +929,7 @@ function Auxiliary.GetMultiLinkedZone(tp)
 	local lg=Duel.GetMatchingGroup(f,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	local multi_linked_zone=0
 	local single_linked_zone=0
-	for tc in aux.Next(lg) do
+	for tc in Auxiliary.Next(lg) do
 		local zone=tc:GetLinkedZone(tp)&0x7f
 		multi_linked_zone=single_linked_zone&zone|multi_linked_zone
 		single_linked_zone=single_linked_zone~zone
@@ -935,7 +937,6 @@ function Auxiliary.GetMultiLinkedZone(tp)
 	return multi_linked_zone
 end
 Auxiliary.SubGroupCaptured=nil
-Auxiliary.GCheckAdditional=nil
 function Auxiliary.CheckGroupRecursive(c,sg,g,f,min,max,ext_params)
 	sg:AddCard(c)
 	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g,f,min,max,ext_params) then
@@ -964,8 +965,8 @@ function Auxiliary.CheckGroupRecursiveCapture(c,sg,g,f,min,max,ext_params)
 	return res
 end
 function Group.CheckSubGroup(g,f,min,max,...)
-	local min=min or 1
-	local max=max or #g
+	min=min or 1
+	max=max or #g
 	if min>max then return false end
 	local ext_params={...}
 	local sg=Duel.GrabSelectedCard()
@@ -973,7 +974,7 @@ function Group.CheckSubGroup(g,f,min,max,...)
 	if #sg==max and (not f(sg,...) or Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,nil,g,f,min,max,ext_params)) then return false end
 	if #sg>=min and #sg<=max and f(sg,...) and (not Auxiliary.GCheckAdditional or Auxiliary.GCheckAdditional(sg,nil,g,f,min,max,ext_params)) then return true end
 	local eg=g:Clone()
-	for c in aux.Next(g-sg) do
+	for c in Auxiliary.Next(g-sg) do
 		if Auxiliary.CheckGroupRecursive(c,sg,eg,f,min,max,ext_params) then return true end
 		eg:RemoveCard(c)
 	end
@@ -981,13 +982,13 @@ function Group.CheckSubGroup(g,f,min,max,...)
 end
 function Group.SelectSubGroup(g,tp,f,cancelable,min,max,...)
 	Auxiliary.SubGroupCaptured=Group.CreateGroup()
-	local min=min or 1
-	local max=max or #g
+	min=min or 1
+	max=max or #g
 	local ext_params={...}
 	local sg=Group.CreateGroup()
 	local fg=Duel.GrabSelectedCard()
 	if #fg>max or min>max or #(g+fg)<min then return nil end
-	for tc in aux.Next(fg) do
+	for tc in Auxiliary.Next(fg) do
 		fg:SelectUnselect(sg,tp,false,false,min,max)
 	end
 	sg:Merge(fg)
@@ -995,7 +996,7 @@ function Group.SelectSubGroup(g,tp,f,cancelable,min,max,...)
 	while #sg<max do
 		local cg=Group.CreateGroup()
 		local eg=g:Clone()
-		for c in aux.Next(g-sg) do
+		for c in Auxiliary.Next(g-sg) do
 			if not cg:IsContains(c) then
 				if Auxiliary.CheckGroupRecursiveCapture(c,sg,eg,f,min,max,ext_params) then
 					cg:Merge(Auxiliary.SubGroupCaptured)
@@ -1091,7 +1092,7 @@ function Auxiliary.nbcon(tp,re)
 		and (not rc:IsRelateToEffect(re) or rc:IsAbleToRemove())
 end
 function Auxiliary.nbtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return aux.nbcon(tp,re) end
+	if chk==0 then return Auxiliary.nbcon(tp,re) end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,eg,1,0,0)
@@ -1333,5 +1334,7 @@ end
 --The operation function of "destroy during End Phase"
 function Auxiliary.EPDestroyOperation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	Duel.Destroy(tc,REASON_EFFECT,LOCATION_GRAVE,tc:GetControler())
+	if Auxiliary.GetValueType(tc)=="Card" or Auxiliary.GetValueType(tc)=="Group" then
+		Duel.Destroy(tc,REASON_EFFECT,LOCATION_GRAVE)
+	end
 end

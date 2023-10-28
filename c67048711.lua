@@ -28,11 +28,11 @@ function c67048711.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		local g=Duel.GetMatchingGroup(c67048711.filter,tp,LOCATION_ONFIELD,0,nil)
 		Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,3)
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
-		e:SetLabel(3)
 	end
 end
 function c67048711.operation(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetLabel()==3 then
+	local ex=Duel.GetOperationInfo(0,CATEGORY_DRAW)
+	if ex then
 		if Duel.Draw(tp,3,REASON_EFFECT)~=0 then
 			Duel.BreakEffect()
 			local g=Duel.GetMatchingGroup(c67048711.filter,tp,LOCATION_ONFIELD,0,nil)

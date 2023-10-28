@@ -12,16 +12,16 @@ function c14047624.initial_effect(c)
 	e1:SetTarget(c14047624.damtg)
 	e1:SetOperation(c14047624.damop)
 	c:RegisterEffect(e1)
+	Duel.AddCustomActivityCounter(14047624,ACTIVITY_ATTACK,c14047624.counterfilter)
+end
+function c14047624.counterfilter(c)
+	return not c:IsCode(14047624)
 end
 function c14047624.cfilter(c)
 	return c:IsSetCard(0x39) and c:IsAbleToRemoveAsCost()
 end
-function c14047624.cfilter2(c)
-	return c:IsCode(14047624) and c:GetAttackAnnouncedCount()>0
-end
 function c14047624.damcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c14047624.cfilter,tp,LOCATION_GRAVE,0,1,nil)
-		and not Duel.IsExistingMatchingCard(c14047624.cfilter2,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.GetCustomActivityCount(14047624,tp,ACTIVITY_ATTACK)==0 and Duel.IsExistingMatchingCard(c14047624.cfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,c14047624.cfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
