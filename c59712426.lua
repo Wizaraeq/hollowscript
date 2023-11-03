@@ -87,13 +87,14 @@ function s.arcanareg(c,coin)
 	e2:SetOperation(s.fdesop)
 	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e2)
-	c:RegisterFlagEffect(36690018,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,coin,63-coin)
+	c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,coin,63-coin)
 end
 function s.odescon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return (Duel.GetAttacker()==c or Duel.GetAttackTarget()==c) and c:GetFlagEffectLabel(36690018)==1
+	return (Duel.GetAttacker()==c or Duel.GetAttackTarget()==c) and c:GetFlagEffectLabel(id)==1
 end
-function s.odestg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.odestg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) end
 	if chk==0 then return Duel.IsExistingTarget(nil,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
@@ -106,7 +107,7 @@ function s.odesop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.fdescon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return (Duel.GetAttacker()==c or Duel.GetAttackTarget()==c) and c:GetFlagEffectLabel(36690018)==0
+	return (Duel.GetAttacker()==c or Duel.GetAttackTarget()==c) and c:GetFlagEffectLabel(id)==0
 end
 function s.fdestg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

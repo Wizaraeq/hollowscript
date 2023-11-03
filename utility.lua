@@ -45,8 +45,12 @@ function bit.replace(r,v,field,width)
 	return (r&~(m<<f))|((v&m)<< f)
 end
 
---Group check functions
-Auxiliary.GCheckAdditional=nil
+---Subgroup check function
+---@param sg Group
+---@param c Card|nil
+---@param g Group
+---@return boolean
+Auxiliary.GCheckAdditional=function(sg,c,g) return true end
 
 --the table of xyz number
 Auxiliary.xyz_number={}
@@ -591,8 +595,8 @@ function Auxiliary.dscon(e,tp,eg,ep,ev,re,r,rp)
 end
 --flag effect for spell counter
 function Auxiliary.chainreg(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetHandler():GetFlagEffect(1)==0 then
-		e:GetHandler():RegisterFlagEffect(1,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_CHAIN,0,1)
+	if e:GetHandler():GetFlagEffect(FLAG_ID_CHAINING)==0 then
+		e:GetHandler():RegisterFlagEffect(FLAG_ID_CHAINING,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_CHAIN,0,1)
 	end
 end
 --default filter for EFFECT_CANNOT_BE_BATTLE_TARGET
@@ -939,7 +943,7 @@ end
 Auxiliary.SubGroupCaptured=nil
 function Auxiliary.CheckGroupRecursive(c,sg,g,f,min,max,ext_params)
 	sg:AddCard(c)
-	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g,f,min,max,ext_params) then
+	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g) then
 		sg:RemoveCard(c)
 		return false
 	end
@@ -950,7 +954,7 @@ function Auxiliary.CheckGroupRecursive(c,sg,g,f,min,max,ext_params)
 end
 function Auxiliary.CheckGroupRecursiveCapture(c,sg,g,f,min,max,ext_params)
 	sg:AddCard(c)
-	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g,f,min,max,ext_params) then
+	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g) then
 		sg:RemoveCard(c)
 		return false
 	end
@@ -964,6 +968,13 @@ function Auxiliary.CheckGroupRecursiveCapture(c,sg,g,f,min,max,ext_params)
 	sg:RemoveCard(c)
 	return res
 end
+---
+---@param g Group
+---@param f function
+---@param min? integer
+---@param max? integer
+---@param ...? unknown
+---@return boolean
 function Group.CheckSubGroup(g,f,min,max,...)
 	min=min or 1
 	max=max or #g
@@ -971,8 +982,8 @@ function Group.CheckSubGroup(g,f,min,max,...)
 	local ext_params={...}
 	local sg=Duel.GrabSelectedCard()
 	if #sg>max or #(g+sg)<min then return false end
-	if #sg==max and (not f(sg,...) or Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,nil,g,f,min,max,ext_params)) then return false end
-	if #sg>=min and #sg<=max and f(sg,...) and (not Auxiliary.GCheckAdditional or Auxiliary.GCheckAdditional(sg,nil,g,f,min,max,ext_params)) then return true end
+	if #sg==max and (not f(sg,...) or Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,nil,g)) then return false end
+	if #sg>=min and #sg<=max and f(sg,...) and (not Auxiliary.GCheckAdditional or Auxiliary.GCheckAdditional(sg,nil,g)) then return true end
 	local eg=g:Clone()
 	for c in Auxiliary.Next(g-sg) do
 		if Auxiliary.CheckGroupRecursive(c,sg,eg,f,min,max,ext_params) then return true end
@@ -980,6 +991,15 @@ function Group.CheckSubGroup(g,f,min,max,...)
 	end
 	return false
 end
+---
+---@param g Group
+---@param tp integer
+---@param f function
+---@param cancelable boolean
+---@param min? integer
+---@param max? integer
+---@param ...? unknown
+---@return Group|nil
 function Group.SelectSubGroup(g,tp,f,cancelable,min,max,...)
 	Auxiliary.SubGroupCaptured=Group.CreateGroup()
 	min=min or 1
@@ -1028,6 +1048,10 @@ function Group.SelectSubGroup(g,tp,f,cancelable,min,max,...)
 		return nil
 	end
 end
+---Create a table of filter functions
+---@param f function
+---@param list table
+---@return table
 function Auxiliary.CreateChecks(f,list)
 	local checks={}
 	for i=1,#list do
@@ -1040,7 +1064,7 @@ function Auxiliary.CheckGroupRecursiveEach(c,sg,g,f,checks,ext_params)
 		return false
 	end
 	sg:AddCard(c)
-	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g,f,min,max,ext_params) then
+	if Auxiliary.GCheckAdditional and not Auxiliary.GCheckAdditional(sg,c,g) then
 		sg:RemoveCard(c)
 		return false
 	end
@@ -1053,6 +1077,12 @@ function Auxiliary.CheckGroupRecursiveEach(c,sg,g,f,checks,ext_params)
 	sg:RemoveCard(c)
 	return res
 end
+---
+---@param g Group
+---@param checks table
+---@param f? function
+---@param ...? unknown
+---@return boolean
 function Group.CheckSubGroupEach(g,checks,f,...)
 	if f==nil then f=Auxiliary.TRUE end
 	if #g<#checks then return false end
@@ -1060,6 +1090,14 @@ function Group.CheckSubGroupEach(g,checks,f,...)
 	local sg=Group.CreateGroup()
 	return g:IsExists(Auxiliary.CheckGroupRecursiveEach,1,sg,sg,g,f,checks,ext_params)
 end
+---
+---@param g Group
+---@param tp integer
+---@param checks table
+---@param cancelable? boolean
+---@param f? function
+---@param ...? unknown
+---@return Group|nil
 function Group.SelectSubGroupEach(g,tp,checks,cancelable,f,...)
 	if cancelable==nil then cancelable=false end
 	if f==nil then f=Auxiliary.TRUE end
