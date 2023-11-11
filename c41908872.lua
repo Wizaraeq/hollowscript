@@ -110,7 +110,7 @@ function c41908872.thop1(e,tp,eg,ep,ev,re,r,rp)
 	if tc and Duel.SendtoHand(tc,nil,REASON_EFFECT) and tc:IsLocation(LOCATION_HAND) then
 		local g1=Duel.GetMatchingGroup(c41908872.scfilter,tp,LOCATION_EXTRA,0,nil)
 		local g2=Duel.GetMatchingGroup(c41908872.xyzfilter,tp,LOCATION_EXTRA,0,nil)
-		if (g1:GetCount()>0 or g2:GetCount()>0)
+		if (g1:GetCount()>0 or g2:GetCount()>0) and Duel.GetCurrentPhase()~=PHASE_DAMAGE
 			and Duel.SelectYesNo(tp,aux.Stringid(41908872,5)) then
 			Duel.BreakEffect()
 			local g=g1+g2
