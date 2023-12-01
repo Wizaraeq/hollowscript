@@ -27,6 +27,9 @@ function c60037599.extraop(e,tp)
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg=g:Select(tp,1,1,nil)
-		Duel.SpecialSummon(sg,0,tp,tp,false,aux.DrytronSpSummonType(sg:GetFirst()),POS_FACEUP)
+		local sc=sg:GetFirst()
+		if Duel.SpecialSummon(sg,0,tp,tp,false,aux.DrytronSpSummonType(sc),POS_FACEUP)~=0 and aux.DrytronSpSummonType(sc) then
+			sc:CompleteProcedure()
+		end
 	end
 end
