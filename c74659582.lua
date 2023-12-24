@@ -58,8 +58,11 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Group.FromCards(tc,c)
 	if Duel.Remove(g,0,REASON_EFFECT+REASON_TEMPORARY)~=0 and g:IsExists(Card.IsLocation,1,nil,LOCATION_REMOVED) then
 		local og=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_REMOVED)
-		for tc in aux.Next(og) do
-			tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+		if c:GetOriginalCode()~=id then
+			og:RemoveCard(c)
+		end
+		for oc in aux.Next(og) do
+			oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 		end
 		og:KeepAlive()
 		local e1=Effect.CreateEffect(c)
@@ -85,18 +88,9 @@ function s.retcon(e,tp,eg,ep,ev,re,r,rp)
 	return true
 end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local g=e:GetLabelObject()
-	local sg=g:Filter(s.retfilter,nil,e:GetLabel())
-	g:DeleteGroup()
-	local tc=sg:GetFirst()
-	while tc do
-		if tc==c and not c:IsCode(74659582) then 
-		Duel.Remove(tc,POS_FACEUP,nil)
-		else
+	local g=e:GetLabelObject():Filter(s.retfilter,nil)
+	for tc in aux.Next(g) do
 		Duel.ReturnToField(tc)
-		end
-		tc=sg:GetNext()
 	end
 end
 function s.cfilter(c,tp)

@@ -38,7 +38,7 @@ function c83438826.initial_effect(c)
 	e5:SetCountLimit(1,83438826)
 	e5:SetCondition(c83438826.eqcon)
 	e5:SetTarget(c83438826.eqtg)
-	e5:SetOperation(c83438826.eqop)
+	e5:SetOperation(c83438826.operation2)
 	c:RegisterEffect(e5)
 end
 function c83438826.eqlimit(e,c)
@@ -57,7 +57,7 @@ end
 function c83438826.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:CheckUniqueOnField(tp) then
+	if tc and c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:CheckUniqueOnField(tp) then
 		Duel.Equip(tp,c,tc)
 	end
 end
@@ -104,10 +104,11 @@ function c83438826.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,e:GetHandler(),1,0,0)
 end
-function c83438826.eqop(e,tp,eg,ep,ev,re,r,rp)
+function c83438826.operation2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:CheckUniqueOnField(tp) and tc:IsControler(tp) then
+	if tc and c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup()
+		and tc:IsControler(tp) and c83438826.eqlimit(nil,c) and c:CheckUniqueOnField(tp) then
 		Duel.Equip(tp,c,tc)
 	end
 end

@@ -1,5 +1,4 @@
 --エクシーズ・アーマー・トルピード
---Script by Dio0
 local s,id,o=GetID()
 function s.initial_effect(c)
 	--xyz summon
@@ -34,12 +33,11 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 	--disable
 	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD)
-	e4:SetCode(EFFECT_DISABLE)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e4:SetRange(LOCATION_SZONE)
-	e4:SetTargetRange(0,LOCATION_MZONE)
+	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e4:SetCondition(s.actcon)
-	e4:SetTarget(s.distg)
+	e4:SetOperation(s.disop)
 	c:RegisterEffect(e4)
 	--cannot be target
 	local e5=Effect.CreateEffect(c)
@@ -72,11 +70,33 @@ function s.drawoperation(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.actcon(e)
 	local tc=e:GetHandler():GetEquipTarget()
-	return Duel.GetAttacker()==tc or Duel.GetAttackTarget()==tc
+	return tc~=nil and (Duel.GetAttacker()==tc or Duel.GetAttackTarget()==tc)
 end
-function s.distg(e,c)
-	if c:GetFlagEffect(id)==0 then
-		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE,0,1,0)
+function s.disfilter(c)
+	return aux.NegateAnyFilter(c) and c:IsType(TYPE_MONSTER) and c:IsFaceup()
+end
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local g=Duel.GetMatchingGroup(s.disfilter,tp,0,LOCATION_MZONE,c)
+	local tc=g:GetFirst()
+	while tc do
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_DISABLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
+		tc:RegisterEffect(e1)
+		local e2=Effect.CreateEffect(c)
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_DISABLE_EFFECT)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
+		tc:RegisterEffect(e2)
+		if tc:IsType(TYPE_TRAPMONSTER) then
+			local e3=Effect.CreateEffect(c)
+			e3:SetType(EFFECT_TYPE_SINGLE)
+			e3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+			e3:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
+			tc:RegisterEffect(e3)
+		end
+		tc=g:GetNext()
 	end
-	return c:GetFlagEffect(id)>0
 end

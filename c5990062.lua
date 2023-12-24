@@ -14,7 +14,7 @@ end
 function c5990062.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND+LOCATION_ONFIELD,0)
 	g:RemoveCard(e:GetHandler())
-	if chk==0 then return g:GetCount()>0 and not g:IsExists(c5990062.cfilter,1,nil) end
+	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>0 and g:GetCount()>0 and not g:IsExists(c5990062.cfilter,1,nil) end
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function c5990062.activate(e,tp,eg,ep,ev,re,r,rp)

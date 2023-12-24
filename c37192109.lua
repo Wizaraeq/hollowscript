@@ -1,4 +1,5 @@
 --PSYフレームロード・Ζ
+local s,id,o=GetID()
 function c37192109.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,nil,aux.NonTuner(nil),1)
@@ -50,9 +51,12 @@ function c37192109.rmop(e,tp,eg,ep,ev,re,r,rp)
 		local rct=1
 		if Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY then rct=2 end
 		local og=Duel.GetOperatedGroup()
+		if c:GetOriginalCode()~=id then
+			og:RemoveCard(c)
+		end
 		local oc=og:GetFirst()
 		while oc do
-			oc:RegisterFlagEffect(37192109,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,rct,fid)
+			oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,rct,fid)
 			oc=og:GetNext()
 		end
 		og:KeepAlive()
@@ -88,17 +92,12 @@ function c37192109.retcon(e,tp,eg,ep,ev,re,r,rp)
 	else return true end
 end
 function c37192109.retop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
 	local g=e:GetLabelObject()
 	local sg=g:Filter(c37192109.retfilter,nil,e:GetLabel())
 	g:DeleteGroup()
 	local tc=sg:GetFirst()
 	while tc do
-		if tc==c and not c:IsCode(37192109) then 
-		Duel.Remove(tc,POS_FACEUP,nil)
-		else
 		Duel.ReturnToField(tc)
-		end
 		tc=sg:GetNext()
 	end
 end

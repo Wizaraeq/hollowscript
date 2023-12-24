@@ -34,7 +34,7 @@ function c7452945.initial_effect(c)
 	e4:SetCountLimit(1,7452945)
 	e4:SetCondition(c7452945.eqcon)
 	e4:SetTarget(c7452945.eqtg)
-	e4:SetOperation(c7452945.eqop)
+	e4:SetOperation(c7452945.operation2)
 	c:RegisterEffect(e4)
 end
 function c7452945.eqlimit(e,c)
@@ -53,7 +53,7 @@ end
 function c7452945.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:CheckUniqueOnField(tp) then
+	if tc and c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:CheckUniqueOnField(tp) then
 		Duel.Equip(tp,c,tc)
 	end
 end
@@ -76,10 +76,11 @@ function c7452945.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,e:GetHandler(),1,0,0)
 end
-function c7452945.eqop(e,tp,eg,ep,ev,re,r,rp)
+function c7452945.operation2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:CheckUniqueOnField(tp) and (tc:IsControler(tp) and tc:IsSetCard(0x107a) and tc:IsRace(RACE_WARRIOR)) then
+	if tc and c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup()
+		and tc:IsControler(tp) and tc:IsSetCard(0x107a) and c7452945.eqlimit(nil,c) and c:CheckUniqueOnField(tp) then
 		Duel.Equip(tp,c,tc)
 	end
 end

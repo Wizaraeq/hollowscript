@@ -50,7 +50,7 @@ function c4810828.discon(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=ep and Duel.GetCurrentChain()==0
 end
 function c4810828.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToHandAsCost() end
+	if chk==0 then return e:GetHandler():IsAbleToHandAsCost() and not Duel.IsPlayerAffectedByEffect(1-tp,EFFECT_CANNOT_REMOVE) end
 	Duel.SendtoHand(e:GetHandler(),nil,REASON_COST)
 end
 function c4810828.distg(e,tp,eg,ep,ev,re,r,rp,chk)

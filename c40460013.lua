@@ -62,13 +62,15 @@ function c40460013.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(mg,REASON_EFFECT+REASON_DISCARD)
 	end
 end
-function c40460013.thfilter(c,tp,ct)
-	local bc=c:GetBattleTarget()
-	return (c:IsPreviousControler(tp) and c:GetPreviousRaceOnField()&RACE_FIEND>0)
-		or (ct==1 and bc and bc:IsControler(tp) and bc:IsRace(RACE_FIEND))
+function c40460013.thfilter(c,tp)
+	if c:IsRace(RACE_FIEND) and c:IsPreviousControler(tp) then return true end
+	local rc=c:GetBattleTarget()
+	return rc:IsRace(RACE_FIEND)
+		and (not rc:IsLocation(LOCATION_MZONE) and rc:IsPreviousControler(tp)
+			or rc:IsLocation(LOCATION_MZONE) and rc:IsControler(tp))
 end
 function c40460013.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c40460013.thfilter,1,nil,tp,#eg)
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c40460013.thfilter,1,nil,tp)
 end
 function c40460013.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()

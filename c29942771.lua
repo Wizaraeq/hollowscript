@@ -56,11 +56,8 @@ function c29942771.tgop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(g,REASON_EFFECT)
 	end
 end
-function c29942771.cfilter(c,tp)
-	return c:IsSummonPlayer(tp)
-end
 function c29942771.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c29942771.cfilter,1,nil,1-tp)
+	return eg:IsExists(Card.IsSummonPlayer,1,e:GetHandler(),1-tp)
 end
 function c29942771.spfilter(c,e,tp)
 	return c:IsSetCard(0x2a) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -74,7 +71,7 @@ end
 function c29942771.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c29942771.spfilter),tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	local g=Duel.SelectMatchingCard(tp,c29942771.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	if g:GetCount()>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end

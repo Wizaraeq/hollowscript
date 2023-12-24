@@ -14,7 +14,7 @@ function c78362751.initial_effect(c)
 	--spsummon2
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(78362751,1))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TODECK)
+	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TODECK+CATEGORY_TODECK+CATEGORY_GRAVE_ACTION)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,78362752)
@@ -25,10 +25,10 @@ end
 function c78362751.cfilter(c)
 	if c:IsFacedown() then return false end
 	local oc=c:GetOverlayGroup()
-	return (c:IsFaceup() and c:IsCode(24639891)) or c:IsType(TYPE_XYZ) and oc and oc:IsExists(Card.IsCode,1,nil,24639891)
+	return c:IsCode(24639891) or c:IsType(TYPE_XYZ) and oc and oc:IsExists(Card.IsCode,1,nil,24639891)
 end
 function c78362751.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c78362751.cfilter,tp,LOCATION_ONFIELD,0,1,nil)
+	return Duel.IsExistingMatchingCard(c78362751.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c78362751.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
