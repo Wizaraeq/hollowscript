@@ -5,6 +5,7 @@ function c60431417.initial_effect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_DECKDES)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCondition(c60431417.condition)
 	e1:SetTarget(c60431417.target)
 	e1:SetOperation(c60431417.activate)
@@ -40,7 +41,7 @@ function c60431417.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c60431417.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 and tc:IsLocation(LOCATION_HAND) then
+	if tc:IsRelateToEffect(e) and Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 then
 		Duel.BreakEffect()
 		Duel.DiscardDeck(tp,4,REASON_EFFECT)
 	end
