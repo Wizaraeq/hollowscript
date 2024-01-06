@@ -56,7 +56,7 @@ function c68300121.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetBattleTarget()
 	e:SetLabelObject(tc)
-	return tc~=nil and c:GetOverlayGroup():IsExists(Card.IsType,1,nil,TYPE_NORMAL)
+	return tc~=nil and tc:IsFaceup() and c:GetOverlayGroup():IsExists(Card.IsType,1,nil,TYPE_NORMAL)
 		and Duel.IsExistingMatchingCard(c68300121.attrchkfilter,tp,LOCATION_GRAVE,0,1,nil,tc:GetAttribute())
 end
 function c68300121.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)

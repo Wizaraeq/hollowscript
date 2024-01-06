@@ -66,7 +66,7 @@ function c21862633.drop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c21862633.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local a,at=Duel.GetBattleMonster(tp)
-	return a and at and at:GetAttack()>0 and (a:IsType(TYPE_NORMAL) and a:IsLevelAbove(5)
+	return a and a:IsFaceup() and at and at:IsFaceup() and at:GetAttack()>0 and (a:IsType(TYPE_NORMAL) and a:IsLevelAbove(5)
 		or a:GetFlagEffect(21862633)>0 and (a:IsSummonType(SUMMON_TYPE_RITUAL)
 			or a:IsSummonType(SUMMON_TYPE_FUSION)
 			or a:IsSummonType(SUMMON_TYPE_SYNCHRO)

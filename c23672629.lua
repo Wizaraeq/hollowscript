@@ -60,7 +60,7 @@ end
 function c23672629.cfilter(c,tp)
 	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp)
 		and bit.band(c:GetPreviousAttributeOnField(),ATTRIBUTE_WATER)~=0 and bit.band(c:GetPreviousTypeOnField(),TYPE_XYZ)~=0
-		and c:IsReason(REASON_BATTLE+REASON_EFFECT)
+		and c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD)
 end
 function c23672629.tpcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c23672629.cfilter,1,nil,tp) and not eg:IsContains(e:GetHandler())
