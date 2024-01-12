@@ -1471,3 +1471,17 @@ function Auxiliary.EPDestroyOperation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(tc,REASON_EFFECT,LOCATION_GRAVE)
 	end
 end
+function Auxiliary.SameValueFilter(f,value)
+	return	function(c)
+				return f(c)&value==0
+			end
+end
+---Check if all cards in g have the same Attribute/Race
+---@param g Group
+---@param f function
+---@return boolean
+function Auxiliary.SameValueCheck(g,f)
+	local tc=g:GetFirst()
+	local filter=Auxiliary.SameValueFilter(f,f(tc))
+	return not g:IsExists(filter,1,tc)
+end
