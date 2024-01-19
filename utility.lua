@@ -1481,7 +1481,15 @@ end
 ---@param f function
 ---@return boolean
 function Auxiliary.SameValueCheck(g,f)
+	if #g<=1 then return true end
+	if #g==2 then return f(g:GetFirst())&f(g:GetNext())~=0 end
 	local tc=g:GetFirst()
-	local filter=Auxiliary.SameValueFilter(f,f(tc))
-	return not g:IsExists(filter,1,tc)
+	local v=f(tc)
+	tc=g:GetNext()
+	while tc do
+		v=v&f(tc)
+		if v==0 then return false end
+		tc=g:GetNext()
+	end
+	return v~=0
 end

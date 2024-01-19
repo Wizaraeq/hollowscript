@@ -15,19 +15,8 @@ function c79266769.initial_effect(c)
 	e1:SetOperation(c79266769.spop)
 	c:RegisterEffect(e1)
 end
-function c79266769.AttributeCheck(g)
-	local tc=g:GetFirst()
-	local att=tc:GetLinkAttribute()
-	tc=g:GetNext()
-	while tc do
-		att=bit.band(att,tc:GetLinkAttribute())
-		tc=g:GetNext()
-	end
-	return att
-end
 function c79266769.spcheck(g)
-	return g:GetClassCount(Card.GetLinkRace)==1
-		and c79266769.AttributeCheck(g)~=0
+	return aux.SameValueCheck(g,Card.GetLinkRace) and aux.SameValueCheck(g,Card.GetLinkAttribute)
 end
 function c79266769.filter(c,e,tp,zone)
 	return (c:IsFaceup() or not c:IsLocation(LOCATION_REMOVED)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,tp,zone)

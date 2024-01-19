@@ -30,18 +30,8 @@ end
 function c61641818.mfilter(c,xyzc)
 	return c:IsXyzType(TYPE_MONSTER) and c:IsXyzLevel(xyzc,3)
 end
-function c61641818.AttributeCheck(g)
-	local tc=g:GetFirst()
-	local att=tc:GetAttribute()
-	tc=g:GetNext()
-	while tc do
-		att=bit.band(att,tc:GetAttribute())
-		tc=g:GetNext()
-	end
-	return att
-end
 function c61641818.xyzcheck(g)
-	return g:GetClassCount(Card.GetRace)==1 and c61641818.AttributeCheck(g)~=0
+	return aux.SameValueCheck(g,Card.GetRace) and aux.SameValueCheck(g,Card.GetAttribute)
 end
 function c61641818.etcon(e)
 	return e:GetHandler():GetOverlayCount()~=0

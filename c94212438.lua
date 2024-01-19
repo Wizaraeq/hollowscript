@@ -5,7 +5,6 @@ function c94212438.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,TIMING_END_PHASE)
-	e1:SetCost(c94212438.accos)
 	c:RegisterEffect(e1)
 	--place card
 	local e2=Effect.CreateEffect(c)
@@ -40,12 +39,9 @@ function c94212438.initial_effect(c)
 	e5:SetOperation(c94212438.winop)
 	c:RegisterEffect(e5)
 end
-function c94212438.accos(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.RegisterFlagEffect(tp,94212438,RESET_CHAIN,0,1)
-end
 function c94212438.plcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()~=tp and e:GetHandler():GetFlagEffect(94212438)<4 and Duel.GetFlagEffect(tp,94212438)==0
+	return Duel.GetTurnPlayer()~=tp and e:GetHandler():GetFlagEffect(94212438)<4
+		and e:GetHandler():IsStatus(STATUS_EFFECT_ENABLED)
 end
 function c94212438.plfilter(c,id)
 	return c:IsCode(id) and not c:IsForbidden()
