@@ -99,7 +99,7 @@ end
 function s.pfilter(c)
 	local typ=c:GetType()
 	return c:IsSetCard(0x1a3) and (typ==TYPE_SPELL or typ==TYPE_TRAP) and c:IsAbleToRemoveAsCost()
-		and c:CheckActivateEffect(false,true,false)
+		and c:CheckActivateEffect(false,true,false) and not c.valmnica_norecdam_effect
 end
 function s.cptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:IsCostChecked()
