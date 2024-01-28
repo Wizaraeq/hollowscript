@@ -55,7 +55,7 @@ end
 function c9505425.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
-	local aat=Duel.AnnounceAttribute(tp,1,ATTRIBUTE_ALL-e:GetHandler():GetAttribute())
+	local aat=Duel.AnnounceAttribute(tp,1,ATTRIBUTE_ALL&~e:GetHandler():GetAttribute())
 	e:SetLabel(aat)
 end
 function c9505425.attop(e,tp,eg,ep,ev,re,r,rp)
@@ -73,7 +73,7 @@ function c9505425.tgfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x150)
 end
 function c9505425.eqfilter(c)
-	return c:IsSetCard(0x150) and c:IsType(TYPE_MONSTER) and not c:IsLevel(4) and not c:IsForbidden()
+	return c:IsSetCard(0x150) and c:IsType(TYPE_MONSTER) and not c:IsLevel(4)
 end
 function c9505425.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c9505425.tgfilter(chkc) end
