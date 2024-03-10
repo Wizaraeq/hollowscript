@@ -52,7 +52,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spcfilter(c,tp)
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT)
-		and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_HAND+LOCATION_ONFIELD)
+		and c:IsPreviousControler(tp) and ((c:IsPreviousLocation(LOCATION_HAND) and c:IsType(TYPE_MONSTER)) or c:IsPreviousLocation(LOCATION_MZONE))
 end
 function s.regcon(e,tp,eg,ep,ev,re,r,rp)
 	local v=0
