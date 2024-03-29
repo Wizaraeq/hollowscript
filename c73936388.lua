@@ -75,7 +75,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spcon2(e,tp,eg,ep,ev,re,r,rp)
 	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0 
-		and not re~=e:GetLabelObject()
+		and (not re or re:GetHandler()~=e:GetHandler())
 end
 function s.spfilter(c,e,tp)
 	return (c:IsCode(45231177) or aux.IsCodeListed(c,45231177)) and c:IsLevelBelow(7)
