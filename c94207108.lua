@@ -83,7 +83,7 @@ function c94207108.eqcon(mc)
 	return
 		function (e,tp,eg,ep,ev,re,r,rp)
 			local tc=e:GetLabelObject()
-			if mc:GetFlagEffectLabel(94207108)~=e:GetLabel() or tc:GetFlagEffectLabel(94207108)~=e:GetLabel() then
+			if not tc or tc:GetFlagEffectLabel(94207108)~=e:GetLabel() then
 				e:Reset()
 				return false
 			else return true end
@@ -93,15 +93,19 @@ function c94207108.eqop(mc)
 	return
 		function (e,tp,eg,ep,ev,re,r,rp)
 			local tc=e:GetLabelObject()
-			if not Duel.Equip(tp,tc,mc) then return end
-			local e1=Effect.CreateEffect(mc)
-			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e1:SetCode(EFFECT_EQUIP_LIMIT)
-			e1:SetValue(c94207108.eqlimit)
-			e1:SetLabelObject(mc)
-			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-			tc:RegisterEffect(e1)
+			if mc:IsFaceup() and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 then
+				if not Duel.Equip(tp,tc,mc) then return end
+				local e1=Effect.CreateEffect(mc)
+				e1:SetType(EFFECT_TYPE_SINGLE)
+				e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+				e1:SetCode(EFFECT_EQUIP_LIMIT)
+				e1:SetValue(c94207108.eqlimit)
+				e1:SetLabelObject(mc)
+				e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc:RegisterEffect(e1)
+			else
+				Duel.SendtoGrave(tc,REASON_RULE)
+			end
 		end
 end
 function c94207108.eqlimit(e,c)
