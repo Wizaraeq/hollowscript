@@ -66,13 +66,7 @@ function s.baop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=e:GetLabelObject()
 	if tc:IsRelateToBattle() then
-		Duel.NegateAttack() 
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_FIELD)
-		e1:SetCode(EFFECT_SKIP_BP)
-		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-		e1:SetTargetRange(1,1)
-		e1:SetReset(RESET_PHASE+PHASE_END,1)
-		Duel.RegisterEffect(e1,Duel.GetTurnPlayer())
+		Duel.GetAttacker():SetStatus(STATUS_ATTACK_CANCELED,true)
+		Duel.SkipPhase(Duel.GetTurnPlayer(),PHASE_BATTLE,RESET_PHASE+PHASE_BATTLE_STEP,1)
 	end
 end
