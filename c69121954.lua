@@ -1,5 +1,6 @@
 --ダイナレスラー・テラ・パルクリオ
 function c69121954.initial_effect(c)
+	aux.AddCodeList(c,90173539)
 	--link summon
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0x11a),2,2)

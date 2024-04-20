@@ -1,6 +1,6 @@
 --C・ラーバ
 function c16241441.initial_effect(c)
-	aux.AddCodeList(c,89621922)
+	aux.AddCodeList(c,89621922,42015635)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(16241441,0))

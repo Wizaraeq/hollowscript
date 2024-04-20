@@ -1,6 +1,6 @@
 --古代の機械暗黒巨人
 function c64603182.initial_effect(c)
-	aux.AddCodeList(c,83104731)
+	aux.AddCodeList(c,83104731,37694547)
 	aux.EnableChangeCode(c,83104731,LOCATION_MZONE+LOCATION_GRAVE)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(64603182,0))

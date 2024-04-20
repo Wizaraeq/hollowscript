@@ -1,6 +1,6 @@
 --C・パンテール
 function c43751755.initial_effect(c)
-	aux.AddCodeList(c,43237273)
+	aux.AddCodeList(c,43237273,42015635)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(43751755,0))

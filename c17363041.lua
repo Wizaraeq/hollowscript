@@ -1,6 +1,6 @@
 --C・チッキー
 function c17363041.initial_effect(c)
-	aux.AddCodeList(c,54959865)
+	aux.AddCodeList(c,54959865,42015635)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(17363041,0))

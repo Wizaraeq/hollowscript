@@ -1,5 +1,6 @@
 --古代の機械弩士
 function c10547580.initial_effect(c)
+	aux.AddCodeList(c,37694547)
 	--link summon
 	aux.AddLinkProcedure(c,c10547580.mfilter,2,2)
 	c:EnableReviveLimit()

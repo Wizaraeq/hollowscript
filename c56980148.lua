@@ -1,5 +1,6 @@
 --ダイナレスラー・システゴ
 function c56980148.initial_effect(c)
+	aux.AddCodeList(c,90173539)
 	--search
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(56980148,0))

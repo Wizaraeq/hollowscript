@@ -1,6 +1,6 @@
 --C・モーグ
 function c42239546.initial_effect(c)
-	aux.AddCodeList(c,80344569)
+	aux.AddCodeList(c,80344569,42015635)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(42239546,0))

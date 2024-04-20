@@ -1,6 +1,6 @@
 --C・ドルフィーナ
 function c42682609.initial_effect(c)
-	aux.AddCodeList(c,17955766)
+	aux.AddCodeList(c,17955766,42015635)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(42682609,0))

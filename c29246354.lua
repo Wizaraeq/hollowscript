@@ -1,6 +1,6 @@
 --C・ピニー
 function c29246354.initial_effect(c)
-	aux.AddCodeList(c,17732278)
+	aux.AddCodeList(c,17732278,42015635)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(29246354,0))

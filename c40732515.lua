@@ -1,5 +1,6 @@
 --神聖魔導王 エンディミオン
 function c40732515.initial_effect(c)
+	aux.AddCodeList(c,39910367)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)

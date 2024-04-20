@@ -1,5 +1,6 @@
 --ネオスペース・コンダクター
 function c19594506.initial_effect(c)
+	aux.AddCodeList(c,42015635)
 	--search
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(19594506,0))
