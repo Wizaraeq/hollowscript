@@ -7,6 +7,7 @@ function c88559132.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCondition(c88559132.spcon)
+	e1:SetTarget(c88559132.sptg)
 	e1:SetOperation(c88559132.spop)
 	c:RegisterEffect(e1)
 end
@@ -17,12 +18,21 @@ end
 function c88559132.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c88559132.spfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(tp,c88559132.spfilter,1,REASON_SPSUMMON,false,nil,tp)
+end
+function c88559132.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c88559132.spfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c88559132.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c88559132.spfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
-	local atk=g:GetFirst():GetBaseAttack()
+	local tc=e:GetLabelObject()
+	Duel.Release(tc,REASON_SPSUMMON)
+	local atk=tc:GetBaseAttack()
 	if atk<0 then return end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)

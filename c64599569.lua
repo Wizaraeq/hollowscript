@@ -2,7 +2,7 @@
 function c64599569.initial_effect(c)
 	c:EnableReviveLimit()
 	--fusion material
-	aux.AddFusionProcCodeFunRep(c,70095154,aux.FilterBoolFunction(Card.IsRace,RACE_MACHINE),1,63,true,true)
+	aux.AddFusionProcCodeFunRep(c,70095154,aux.FilterBoolFunction(Card.IsRace,RACE_MACHINE),1,127,true,true)
 	--spsummon condition
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -25,11 +25,8 @@ function c64599569.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 c64599569.material_setcode=0x1093
-function c64599569.cyber_fusion_check_filter(c,g)
-	return c:IsFusionCode(70095154) and not g:IsExists(aux.NOT(Card.IsRace),1,c,RACE_MACHINE)
-end
 function c64599569.cyber_fusion_check(tp,sg,fc)
-	return sg:IsExists(c64599569.cyber_fusion_check_filter,1,nil,sg)
+	return sg:IsExists(Card.IsFusionCode,1,nil,70095154)
 end
 function c64599569.sumcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)

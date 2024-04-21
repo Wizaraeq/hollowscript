@@ -8,6 +8,7 @@ function c99913726.initial_effect(c)
 	e1:SetRange(LOCATION_HAND+LOCATION_GRAVE)
 	e1:SetCountLimit(1,99913726+EFFECT_COUNT_CODE_OATH)
 	e1:SetCondition(c99913726.hspcon)
+	e1:SetTarget(c99913726.hsptg)
 	e1:SetOperation(c99913726.hspop)
 	c:RegisterEffect(e1)
 	--atkdown
@@ -27,7 +28,7 @@ function c99913726.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c99913726.rfilter(c,tp)
-	return c:GetCounter(0x1041)>0 and c:IsReleasable()
+	return c:GetCounter(0x1041)>0 and c:IsReleasable(REASON_SPSUMMON)
 		and Duel.GetMZoneCount(tp,c)>0
 end
 function c99913726.hspcon(e,c)
@@ -36,10 +37,18 @@ function c99913726.hspcon(e,c)
 	local tp=c:GetControler()
 	return Duel.IsExistingMatchingCard(c99913726.rfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tp)
 end
-function c99913726.hspop(e,tp,eg,ep,ev,re,r,rp,c)
+function c99913726.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetMatchingGroup(c99913726.rfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local g=Duel.SelectMatchingCard(tp,c99913726.rfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
+end
+function c99913726.hspop(e,tp,eg,ep,ev,re,r,rp,c)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 end
 function c99913726.cfilter(c)
 	return c:IsSetCard(0x10f3) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost()

@@ -15,6 +15,7 @@ function c59464593.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCondition(c59464593.spcon)
+	e2:SetTarget(c59464593.sptg)
 	e2:SetOperation(c59464593.spop)
 	c:RegisterEffect(e2)
 	--destroy
@@ -37,11 +38,20 @@ end
 function c59464593.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c59464593.spfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(tp,c59464593.spfilter,1,REASON_SPSUMMON,false,nil,tp)
+end
+function c59464593.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c59464593.spfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c59464593.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c59464593.spfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 end
 function c59464593.dfilter(c)
 	return c:IsFaceup()

@@ -7,6 +7,7 @@ function c17286057.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCondition(c17286057.hspcon)
+	e1:SetTarget(c17286057.hsptg)
 	e1:SetOperation(c17286057.hspop)
 	c:RegisterEffect(e1)
 	--atk/def
@@ -34,9 +35,10 @@ function c17286057.initial_effect(c)
 	c:RegisterEffect(e4)
 	--chain attack
 	local e5=Effect.CreateEffect(c)
-	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e5:SetCode(EVENT_DAMAGE_STEP_END)
-	e5:SetOperation(c17286057.caop)
+	e5:SetType(EFFECT_TYPE_SINGLE)
+	e5:SetCode(EFFECT_EXTRA_ATTACK)
+	e5:SetValue(1)
+	e5:SetCondition(c17286057.atcon)
 	c:RegisterEffect(e5)
 end
 function c17286057.hspfilter(c,tp)
@@ -46,11 +48,20 @@ end
 function c17286057.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c17286057.hspfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(tp,c17286057.hspfilter,1,REASON_SPSUMMON,false,nil,tp)
+end
+function c17286057.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c17286057.hspfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c17286057.hspop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c17286057.hspfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 end
 function c17286057.filter(c)
 	return c:IsFaceup() and c:IsType(TYPE_MONSTER)
@@ -83,10 +94,6 @@ function c17286057.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SpecialSummonComplete()
 end
-function c17286057.caop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsRelateToBattle() and c:IsChainAttackable()
-		and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>0 then
-		Duel.ChainAttack()
-	end
+function c17286057.atcon(e)
+	return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),0,LOCATION_MZONE)>0
 end

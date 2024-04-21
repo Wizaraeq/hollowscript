@@ -81,10 +81,10 @@ function c55920742.spop1(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c55920742.rctg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
 	local dam=bc:GetBaseAttack()
-	if chk==0 then return dam>0 end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(dam)
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,dam)

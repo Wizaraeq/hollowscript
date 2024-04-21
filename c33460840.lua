@@ -73,23 +73,20 @@ end
 function c33460840.eqlimit(e,c)
 	return e:GetOwner()==c
 end
-function c33460840.spcfilter(c,rc,tp)
-	local g=Group.FromCards(c,rc)
-	return Duel.GetMZoneCount(tp,g)>0
-end
 function c33460840.spfilter(c,e,tp)
 	return c:IsRace(RACE_DRAGON) and c:IsLevel(7,8) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c33460840.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return c:IsReleasable() and Duel.CheckReleaseGroup(tp,c33460840.spcfilter,1,c,c,tp) end
-	local rg=Duel.SelectReleaseGroup(tp,c33460840.spcfilter,1,1,c,c,tp)
+	if chk==0 then return c:IsReleasable() and Duel.CheckReleaseGroup(tp,nil,1,c) end
+	local rg=Duel.SelectReleaseGroup(tp,nil,1,1,c)
 	rg:AddCard(c)
 	Duel.Release(rg,REASON_COST)
 end
 function c33460840.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c33460840.spfilter(chkc,e,tp) end
-	if chk==0 then return Duel.IsExistingTarget(c33460840.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
+		and Duel.IsExistingTarget(c33460840.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,c33460840.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)

@@ -8,6 +8,7 @@ function c89818984.initial_effect(c)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetCondition(c89818984.hspcon)
+	e1:SetTarget(c89818984.hsptg)
 	e1:SetOperation(c89818984.hspop)
 	c:RegisterEffect(e1)
 	--draw
@@ -41,11 +42,20 @@ end
 function c89818984.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c89818984.hspfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(tp,c89818984.hspfilter,1,REASON_SPSUMMON,false,nil,tp)
+end
+function c89818984.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c89818984.hspfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c89818984.hspop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c89818984.hspfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 end
 function c89818984.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

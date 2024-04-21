@@ -7,6 +7,7 @@ function c31516413.initial_effect(c)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetCondition(c31516413.hspcon)
+	e1:SetTarget(c31516413.hsptg)
 	e1:SetOperation(c31516413.hspop)
 	c:RegisterEffect(e1)
 	--destroy
@@ -38,17 +39,25 @@ end
 function c31516413.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c31516413.hspfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(tp,c31516413.hspfilter,1,REASON_SPSUMMON,false,nil,tp)
+end
+function c31516413.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c31516413.hspfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c31516413.hspop(e,tp,eg,ep,ev,re,r,rp,c)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local g=Duel.SelectReleaseGroup(tp,c31516413.hspfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 	c:RegisterFlagEffect(0,RESET_EVENT+0x4fc0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(31516413,2))
 end
 function c31516413.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupEx(tp,Card.IsSetCard,1,e:GetHandler(),0x69) end
-	local g=Duel.SelectReleaseGroupEx(tp,Card.IsSetCard,1,1,e:GetHandler(),0x69)
+	if chk==0 then return Duel.CheckReleaseGroupEx(tp,Card.IsSetCard,1,REASON_COST,true,e:GetHandler(),0x69) end
+	local g=Duel.SelectReleaseGroupEx(tp,Card.IsSetCard,1,1,REASON_COST,true,e:GetHandler(),0x69)
 	Duel.Release(g,REASON_COST)
 end
 function c31516413.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

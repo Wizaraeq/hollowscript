@@ -50,7 +50,7 @@ function s.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 	if #gg>0 then
 		Duel.HintSelection(gg)
 	end
-	Duel.SendtoDeck(sg,nil,2,REASON_COST)
+	Duel.SendtoDeck(sg,nil,2,REASON_SPSUMMON)
 end
 function s.con(e,tp,eg,ep,ev,re,r,rp)
 	return rp==1-tp

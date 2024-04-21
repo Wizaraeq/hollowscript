@@ -18,12 +18,11 @@ function c97173708.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c97173708.rfilter1(c,e,tp)
 	local lv=c:GetLevel()
-	return lv>0 and c:IsType(TYPE_TOKEN) and Duel.CheckReleaseGroup(tp,c97173708.rfilter2,1,c,c,lv,tp)
+	return lv>0 and c:IsType(TYPE_TOKEN) and Duel.CheckReleaseGroup(tp,c97173708.rfilter2,1,c,lv)
 		and Duel.IsExistingTarget(c97173708.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,lv)
 end
-function c97173708.rfilter2(c,mc,clv,tp)
-	local g=Group.FromCards(c,mc)
-	return c:IsLevel(clv) and c:IsType(TYPE_TOKEN) and Duel.GetMZoneCount(tp,g)>0
+function c97173708.rfilter2(c,clv)
+	return c:IsLevel(clv) and c:IsType(TYPE_TOKEN)
 end
 function c97173708.spfilter(c,e,tp,clv)
 	return c:IsLevel(clv) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -33,12 +32,13 @@ function c97173708.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
-		return Duel.CheckReleaseGroup(tp,c97173708.rfilter1,1,nil,e,tp)
+		return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
+			and Duel.CheckReleaseGroup(tp,c97173708.rfilter1,1,nil,e,tp)
 	end
 	local rg1=Duel.SelectReleaseGroup(tp,c97173708.rfilter1,1,1,nil,e,tp)
 	local lv=rg1:GetFirst():GetLevel()
 	e:SetLabel(lv)
-	local rg2=Duel.SelectReleaseGroup(tp,c97173708.rfilter2,1,9,rg1,rg1:GetFirst(),lv,tp)
+	local rg2=Duel.SelectReleaseGroup(tp,c97173708.rfilter2,1,9,rg1:GetFirst(),lv)
 	rg1:Merge(rg2)
 	Duel.Release(rg1,REASON_COST)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
@@ -102,5 +102,4 @@ function c97173708.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetLabelObject()
 	local tg=g:Filter(c97173708.desfilter,nil,e:GetLabel())
 	Duel.Destroy(tg,REASON_EFFECT)
-	g:DeleteGroup()
 end

@@ -17,6 +17,7 @@ function c37542782.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetRange(LOCATION_EXTRA)
 	e2:SetCondition(c37542782.hspcon)
+	e2:SetTarget(c37542782.hsptg)
 	e2:SetOperation(c37542782.hspop)
 	c:RegisterEffect(e2)
 	--immune
@@ -41,7 +42,6 @@ function c37542782.initial_effect(c)
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_SINGLE)
 	e5:SetCode(EFFECT_EXTRA_ATTACK)
-	e5:SetCondition(c37542782.atkcon)
 	e5:SetValue(c37542782.atkval)
 	c:RegisterEffect(e5)
 end
@@ -50,16 +50,26 @@ function c37542782.eqspfilter(c)
 end
 function c37542782.hspfilter(c,tp,sc)
 	return c:IsLevelBelow(10) and c:IsSetCard(0x4093) and c:IsFusionType(TYPE_FUSION)
-		and c:IsControler(tp) and c:GetEquipGroup():IsExists(c37542782.eqspfilter,1,nil) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0 and c:IsCanBeFusionMaterial(sc,SUMMON_TYPE_SPECIAL)
+		and c:IsControler(tp) and c:GetEquipGroup():IsExists(c37542782.eqspfilter,1,nil) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
+		and c:IsCanBeFusionMaterial(sc,SUMMON_TYPE_SPECIAL)
 end
 function c37542782.hspcon(e,c)
 	if c==nil then return true end
-	return Duel.CheckReleaseGroup(c:GetControler(),c37542782.hspfilter,1,nil,c:GetControler(),c)
+	return Duel.CheckReleaseGroupEx(c:GetControler(),c37542782.hspfilter,1,REASON_SPSUMMON,false,nil,c:GetControler(),c)
+end
+function c37542782.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c37542782.hspfilter,nil,tp,c)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c37542782.hspop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c37542782.hspfilter,1,1,nil,tp,c)
-	c:SetMaterial(g)
-	Duel.Release(g,REASON_COST)
+	local tc=e:GetLabelObject()
+	c:SetMaterial(Group.FromCards(tc))
+	Duel.Release(tc,REASON_SPSUMMON)
 end
 function c37542782.efilter(e,re)
 	return e:GetHandlerPlayer()~=re:GetOwnerPlayer() and re:IsActivated()
@@ -95,9 +105,6 @@ function c37542782.eqop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c37542782.eqlimit(e,c)
 	return c==e:GetLabelObject()
-end
-function c37542782.atkcon(e)
-	return e:GetHandler():GetEquipCount()>1
 end
 function c37542782.atkval(e,c)
 	return e:GetHandler():GetEquipCount()-1

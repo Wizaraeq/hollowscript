@@ -22,14 +22,14 @@ function c28553439.filter(c,e,tp)
 	return c:IsRace(RACE_SPELLCASTER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c28553439.rfilter(c,e,tp)
-	return c:IsReleasableByEffect() and c:IsCanBeEffectTarget(e)
+	return c:IsCanBeEffectTarget(e)
 		and Duel.GetMZoneCount(tp,c)>0
 end
 function c28553439.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c28553439.rfilter(chkc,e,tp) end
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c28553439.rfilter,1,nil,e,tp)
+	if chk==0 then return Duel.CheckReleaseGroupEx(tp,c28553439.rfilter,1,REASON_EFFECT,false,nil,e,tp)
 		and Duel.IsExistingMatchingCard(c28553439.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
-	local g=Duel.SelectReleaseGroup(tp,c28553439.rfilter,1,1,nil,e,tp)
+	local g=Duel.SelectReleaseGroupEx(tp,c28553439.rfilter,1,1,REASON_EFFECT,false,nil,e,tp)
 	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end

@@ -16,6 +16,7 @@ function c53347303.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCondition(c53347303.spcon)
+	e2:SetTarget(c53347303.sptg)
 	e2:SetOperation(c53347303.spop)
 	c:RegisterEffect(e2)
 	--atkup
@@ -39,17 +40,24 @@ function c53347303.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c53347303.spfilter(c,tp)
-	return c:IsCode(23995346)
-		and Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup())
+	return c:IsCode(23995346) and Duel.GetMZoneCount(tp,c)>0
 end
 function c53347303.spcon(e,c)
 	if c==nil then return true end
-	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c53347303.spfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(c:GetControler(),c53347303.spfilter,1,REASON_SPSUMMON,false,nil,c:GetControler())
+end
+function c53347303.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c53347303.spfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c53347303.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c53347303.spfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 end
 function c53347303.val(e,c)
 	return Duel.GetMatchingGroupCount(Card.IsRace,c:GetControler(),LOCATION_GRAVE,0,nil,RACE_DRAGON)*300

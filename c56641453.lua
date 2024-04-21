@@ -11,7 +11,7 @@ function c56641453.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c56641453.filter1(c,e,tp)
-	return c:IsFaceup() and Duel.GetMZoneCount(tp,c)>0 and c:IsSetCard(0x1e) and Duel.IsExistingMatchingCard(c56641453.filter2,tp,0x13,0,1,nil,c,e,tp)
+	return c:IsFaceup() and c:IsSetCard(0x1e) and Duel.IsExistingMatchingCard(c56641453.filter2,tp,0x13,0,1,nil,c,e,tp)
 end
 function c56641453.filter2(c,mc,e,tp)
 	return c:IsSetCard(0x1f) and aux.IsCodeListed(mc,c:GetCode()) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
@@ -24,7 +24,8 @@ function c56641453.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local res=e:GetLabel()==1
 		e:SetLabel(0)
-		return res and Duel.CheckReleaseGroup(tp,c56641453.filter1,1,nil,e,tp) end
+		return res and Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
+			and Duel.CheckReleaseGroup(tp,c56641453.filter1,1,nil,e,tp) end
 	e:SetLabel(0)
 	local rg=Duel.SelectReleaseGroup(tp,c56641453.filter1,1,1,nil,e,tp)
 	Duel.Release(rg,REASON_COST)

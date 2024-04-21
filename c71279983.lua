@@ -8,6 +8,7 @@ function c71279983.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetCountLimit(1,71279983+EFFECT_COUNT_CODE_OATH)
 	e1:SetCondition(c71279983.spcon)
+	e1:SetTarget(c71279983.sptg)
 	e1:SetOperation(c71279983.spop)
 	c:RegisterEffect(e1)
 	--pierce
@@ -35,10 +36,18 @@ function c71279983.spcon(e,c)
 	local tp=c:GetControler()
 	return Duel.IsExistingMatchingCard(c71279983.spfilter,tp,LOCATION_MZONE,0,1,nil,tp)
 end
-function c71279983.spop(e,tp,eg,ep,ev,re,r,rp,c)
+function c71279983.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetMatchingGroup(c71279983.spfilter,tp,LOCATION_MZONE,0,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
-	local g=Duel.SelectMatchingCard(tp,c71279983.spfilter,tp,LOCATION_MZONE,0,1,1,nil,tp)
-	Duel.SendtoHand(g,nil,REASON_COST)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
+end
+function c71279983.spop(e,tp,eg,ep,ev,re,r,rp,c)
+	local g=e:GetLabelObject()
+	Duel.SendtoHand(g,nil,REASON_SPSUMMON)
 end
 function c71279983.descon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp

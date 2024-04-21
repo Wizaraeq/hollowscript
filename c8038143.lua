@@ -54,7 +54,6 @@ function c8038143.activate(e,tp,eg,ep,ev,re,r,rp)
 		if tgp~=tp and (te:IsActiveType(TYPE_MONSTER) or te:IsHasType(EFFECT_TYPE_ACTIVATE)) and Duel.NegateActivation(i) then
 			local tc=te:GetHandler()
 			if tc:IsRelateToEffect(e) and tc:IsRelateToEffect(te) then
-				tc:CancelToGrave()
 				dg:AddCard(tc)
 			end
 		end

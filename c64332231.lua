@@ -19,24 +19,15 @@ function c64332231.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
-function c64332231.refilter(c,tp)
-	return c:IsReleasableByEffect()
-		and Duel.IsExistingTarget(nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c)
-end
-function c64332231.fselect(g,tp)
-	return Duel.IsExistingTarget(nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,g:GetCount(),g)
-		and Duel.CheckReleaseGroupEx(tp,aux.IsInGroup,#g,nil,g)
-end
 function c64332231.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupEx(tp,c64332231.refilter,1,nil,tp)
+	if chk==0 then return Duel.CheckReleaseGroupEx(tp,nil,1,REASON_EFFECT,true,nil)
 		and Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function c64332231.desop(e,tp,eg,ep,ev,re,r,rp)
 	local ct1=Duel.GetMatchingGroupCount(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
-	local g=Duel.GetReleaseGroup(tp,true):Filter(c64332231.refilter,nil,tp)
-	local rg=g:SelectSubGroup(tp,c64332231.fselect,false,1,g:GetCount(),tp)
+	local rg=Duel.SelectReleaseGroupEx(tp,nil,1,ct1,REASON_EFFECT,true,nil)
 	local ct2=Duel.Release(rg,REASON_EFFECT)
 	if ct2==0 then return end
 	Duel.BreakEffect()

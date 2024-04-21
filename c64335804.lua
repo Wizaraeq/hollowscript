@@ -8,6 +8,7 @@ function c64335804.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_DECK)
 	e1:SetCondition(c64335804.spcon)
+	e1:SetTarget(c64335804.sptg)
 	e1:SetOperation(c64335804.spop)
 	c:RegisterEffect(e1)
 end
@@ -18,10 +19,19 @@ end
 function c64335804.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c64335804.spfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(tp,c64335804.spfilter,1,REASON_SPSUMMON,false,nil,tp)
+end
+function c64335804.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c64335804.spfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c64335804.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c64335804.spfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 	Duel.ShuffleDeck(tp)
 end

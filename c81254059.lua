@@ -37,9 +37,9 @@ function c81254059.otop(e,tp,eg,ep,ev,re,r,rp,c)
 	c:SetMaterial(sg)
 	Duel.Release(sg,REASON_SUMMON+REASON_MATERIAL)
 end
-function c81254059.costfilter(c,e,tp)
+function c81254059.costfilter(c,e,tp,ft)
 	return c:IsSetCard(0x3e) and c:IsRace(RACE_REPTILE)
-		and Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup())
+		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5)) and (c:IsControler(tp) or c:IsFaceup())
 		and Duel.IsExistingMatchingCard(c81254059.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetLevel())
 end
 function c81254059.spfilter(c,e,tp,lv)
@@ -47,8 +47,9 @@ function c81254059.spfilter(c,e,tp,lv)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c81254059.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c81254059.costfilter,1,nil,e,tp) end
-	local sg=Duel.SelectReleaseGroup(tp,c81254059.costfilter,1,1,nil,e,tp)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	if chk==0 then return ft>-1 and Duel.CheckReleaseGroup(tp,c81254059.costfilter,1,nil,e,tp,ft) end
+	local sg=Duel.SelectReleaseGroup(tp,c81254059.costfilter,1,1,nil,e,tp,ft)
 	e:SetLabel(sg:GetFirst():GetLevel())
 	Duel.Release(sg,REASON_COST)
 end

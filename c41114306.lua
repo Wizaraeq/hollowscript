@@ -8,6 +8,7 @@ function c41114306.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCondition(c41114306.spcon)
+	e2:SetTarget(c41114306.sptg)
 	e2:SetOperation(c41114306.spop)
 	c:RegisterEffect(e2)
 	--special summon
@@ -29,10 +30,18 @@ function c41114306.spcon(e,c)
 	local tp=c:GetControler()
 	return Duel.IsExistingMatchingCard(c41114306.filter,tp,LOCATION_MZONE,0,1,nil,tp)
 end
-function c41114306.spop(e,tp,eg,ep,ev,re,r,rp,c)
+function c41114306.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetMatchingGroup(c41114306.filter,tp,LOCATION_MZONE,0,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c41114306.filter,tp,LOCATION_MZONE,0,1,1,nil,tp)
-	Duel.SendtoGrave(g,REASON_COST)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
+end
+function c41114306.spop(e,tp,eg,ep,ev,re,r,rp,c)
+	local g=e:GetLabelObject()
+	Duel.SendtoGrave(g,REASON_SPSUMMON)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)

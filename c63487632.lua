@@ -7,6 +7,7 @@ function c63487632.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND+LOCATION_GRAVE)
 	e1:SetCondition(c63487632.spcon)
+	e1:SetTarget(c63487632.sptg)
 	e1:SetOperation(c63487632.spop)
 	c:RegisterEffect(e1)
 	--equip
@@ -51,11 +52,18 @@ function c63487632.spcon(e,c)
 	local tp=c:GetControler()
 	return Duel.IsExistingMatchingCard(c63487632.spfilter,tp,LOCATION_MZONE,0,1,nil,tp)
 end
-function c63487632.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+function c63487632.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetMatchingGroup(c63487632.spfilter,tp,LOCATION_MZONE,0,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c63487632.spfilter,tp,LOCATION_MZONE,0,1,1,nil,tp)
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
+end
+function c63487632.spop(e,tp,eg,ep,ev,re,r,rp,c)
+	local g=e:GetLabelObject()
+	Duel.Remove(g,POS_FACEUP,REASON_SPSUMMON)
 end
 function c63487632.filter(c)
 	return not c:IsCode(63487632) and c:IsRace(RACE_DRAGON) and not c:IsForbidden()

@@ -16,6 +16,7 @@ function c10485110.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCondition(c10485110.spcon)
+	e2:SetTarget(c10485110.sptg)
 	e2:SetOperation(c10485110.spop)
 	c:RegisterEffect(e2)
 	--tograve
@@ -30,17 +31,24 @@ function c10485110.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c10485110.spfilter(c,tp)
-	return c:IsCode(37721209)
-		and Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup())
+	return c:IsFaceup() and c:IsCode(37721209) and Duel.GetMZoneCount(tp,c)>0
 end
 function c10485110.spcon(e,c)
 	if c==nil then return true end
-	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c10485110.spfilter,1,nil,tp)
+	return Duel.CheckReleaseGroupEx(c:GetControler(),c10485110.spfilter,1,REASON_SPSUMMON,false,nil,c:GetControler())
+end
+function c10485110.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetReleaseGroup(tp,false,REASON_SPSUMMON):Filter(c10485110.spfilter,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+	local tc=g:SelectUnselect(nil,tp,false,true,1,1)
+	if tc then
+		e:SetLabelObject(tc)
+		return true
+	else return false end
 end
 function c10485110.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c10485110.spfilter,1,1,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local g=e:GetLabelObject()
+	Duel.Release(g,REASON_SPSUMMON)
 end
 function c10485110.cfilter(c)
 	return c:IsFaceup() and c:IsCode(22702055) and c:IsAbleToGraveAsCost()

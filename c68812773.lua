@@ -25,8 +25,7 @@ function c68812773.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c68812773.filter(c,e,tp)
-	return c:IsCode(71071546)
-		and (c:IsCanBeSpecialSummoned(e,0,tp,false,false) or c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEDOWN_DEFENSE))
+	return c:IsCode(71071546) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_ATTACK+POS_FACEDOWN_DEFENSE)
 end
 function c68812773.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c68812773.filter(chkc,e,tp) end

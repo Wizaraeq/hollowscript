@@ -59,7 +59,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=e:GetLabelObject()
-	Duel.SendtoDeck(g,tp,SEQ_DECKSHUFFLE,REASON_COST)
+	Duel.SendtoDeck(g,tp,SEQ_DECKSHUFFLE,REASON_SPSUMMON)
 	g:DeleteGroup()
 end
 function s.regcon(e,tp,eg,ep,ev,re,r,rp)
