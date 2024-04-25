@@ -39,6 +39,7 @@ function c42237854.initial_effect(c)
 	e3:SetValue(aux.tgoval)
 	c:RegisterEffect(e3)
 end
+c42237854.trap_monster=true
 function c42237854.filter(c)
 	return c:IsFaceup() and c:IsRace(RACE_MACHINE) and c:IsLevel(4)
 end

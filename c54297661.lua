@@ -21,6 +21,7 @@ function c54297661.initial_effect(c)
 	e2:SetOperation(c54297661.damop)
 	c:RegisterEffect(e2)
 end
+c54297661.trap_monster=true
 function c54297661.mzfilter(c,tp)
 	return c:GetSequence()<5
 end

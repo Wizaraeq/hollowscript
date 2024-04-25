@@ -30,6 +30,7 @@ function c43959432.initial_effect(c)
 	e4:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e4)
 end
+c43959432.trap_monster=true
 function c43959432.filter(c)
 	return c:IsFaceup() and c:IsLevelAbove(4)
 end

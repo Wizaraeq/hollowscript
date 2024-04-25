@@ -1,5 +1,6 @@
 --ボンディング－H2O
 function c45898858.initial_effect(c)
+	aux.AddCodeList(c,22587018,85066822,58071123)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)

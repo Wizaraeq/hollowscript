@@ -20,6 +20,7 @@ function c20960340.initial_effect(c)
 	e2:SetOperation(c20960340.damop)
 	c:RegisterEffect(e2)
 end
+c20960340.trap_monster=true
 function c20960340.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil
 		and Duel.GetAttacker():IsAttackAbove(Duel.GetLP(tp))

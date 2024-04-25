@@ -26,6 +26,7 @@ function c33055499.initial_effect(c)
 	e2:SetOperation(c33055499.thop)
 	c:RegisterEffect(e2)
 end
+c33055499.trap_monster=true
 function c33055499.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local seq=e:GetHandler():GetSequence()
 	if chk==0 then return e:IsCostChecked()

@@ -1,5 +1,6 @@
 --王女の試練
 function c72709014.initial_effect(c)
+	aux.AddCodeList(c,81383947,46128076,2316186,75917088)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)

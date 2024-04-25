@@ -1,5 +1,6 @@
 --機動砦 ストロング・ホールド
 function c13955608.initial_effect(c)
+	aux.AddCodeList(c,41172955,86445415,13839120)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -18,6 +19,7 @@ function c13955608.initial_effect(c)
 	e2:SetCondition(c13955608.atkcon)
 	c:RegisterEffect(e2)
 end
+c13955608.trap_monster=true
 function c13955608.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:IsCostChecked()
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0

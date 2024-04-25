@@ -6,10 +6,15 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot release(uncompleted)
 	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_CANNOT_RELEASE)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetTargetRange(1,1)
+	e1:SetTarget(s.rellimit)
 	c:RegisterEffect(e1)
 	--tohand/extra & summon bonus
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_TOEXTRA)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -20,7 +25,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--remove
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_REMOVE)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -33,8 +37,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.rmop)
 	c:RegisterEffect(e3)
 end
-function s.relimit(e,c,rp,r,re)
-	return r&REASON_COST>0
+function s.rellimit(e,c,tp,r)
+	return r&REASON_COST~=0
 end
 function s.bfilter(c)
 	return c:IsSetCard(0xb5) and c:IsFaceup() and c:IsAbleToHand()
@@ -63,9 +67,7 @@ function s.bsop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SUMMON)
 			local sumc=Duel.SelectMatchingCard(tp,s.sfilter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
-			if sumc then
-				Duel.Summon(tp,sumc,true,nil)
-			end
+			if sumc then Duel.Summon(tp,sumc,true,nil) end
 		end
 	end
 end

@@ -3,6 +3,7 @@ local s,id,o=GetID()
 function s.initial_effect(c)
 	aux.AddMaterialCodeList(c,23995346)
 	aux.AddCodeList(c,23995346)
+	aux.AddFusionProcMixRep(c,true,true,{23995346,s.matfilter},1,3,s.matfilter4)
 	c:EnableReviveLimit()
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE)
@@ -10,13 +11,6 @@ function s.initial_effect(c)
 	e0:SetCode(EFFECT_SPSUMMON_CONDITION)
 	e0:SetValue(aux.fuslimit)
 	c:RegisterEffect(e0)
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e1:SetCode(EFFECT_FUSION_MATERIAL)
-	e1:SetCondition(s.FShaddollCondition())
-	e1:SetOperation(s.FShaddollOperation())
-	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
@@ -51,6 +45,14 @@ function s.initial_effect(c)
 		ge2:SetOperation(s.reset)
 		Duel.RegisterEffect(ge2,0)
 	end
+	if not s.Ultimat_check then
+		s.Ultimat_check=true
+		_FCheckMixRepGoalCheck=Auxiliary.FCheckMixRepGoalCheck
+		function Auxiliary.FCheckMixRepGoalCheck(tp,sg,fc,chkfnf)
+			if fc.exgcheck and not fc.exgcheck(tp,sg,fc) then return false end
+			return _FCheckMixRepGoalCheck(tp,sg,fc,chkfnf)
+		end
+	end
 end
 function s.count(e,tp,eg,ep,ev,re,r,rp)
 	if re:GetHandler():IsCode(71143015) then
@@ -60,107 +62,20 @@ end
 function s.reset(e,tp,eg,ep,ev,re,r,rp)
 	s.chain_solving=false
 end
-function s.FShaddollFilter(c)
-	return c:IsFusionSetCard(0xdd) or c:IsFusionSetCard(0xcf) and c:IsFusionType(TYPE_RITUAL) or c:IsFusionCode(23995346) or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
+function s.matfilter(c,fc,sub,mg,sg)
+	return c:IsSetCard(0xdd)
 end
-function s.Ultimate_FShaddollFilter(c)
-	return c:IsFusionSetCard(0xdd) or (c:IsFusionSetCard(0xcf) and c:IsFusionType(TYPE_RITUAL)) or c:IsFusionCode(23995346)
+function s.matfilter2(c,sg,fc)
+	return c:IsSetCard(0xcf) and c:IsType(TYPE_RITUAL) and (sg:IsExists(Card.IsFusionCode,1,c,23995346) or sg:IsExists(Card.CheckFusionSubstitute,1,c,fc))
 end
-function s.Chaos_FShaddollFilter(c,mg,fc,chkf)
-	return c:IsFusionSetCard(0xcf) and c:IsFusionType(TYPE_RITUAL) and mg:CheckSubGroup(s.FShaddollSpgcheck,1,3,fc,c,chkf)
+function s.matfilter3(c,sg)
+	return c:IsSetCard(0xcf) and c:IsType(TYPE_RITUAL) and (sg:IsExists(Card.IsFusionSetCard,3,c,0xdd))
 end
-function s.Engine_Startup_Chaos_FShaddollFilter(c,mg,fc,chkf)
-	return c:IsFusionSetCard(0xcf) and c:IsFusionType(TYPE_RITUAL) and mg:CheckSubGroup(s.FShaddollSpgcheck,1,3,fc,c,chkf)
+function s.matfilter4(c,sg)
+	return c:IsSetCard(0xcf) and c:IsType(TYPE_RITUAL)
 end
-function s.Unnecessary_Chaos_FShaddollFilter(c)
-	return c:IsFusionSetCard(0xcf) and c:IsFusionType(TYPE_RITUAL) and not (c:IsFusionSetCard(0xdd) or c:IsFusionCode(23995346) or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE))
-end
-function s.Blue_Eyes_Ultimate_Dragon(c)
-	return c:IsFusionCode(23995346) and not c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
-		or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
-end
-function s.FShaddollSpgcheck(g,fc,ec,chkf)
-	local sg=g:Clone()
-	sg:AddCard(ec)
-	local c=g:Filter(s.Blue_Eyes_Ultimate_Dragon,nil):GetFirst()
-	if aux.FCheckAdditional and not aux.FCheckAdditional(tp,sg,fc)
-		or aux.FGoalCheckAdditional and not aux.FGoalCheckAdditional(tp,sg,fc) then return false end
-	return ((g:FilterCount(s.Blue_Eyes_Ultimate_Dragon,nil)==1
-		and g:FilterCount(Card.IsFusionSetCard,Group.FromCards(c,ec),0xdd)==0
-		or g:FilterCount(Card.IsFusionSetCard,ec,0xdd)==3)
-		and (chkf==PLAYER_NONE or Duel.GetLocationCountFromEx(tp,tp,sg,fc)>0))
-		and g:FilterCount(s.Unnecessary_Chaos_FShaddollFilter,nil)==0
-end
-function s.Necessarily_FShaddollFilter(c,gc)
-	return c:IsCode(gc:GetCode())
-end
-function s.Necessarily_FShaddollSpgcheck(g,gc,fc,ec,chkf)
-	local c=g:Filter(s.Blue_Eyes_Ultimate_Dragon,nil):GetFirst()
-	local sg=g:Clone()
-	sg:AddCard(ec)
-	if aux.FCheckAdditional and not aux.FCheckAdditional(tp,sg,fc)
-		or aux.FGoalCheckAdditional and not aux.FGoalCheckAdditional(tp,sg,fc) then return false end
-	return (((g:FilterCount(s.Blue_Eyes_Ultimate_Dragon,nil)==1
-		and g:FilterCount(Card.IsFusionSetCard,c,0xdd)==0
-		or g:FilterCount(Card.IsFusionSetCard,nil,0xdd)==3) and g:FilterCount(s.Necessarily_FShaddollFilter,nil,gc)==1)
-		and (chkf==PLAYER_NONE or Duel.GetLocationCountFromEx(tp,tp,sg,fc)>0))
-		and g:FilterCount(s.Unnecessary_Chaos_FShaddollFilter,nil)==0
-end
-function s.FShaddollCondition()
-	return function(e,g,gc,chkf)
-			if g==nil then return aux.MustMaterialCheck(nil,e:GetHandlerPlayer(),EFFECT_MUST_BE_FMATERIAL) end
-			local fc=e:GetHandler()
-			local tp=e:GetHandlerPlayer()
-			local mg=g:Filter(s.FShaddollFilter,nil)
-			if gc then
-				if not mg:IsContains(gc) then return false end
-			end
-			return mg:IsExists(s.Engine_Startup_Chaos_FShaddollFilter,1,nil,mg,fc,chkf)
-		end
-end
-function s.FShaddollOperation()
-	return function(e,tp,eg,ep,ev,re,r,rp,gc,chkf)
-			local fc=e:GetHandler()
-			local tp=e:GetHandlerPlayer()
-			local mg=nil
-			if s.chain_solving then
-				mg=eg:Filter(s.Ultimate_FShaddollFilter,nil)
-			else
-				mg=eg:Filter(s.FShaddollFilter,nil)
-			end
-			local g=nil
-			if gc and s.Chaos_FShaddollFilter(gc,mg,fc,chkf) then
-				g=Group.FromCards(gc)
-				mg:RemoveCard(gc)
-			else
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
-				g=mg:FilterSelect(tp,s.Chaos_FShaddollFilter,1,1,nil,mg,fc,chkf)
-				mg:Sub(g)
-			end
-			local sg=nil
-			if gc and g:FilterCount(s.Necessarily_FShaddollFilter,nil,gc)==1 then
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
-				sg=mg:SelectSubGroup(tp,s.FShaddollSpgcheck,false,1,3,fc,g:GetFirst(),chkf)
-			else
-				if gc then
-					Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
-					sg=mg:SelectSubGroup(tp,s.Necessarily_FShaddollSpgcheck,false,1,3,gc,fc,g:GetFirst(),chkf)
-				else
-					Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
-					sg=mg:SelectSubGroup(tp,s.FShaddollSpgcheck,true,1,3,fc,g:GetFirst(),chkf)
-				end
-			end
-			while not sg do
-				mg:AddCard(g:GetFirst())
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
-				g=mg:FilterSelect(tp,s.Chaos_FShaddollFilter,1,1,nil,mg,e)
-				mg:Sub(g)
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
-				sg=mg:SelectSubGroup(tp,s.FShaddollSpgcheck,true,1,3,fc,g:GetFirst(),chkf)
-			end
-			g:Merge(sg)
-			Duel.SetFusionMaterial(g)
-		end
+function s.exgcheck(tp,sg,fc)
+	return (sg:GetCount()==4 and sg:IsExists(s.matfilter3,1,nil,sg)) or (sg:GetCount()==2 and sg:IsExists(s.matfilter2,1,nil,sg,fc))
 end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return rp==1-tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)

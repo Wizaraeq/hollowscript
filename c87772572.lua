@@ -10,6 +10,7 @@ function c87772572.initial_effect(c)
 	e1:SetOperation(c87772572.activate)
 	c:RegisterEffect(e1)
 end
+c87772572.trap_monster=true
 function c87772572.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local rac=0

@@ -9,6 +9,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
 	e1:SetCondition(s.sprcon)
+	e1:SetTarget(s.sprtg)
 	e1:SetOperation(s.sprop)
 	c:RegisterEffect(e1)
 	--SpecialSummon
@@ -38,10 +39,18 @@ function s.sprcon(e,c)
 	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and g:CheckSubGroup(s.gcheck,2,2)
 end
-function s.sprop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.sprtg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	local g=Duel.GetMatchingGroup(s.sprfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,nil)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local sg=g:SelectSubGroup(tp,s.gcheck,false,2,2)
+	local sg=g:SelectSubGroup(tp,s.gcheck,true,2,2)
+	if sg then
+		sg:KeepAlive()
+		e:SetLabelObject(sg)
+		return true
+	else return false end
+end
+function s.sprop(e,tp,eg,ep,ev,re,r,rp,c)
+	local sg=e:GetLabelObject()
 	local hg=sg:Filter(Card.IsLocation,nil,LOCATION_HAND)
 	if #hg>0 then
 		Duel.ConfirmCards(1-tp,hg)
@@ -51,6 +60,7 @@ function s.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 		Duel.HintSelection(gg)
 	end
 	Duel.SendtoDeck(sg,nil,2,REASON_SPSUMMON)
+	sg:DeleteGroup()
 end
 function s.con(e,tp,eg,ep,ev,re,r,rp)
 	return rp==1-tp

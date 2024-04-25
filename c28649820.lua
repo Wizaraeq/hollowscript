@@ -11,6 +11,7 @@ function c28649820.initial_effect(c)
 	e1:SetOperation(c28649820.activate)
 	c:RegisterEffect(e1)
 end
+c28649820.trap_monster=true
 function c28649820.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end

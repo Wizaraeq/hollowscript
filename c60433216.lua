@@ -10,6 +10,7 @@ function c60433216.initial_effect(c)
 	e1:SetOperation(c60433216.activate)
 	c:RegisterEffect(e1)
 end
+c60433216.trap_monster=true
 function c60433216.condition(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetAttacker()
 	if tc:IsControler(1-tp) then tc=Duel.GetAttackTarget() end

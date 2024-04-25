@@ -33,6 +33,7 @@ function c54241725.initial_effect(c)
 	e3:SetOperation(c54241725.spop)
 	c:RegisterEffect(e3)
 end
+c54241725.trap_monster=true
 function c54241725.tdfilter(c)
 	return c:IsSetCard(0xbe) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToDeck()
 end

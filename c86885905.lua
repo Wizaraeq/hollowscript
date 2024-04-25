@@ -30,6 +30,7 @@ function c86885905.initial_effect(c)
 	e3:SetValue(1)
 	c:RegisterEffect(e3)
 end
+c86885905.trap_monster=true
 function c86885905.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:IsCostChecked()
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0

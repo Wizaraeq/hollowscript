@@ -12,6 +12,7 @@ function c46984349.initial_effect(c)
 	e1:SetOperation(c46984349.activate)
 	c:RegisterEffect(e1)
 end
+c46984349.trap_monster=true
 function c46984349.costfilter(c,tp)
 	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsType(TYPE_MONSTER) and c:IsLevelAbove(1) and c:IsAbleToRemoveAsCost()
 		and Duel.GetMZoneCount(tp,c)>0 and Duel.IsPlayerCanSpecialSummonMonster(tp,46984349,0,TYPES_NORMAL_TRAP_MONSTER,0,0,c:GetOriginalLevel(),RACE_SPELLCASTER,ATTRIBUTE_LIGHT)
