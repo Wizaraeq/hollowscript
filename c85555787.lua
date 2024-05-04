@@ -11,8 +11,8 @@ function c85555787.initial_effect(c)
 	e1:SetOperation(c85555787.activate)
 	c:RegisterEffect(e1)
 end
-function c85555787.costfilter(c,matk)
-	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAttackBelow(matk)
+function c85555787.costfilter(c)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAttackBelow(3000) and c:IsAttackAbove(500)
 end
 function c85555787.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(100)
@@ -20,13 +20,12 @@ function c85555787.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c85555787.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local dc=Duel.GetFieldGroupCount(tp,0,LOCATION_HAND+LOCATION_DECK)
-	local matk=math.min(3000,dc*500)
 	if chk==0 then
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
-		return matk>0 and Duel.CheckReleaseGroup(tp,c85555787.costfilter,1,nil,matk)
+		return dc>0 and Duel.CheckReleaseGroup(tp,c85555787.costfilter,1,nil)
 	end
-	local g=Duel.SelectReleaseGroup(tp,c85555787.costfilter,1,1,nil,matk)
+	local g=Duel.SelectReleaseGroup(tp,c85555787.costfilter,1,1,nil)
 	local atk=g:GetFirst():GetAttack()
 	e:SetLabel(atk)
 	Duel.Release(g,REASON_COST)
