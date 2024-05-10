@@ -13,6 +13,7 @@ function c80254726.initial_effect(c)
 	c:RegisterEffect(e1)
 	--act in hand
 	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(80254726,1))
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_TRAP_ACT_IN_HAND)
 	e2:SetCondition(c80254726.handcon)
@@ -54,9 +55,6 @@ end
 function c80254726.cfilter(c)
 	return c:IsFaceup() and ((c:IsSetCard(0x33) and c:IsType(TYPE_SYNCHRO)) or c:IsCode(9012916))
 end
-function c80254726.cfilter2(c)
-	return c:IsCode(9012916) and c:IsFaceup()
-end
 function c80254726.handcon(e)
-	return Duel.IsExistingMatchingCard(c80254726.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil) or Duel.IsExistingMatchingCard(c80254726.cfilter2,e:GetHandlerPlayer(),LOCATION_ONFIELD,0,1,nil)
+	return Duel.IsExistingMatchingCard(c80254726.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end

@@ -63,6 +63,8 @@ function c62753201.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Equip(tp,c,tc)
+		if tc:GetFlagEffect(62753201)==0 then
+		tc:RegisterFlagEffect(62753201,RESET_EVENT+RESETS_STANDARD,0,1)
 		--
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -89,6 +91,7 @@ function c62753201.activate(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetTarget(c62753201.eftg)
 		e3:SetLabelObject(e2)
 		c:RegisterEffect(e3)
+		end
 	else
 		c:CancelToGrave(false)
 	end
