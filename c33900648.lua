@@ -118,6 +118,9 @@ function c33900648.adjustop(e,tp,eg,ep,ev,re,r,rp)
 			rac=bit.bor(rac,tc:GetAttribute())
 			tc=g:GetNext()
 		end
+		if Duel.IsPlayerAffectedByEffect(p,100218010) and Duel.GetFieldGroupCount(p,LOCATION_MZONE,0)>0 then
+			rac=bit.bor(rac,ATTRIBUTE_ALL)
+		end
 		c33900648[p]=rac
 	end
 end
