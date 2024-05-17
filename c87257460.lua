@@ -23,13 +23,21 @@ function c87257460.initial_effect(c)
 	e2:SetCost(c87257460.spcost)
 	e2:SetTarget(c87257460.sptg)
 	e2:SetOperation(c87257460.spop)
-	e2:SetLabelObject(e1)
 	c:RegisterEffect(e2)
+	local e3=e1:Clone()
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_FREE_CHAIN)
+	e3:SetCondition(c87257460.eqcon2)
+	c:RegisterEffect(e3)
 end
 c87257460.lvup={23756165}
 function c87257460.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=e:GetLabelObject()
-	return ec==nil or ec:GetFlagEffect(87257460)==0
+	return (ec==nil or ec:GetFlagEffect(87257460)==0) and not Duel.IsPlayerAffectedByEffect(tp,100218027)
+end
+function c87257460.eqcon2(e,tp,eg,ep,ev,re,r,rp)
+	local ec=e:GetLabelObject()
+	return (ec==nil or ec:GetFlagEffect(87257460)==0) and Duel.IsPlayerAffectedByEffect(tp,100218027)
 end
 function c87257460.filter(c)
 	return c:IsLevelBelow(3) and c:IsFaceup() and c:IsAbleToChangeControler()
@@ -72,9 +80,11 @@ end
 function c87257460.repval(e,re,r,rp)
 	return bit.band(r,REASON_BATTLE)~=0
 end
+function c87257460.fgfilter(c)
+	return c:GetFlagEffect(87257460)>0
+end
 function c87257460.spcon(e,tp,eg,ep,ev,re,r,rp)
-	local ec=e:GetLabelObject():GetLabelObject()
-	return Duel.GetTurnPlayer()==tp and ec and ec:GetFlagEffect(87257460)~=0
+	return Duel.GetTurnPlayer()==tp and e:GetHandler():GetEquipGroup():IsExists(c87257460.fgfilter,1,nil)
 end
 function c87257460.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end

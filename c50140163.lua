@@ -4,11 +4,16 @@ function c50140163.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e1:SetCondition(c50140163.regcon)
 	e1:SetOperation(c50140163.regop)
 	c:RegisterEffect(e1)
 end
 c50140163.lvup={23756165}
 c50140163.lvdn={23756165,87257460}
+function c50140163.regcon(e,tp,eg,ep,ev,re,r,rp)
+	local code1,code2=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CODE,CHAININFO_TRIGGERING_CODE2)
+	return re and (code1==23756165 or code2==23756165)
+end
 function c50140163.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:GetSummonType()==SUMMON_TYPE_SPECIAL+SUMMON_VALUE_LV then
@@ -25,11 +30,20 @@ function c50140163.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_DISABLE)
 		e1:SetLabelObject(e)
 		c:RegisterEffect(e1)
+		local e2=e1:Clone()
+		e2:SetType(EFFECT_TYPE_QUICK_O)
+		e2:SetCode(EVENT_FREE_CHAIN)
+		e2:SetCondition(c50140163.eqcon2)
+		c:RegisterEffect(e2)
 	end
 end
 function c50140163.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=e:GetLabelObject():GetLabelObject()
-	return ec==nil or ec:GetFlagEffect(50140163)==0
+	return (ec==nil or ec:GetFlagEffect(50140163)==0) and not Duel.IsPlayerAffectedByEffect(tp,100218027)
+end
+function c50140163.eqcon2(e,tp,eg,ep,ev,re,r,rp)
+	local ec=e:GetLabelObject():GetLabelObject()
+	return (ec==nil or ec:GetFlagEffect(50140163)==0) and Duel.IsPlayerAffectedByEffect(tp,100218027)
 end
 function c50140163.filter(c)
 	return c:IsAbleToChangeControler()
