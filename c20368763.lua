@@ -14,7 +14,7 @@ function c20368763.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e2:SetCondition(c20368763.indcon)
+	e2:SetCondition(aux.tkfcon)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
@@ -49,9 +49,6 @@ function c20368763.lvval(e,c)
 	local tp=c:GetControler()
 	return Duel.GetMatchingGroup(Card.IsCode,tp,LOCATION_MZONE,0,nil,31533705):GetSum(Card.GetLevel)
 end
-function c20368763.indcon(e)
-	return Duel.IsExistingMatchingCard(Card.IsType,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil,TYPE_TOKEN)
-end
 function c20368763.cfilter(c,tp)
 	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousControler(tp) and c:IsReason(REASON_COST)
 end
@@ -70,13 +67,14 @@ function c20368763.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function c20368763.spcfilter(c,tp)
+function c20368763.spcfilter(c,ft,tp)
 	return c:IsType(TYPE_TOKEN)
-		and Duel.GetMZoneCount(tp,c)>0
+		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5))
 end
 function c20368763.spcost2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c20368763.spcfilter,1,nil,tp) end
-	local g=Duel.SelectReleaseGroup(tp,c20368763.spcfilter,1,1,nil,tp)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	if chk==0 then return ft>-1 and Duel.CheckReleaseGroup(tp,c20368763.spcfilter,1,nil,ft,tp) end
+	local g=Duel.SelectReleaseGroup(tp,c20368763.spcfilter,1,1,nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c20368763.spfilter(c,e,tp)
