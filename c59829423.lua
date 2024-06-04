@@ -50,7 +50,7 @@ function s.sprtg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 end
 function s.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=e:GetLabelObject()
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	Duel.Remove(g,POS_FACEUP,REASON_SPSUMMON)
 	g:DeleteGroup()
 end
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
