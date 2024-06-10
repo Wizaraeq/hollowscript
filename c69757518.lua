@@ -60,31 +60,47 @@ function c69757518.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.PayLPCost(tp,math.floor(Duel.GetLP(tp)/2))
 end
+function c69757518.tdfilter(c,e)
+	return c:IsCanBeEffectTarget(e) and (c:IsAbleToDeck() or c:IsCanOverlay())
+end
+function c69757518.gcheck(g)
+	return g:IsExists(Card.IsCanOverlay,1,nil)
+end
 function c69757518.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	local g=Duel.GetMatchingGroup(Card.IsCanBeEffectTarget,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e)
-	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ)
-		and g:CheckSubGroup(aux.gffcheck,2,2,Card.IsAbleToDeck,0,Card.IsCanOverlay,0) end
+	local g=Duel.GetMatchingGroup(c69757518.tdfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e)
+	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) and g:CheckSubGroup(c69757518.gcheck,2,2) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local sg=g:SelectSubGroup(tp,aux.gffcheck,false,2,2,Card.IsAbleToDeck,0,Card.IsCanOverlay,0)
+	local sg=g:SelectSubGroup(tp,c69757518.gcheck,false,2,2)
 	Duel.SetTargetCard(sg)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,sg,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,sg,2,0,0)
 end
-function c69757518.tdfilter(c,g)
-	return c:IsAbleToDeck() and g:IsExists(Card.IsCanOverlay,1,c)
-end
 function c69757518.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if sg:GetCount()>1 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-		local sg1=sg:FilterSelect(tp,c69757518.tdfilter,1,1,nil,sg)
-		if sg1:GetCount()==0 then sg1:FilterSelect(tp,Card.IsAbleToDeck,1,1,nil) end
+	if sg:GetCount()==1 then
+		Duel.HintSelection(sg)
+		Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
+	elseif sg:GetCount()>1 then
+		local og=sg:Filter(Card.IsCanOverlay,nil)
+		local sg1=nil
+		if og:GetCount()==0 then
+			return
+		elseif og:GetCount()==1 then
+			sg1=sg-og
+		elseif og:GetCount()==2 then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+			sg1=sg:Select(tp,1,1,nil)
+		end
 		local c=e:GetHandler()
-		sg:Sub(sg1)
-		if sg1:GetCount()>0 and Duel.SendtoDeck(sg1,nil,SEQ_DECKTOP,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) and sg:IsExists(Card.IsCanOverlay,1,nil) then
-			Duel.Overlay(c,sg)
+		Duel.HintSelection(sg1)
+		if Duel.SendtoDeck(sg1,nil,SEQ_DECKTOP,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) then
+			sg:Sub(sg1)
+			local sc=sg:GetFirst()
+			if sc:IsCanOverlay() then
+				Duel.Overlay(c,sg)
+			end
 		end
 	end
 end

@@ -23,7 +23,7 @@ function c12615446.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_BATTLE_DESTROYING)
 	e2:SetCountLimit(1)
-	e2:SetCondition(aux.bdogcon)
+	e2:SetCondition(c12615446.xyzcon)
 	e2:SetTarget(c12615446.xyztg)
 	e2:SetOperation(c12615446.xyzop)
 	c:RegisterEffect(e2)
@@ -59,18 +59,23 @@ function c12615446.posop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e2)
 	end
 end
-function c12615446.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
+function c12615446.xyzcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetBattleTarget()
-	if chk==0 then return c:IsType(TYPE_XYZ) and tc:IsCanOverlay() end
+	if not c:IsRelateToBattle() then return false end
+	e:SetLabelObject(tc)
+	return tc:IsLocation(LOCATION_GRAVE) and tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) and tc:IsCanOverlay()
+end
+function c12615446.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) end
+	local tc=e:GetLabelObject()
 	Duel.SetTargetCard(tc)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,tc,1,0,0)
 end
 function c12615446.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
+	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsCanOverlay() then
 		Duel.Overlay(c,tc)
 	end
 end
-

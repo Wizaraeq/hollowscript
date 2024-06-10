@@ -59,11 +59,10 @@ end
 function c8809344.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) then
+	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsCanOverlay() then
 		local og=c:GetOverlayGroup()
 		if og:GetCount()==0 then return end
 		Duel.SendtoGrave(og,REASON_EFFECT)
-		if tc:IsRelateToEffect(e) then
 		Duel.Overlay(c,Group.FromCards(tc))
 		if c:IsFacedown() then return end
 		local e1=Effect.CreateEffect(c)
@@ -77,6 +76,5 @@ function c8809344.operation(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetCode(EFFECT_CHANGE_RACE)
 		e2:SetValue(tc:GetOriginalRace())
 		c:RegisterEffect(e2)
-		end
 	end
 end

@@ -56,7 +56,7 @@ function c85252081.desfilter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function c85252081.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_ONFIELD) and c85252081.desfilter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c85252081.desfilter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(c85252081.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,c85252081.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
@@ -77,10 +77,14 @@ function c85252081.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c85252081.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+	if not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 	local g=Duel.SelectMatchingCard(tp,c85252081.mtfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil,e)
 	if g:GetCount()>0 then
+		local mg=g:GetFirst():GetOverlayGroup()
+		if mg:GetCount()>0 then
+			Duel.SendtoGrave(mg,REASON_RULE)
+		end
 		Duel.Overlay(c,g)
 	end
 end

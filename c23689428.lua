@@ -17,7 +17,7 @@ function c23689428.initial_effect(c)
 	--get effect
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_XMATERIAL)
-	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_IGNORE_IMMUNE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e2:SetCondition(c23689428.condition)
@@ -44,7 +44,7 @@ end
 function c23689428.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) and c:IsRelateToEffect(e) then
+	if tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) and c:IsRelateToEffect(e) and c:IsCanOverlay() then
 		Duel.Overlay(tc,Group.FromCards(c))
 	end
 end
