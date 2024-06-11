@@ -10,7 +10,7 @@ function c41908872.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetRange(LOCATION_PZONE)
-	e1:SetProperty(EFFECT_FLAG_DELAY)
+	e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_ACTIVATE_CONDITION)
 	e1:SetCountLimit(1,41908872)
 	e1:SetCondition(c41908872.spcon)
 	e1:SetTarget(c41908872.sptg)
@@ -110,7 +110,7 @@ function c41908872.thop1(e,tp,eg,ep,ev,re,r,rp)
 	if tc and Duel.SendtoHand(tc,nil,REASON_EFFECT) and tc:IsLocation(LOCATION_HAND) then
 		local g1=Duel.GetMatchingGroup(c41908872.scfilter,tp,LOCATION_EXTRA,0,nil)
 		local g2=Duel.GetMatchingGroup(c41908872.xyzfilter,tp,LOCATION_EXTRA,0,nil)
-		if (g1:GetCount()>0 or g2:GetCount()>0) and Duel.GetCurrentPhase()~=PHASE_DAMAGE
+		if (g1:GetCount()>0 or g2:GetCount()>0)
 			and Duel.SelectYesNo(tp,aux.Stringid(41908872,5)) then
 			Duel.BreakEffect()
 			local g=g1+g2

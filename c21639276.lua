@@ -23,13 +23,14 @@ function c21639276.initial_effect(c)
 	e3:SetCategory(CATEGORY_REMOVE)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_CHAINING)
-	e3:SetProperty(EFFECT_FLAG_DELAY)
+	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_ACTIVATE_CONDITION)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1,21639277)
 	e3:SetCondition(c21639276.rmcon)
 	e3:SetTarget(c21639276.rmtg)
 	e3:SetOperation(c21639276.rmop)
 	c:RegisterEffect(e3)
+	--activate
 end
 function c21639276.spfilter(c,e,tp)
 	return c:IsSetCard(0x189) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -54,10 +55,10 @@ function c21639276.rmcfilter(c)
 end
 function c21639276.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return rp==1-tp and re:IsActiveType(TYPE_TRAP) and e:GetHandler():IsStatus(STATUS_EFFECT_ENABLED)
+		and Duel.IsExistingMatchingCard(c21639276.rmcfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c21639276.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_HAND,1,nil,tp,POS_FACEDOWN)
-		and Duel.IsExistingMatchingCard(c21639276.rmcfilter,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_HAND,1,nil,tp,POS_FACEDOWN) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_HAND)
 end
