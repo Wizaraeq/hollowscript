@@ -100,8 +100,7 @@ function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DiscardDeck(tp,4,REASON_EFFECT)
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return (c:IsStatus(STATUS_OPPO_BATTLE) or rp==1-tp) and c:IsPreviousControler(tp)
+	return rp==1-tp and e:GetHandler():IsPreviousControler(tp)
 end
 function s.thfilter1(c)
 	return c:IsFaceup() and c:IsCode(19959563) and c:IsAbleToHand()
@@ -124,7 +123,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetMatchingGroup(s.thfilter1,tp,LOCATION_REMOVED,0,nil)
 	local g2=Duel.GetMatchingGroup(s.thfilter2,tp,LOCATION_REMOVED,0,nil)
 	if #g1>0 and #g2>0 then
-		Duel.SendtoHand(Group.__add(g1,g2):SelectSubGroup(tp,s.fselect2,false,2,2),nil,REASON_EFFECT)
+		Duel.SendtoHand((g1+g2):SelectSubGroup(tp,s.fselect2,false,2,2),nil,REASON_EFFECT)
 		local tg=Duel.GetOperatedGroup()
 		Duel.ConfirmCards(1-tp,tg)
 		if tg:FilterCount(s.spfilter,nil,e,tp)==2 and Duel.GetLocationCount(tp,LOCATION_MZONE)>=2 and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
