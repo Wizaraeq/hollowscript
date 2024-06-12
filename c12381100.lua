@@ -2,15 +2,22 @@
 local s,id,o=GetID()
 function s.initial_effect(c)
 	aux.AddMaterialCodeList(c,23995346)
-	aux.AddCodeList(c,23995346)
-	aux.AddFusionProcMixRep(c,true,true,{23995346,s.matfilter},1,3,s.matfilter4)
 	c:EnableReviveLimit()
+	--summon procedure
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE)
 	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e0:SetCode(EFFECT_SPSUMMON_CONDITION)
 	e0:SetValue(aux.fuslimit)
 	c:RegisterEffect(e0)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_FUSION_MATERIAL)
+	e1:SetCondition(s.fcondition)
+	e1:SetOperation(s.foperation)
+	c:RegisterEffect(e1)
+	--negate
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
@@ -22,6 +29,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.distg)
 	e2:SetOperation(s.disop)
 	c:RegisterEffect(e2)
+	--destroyed
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -32,50 +40,54 @@ function s.initial_effect(c)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
-	if not s.global_check then
-		s.global_check=true
-		local ge1=Effect.CreateEffect(c)
-		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		ge1:SetCode(EVENT_CHAIN_SOLVING)
-		ge1:SetOperation(s.count)
-		Duel.RegisterEffect(ge1,0)
-		local ge2=Effect.CreateEffect(c)
-		ge2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		ge2:SetCode(EVENT_CHAIN_SOLVED)
-		ge2:SetOperation(s.reset)
-		Duel.RegisterEffect(ge2,0)
+end
+function s.ffilter1(c)
+	return c:IsFusionCode(23995346)
+end
+function s.ffilter2(c)
+	return c:IsFusionSetCard(0xdd) and c:IsType(TYPE_MONSTER)
+end
+function s.ffilter3(c)
+	return c:IsFusionSetCard(0xcf) and c:IsAllTypes(TYPE_MONSTER+TYPE_RITUAL)
+end
+function s.ffilter(c,fc)
+	return c:IsCanBeFusionMaterial(fc) and (s.ffilter1(c) or s.ffilter2(c) or s.ffilter3(c))
+end
+function s.f2filter3(c,sg)
+	return s.ffilter3(c) and sg:IsExists(s.ffilter2,3,c)
+end
+function s.fcheck(sg,fc,tp,gc,chkf)
+	if gc and not sg:IsContains(gc) then return false end
+	if sg:IsExists(aux.TuneMagicianCheckX,1,nil,sg,EFFECT_TUNE_MAGICIAN_F) then return false end
+	if not aux.MustMaterialCheck(sg,tp,EFFECT_MUST_BE_FMATERIAL) then return false end
+	if not (chkf==PLAYER_NONE or Duel.GetLocationCountFromEx(tp,tp,sg,fc)>0) then return false end
+	if aux.FCheckAdditional and not aux.FCheckAdditional(tp,sg,fc)
+		or aux.FGoalCheckAdditional and not aux.FGoalCheckAdditional(tp,sg,fc) then return false end
+	if #sg==2 then
+		return aux.gffcheck(sg,s.ffilter1,nil,s.ffilter3,nil)
 	end
-	if not s.Ultimat_check then
-		s.Ultimat_check=true
-		_FCheckMixRepGoalCheck=Auxiliary.FCheckMixRepGoalCheck
-		function Auxiliary.FCheckMixRepGoalCheck(tp,sg,fc,chkfnf)
-			if fc.exgcheck and not fc.exgcheck(tp,sg,fc) then return false end
-			return _FCheckMixRepGoalCheck(tp,sg,fc,chkfnf)
-		end
+	if #sg==4 then
+		return sg:IsExists(s.f2filter3,1,nil,sg)
 	end
+	return false
 end
-function s.count(e,tp,eg,ep,ev,re,r,rp)
-	if re:GetHandler():IsCode(71143015) then
-		s.chain_solving=true
-	end
+function s.fcondition(e,g,gc,chkf)
+	if g==nil then return aux.MustMaterialCheck(nil,e:GetHandlerPlayer(),EFFECT_MUST_BE_FMATERIAL) end
+	local c=e:GetHandler()
+	local mg=g:Filter(s.ffilter,nil,c)
+	if gc and not mg:IsContains(gc) then return false end
+	local tp=e:GetHandlerPlayer()
+	return mg:CheckSubGroup(s.fcheck,2,4,c,tp,gc,chkf)
 end
-function s.reset(e,tp,eg,ep,ev,re,r,rp)
-	s.chain_solving=false
+function s.foperation(e,tp,eg,ep,ev,re,r,rp,gc,chkf)
+	local c=e:GetHandler()
+	local mg=eg:Filter(s.ffilter,nil,c)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
+	local g=mg:SelectSubGroup(tp,s.fcheck,false,2,4,c,tp,gc,chkf)
+	Duel.SetFusionMaterial(g)
 end
-function s.matfilter(c,fc,sub,mg,sg)
-	return c:IsSetCard(0xdd)
-end
-function s.matfilter2(c,sg,fc)
-	return c:IsSetCard(0xcf) and c:IsType(TYPE_RITUAL) and (sg:IsExists(Card.IsFusionCode,1,c,23995346) or sg:IsExists(Card.CheckFusionSubstitute,1,c,fc))
-end
-function s.matfilter3(c,sg)
-	return c:IsSetCard(0xcf) and c:IsType(TYPE_RITUAL) and (sg:IsExists(Card.IsFusionSetCard,3,c,0xdd))
-end
-function s.matfilter4(c,sg)
-	return c:IsSetCard(0xcf) and c:IsType(TYPE_RITUAL)
-end
-function s.exgcheck(tp,sg,fc)
-	return (sg:GetCount()==4 and sg:IsExists(s.matfilter3,1,nil,sg)) or (sg:GetCount()==2 and sg:IsExists(s.matfilter2,1,nil,sg,fc))
+function s.ultimate_fusion_check(tp,sg,fc)
+	return #sg==2 and aux.gffcheck(sg,s.ffilter1,nil,s.ffilter3,nil)
 end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return rp==1-tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
