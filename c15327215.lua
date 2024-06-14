@@ -43,7 +43,7 @@ function c15327215.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c15327215.filter(c,mc)
-	return c:IsLevelBelow(4) and c:IsSetCard(0x3d) and c:IsAbleToRemoveAsCost()
+	return c:IsLevelBelow(4) and c:IsSetCard(0x503d) and c:IsAbleToRemoveAsCost()
 		and not (c:IsLevel(mc:GetLevel()) and c:IsAttribute(mc:GetAttribute()) and c:IsAttack(mc:GetAttack()) and c:IsDefense(mc:GetDefense()))
 end
 function c15327215.cost(e,tp,eg,ep,ev,re,r,rp,chk)

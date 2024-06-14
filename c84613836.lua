@@ -21,7 +21,7 @@ function c84613836.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep==tp and Duel.GetCurrentPhase()==PHASE_DRAW
 end
 function c84613836.filter(c,e,tp)
-	return c:IsSetCard(0x3d) and c:IsType(TYPE_MONSTER) and not c:IsPublic() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x103d) and c:IsType(TYPE_MONSTER) and not c:IsPublic() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c84613836.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
