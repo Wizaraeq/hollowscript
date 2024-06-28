@@ -36,7 +36,7 @@ function s.initial_effect(c)
 end
 function s.stfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x1a8) and c:IsSSetable()
-	and c.set_as_spell and (not c:IsLocation(LOCATION_MZONE) or c:IsFaceup())
+		and c.set_as_spell and c:IsFaceupEx()
 end
 function s.sttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_MZONE+LOCATION_GRAVE,0,1,nil) end
@@ -45,9 +45,7 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 	local ct=math.min(Duel.GetLocationCount(tp,LOCATION_SZONE),2)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.stfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_MZONE+LOCATION_GRAVE,0,1,ct,nil)
-	if #g>0 then
-		Duel.SSet(tp,g)
-	end
+	Duel.SSet(tp,g)
 end
 function s.desfilter(c)
 	return c:GetSequence()<5

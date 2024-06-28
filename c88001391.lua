@@ -24,7 +24,6 @@ function s.initial_effect(c)
 	e2:SetOperation(s.damop)
 	c:RegisterEffect(e2)
 end
-s.trap_monster=true
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and
 		Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,TYPES_EFFECT_TRAP_MONSTER,1800,500,4,RACE_ZOMBIE,ATTRIBUTE_DARK) end
@@ -60,7 +59,7 @@ function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local bc=e:GetHandler():GetBattleTarget()
 	local dam=0
-	if  bc:IsLocation(LOCATION_MZONE) then
+	if bc:IsLocation(LOCATION_MZONE) then
 		dam=bc:GetBaseAttack()
 	else
 		dam=bc:GetTextAttack()

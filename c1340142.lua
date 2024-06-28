@@ -3,6 +3,7 @@ local s,id,o=GetID()
 function s.initial_effect(c)
 	aux.AddLinkProcedure(c,nil,2,2,s.lcheck)
 	c:EnableReviveLimit()
+	--
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_IMMUNE_EFFECT)
@@ -11,6 +12,7 @@ function s.initial_effect(c)
 	e1:SetCondition(s.imcon)
 	e1:SetValue(s.efilter)
 	c:RegisterEffect(e1)
+	--
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_EXTRA_ATTACK)
@@ -18,6 +20,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetValue(s.atkval)
 	c:RegisterEffect(e2)
+	--
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_DISABLE_SUMMON+CATEGORY_DESTROY)
@@ -65,8 +68,9 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE_SUMMON,eg,eg:GetCount(),0,0)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	Duel.NegateSummon(eg)
-	if Duel.Destroy(eg,REASON_EFFECT)>0 then
+	if Duel.Destroy(eg,REASON_EFFECT)>0 and Duel.IsCanRemoveCounter(tp,1,0,0x6a,3,REASON_EFFECT) then
 		Duel.BreakEffect()
 		Duel.RemoveCounter(tp,1,0,0x6a,3,REASON_EFFECT)
 	end
