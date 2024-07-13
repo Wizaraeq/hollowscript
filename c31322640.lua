@@ -52,7 +52,7 @@ function s.costfilter(c,code)
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local qg=e:GetHandler():GetEquipGroup()
-	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() and qg:IsExists(s.costfilter,1,nil,e:GetHandler():GetCode())  end
+	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() and qg:IsExists(s.costfilter,1,nil,e:GetHandler():GetOriginalCodeRule())  end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
 function s.spfilter(c,e,tp)
@@ -61,7 +61,7 @@ end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.GetMZoneCount(tp,c)>0
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,e,tp,e:GetHandler():GetCode()) end
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,e,tp,e:GetHandler():GetOriginalCodeRule()) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_HAND)
 end
