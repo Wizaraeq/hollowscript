@@ -36,6 +36,7 @@ c1995985.lvup={74388798}
 function c1995985.disop(e,tp,eg,ep,ev,re,r,rp)
 	if not re:GetHandler():IsType(TYPE_SPELL) or rp==tp then return end
 	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
+	if not e:GetHandler():IsRelateToEffect(re) then return end
 	local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
 	if g and g:IsContains(e:GetHandler()) then
 		Duel.NegateEffect(ev)
@@ -55,7 +56,7 @@ function c1995985.spfilter(c,e,tp)
 	return c:IsCode(74388798) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
 function c1995985.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMZoneCount(tp,e:GetHandler())>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
 		and Duel.IsExistingMatchingCard(c1995985.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end

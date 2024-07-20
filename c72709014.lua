@@ -1,6 +1,6 @@
 --王女の試練
 function c72709014.initial_effect(c)
-	aux.AddCodeList(c,81383947,46128076,2316186,75917088)
+	aux.AddCodeList(c,81383947,46128076,75917088,2316186)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)
@@ -83,7 +83,7 @@ function c72709014.spfilter(c,e,tp,code)
 		and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function c72709014.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMZoneCount(tp,e:GetHandler():GetEquipTarget())>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
 		and Duel.IsExistingMatchingCard(c72709014.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp,e:GetHandler():GetEquipTarget():GetCode()) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
