@@ -56,7 +56,7 @@ function c61705417.activate(e,tp,eg,ep,ev,re,r,rp)
 end
 function c61705417.tgcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	return tc:GetControler()~=tc:GetOwner() and tc:GetFlagEffect(61705417)~=0
+	return tc:GetControler()~=tc:GetOwner() and tc:GetFlagEffect(61705417)~=0 and tc:IsLocation(LOCATION_HAND)
 end
 function c61705417.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
