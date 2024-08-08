@@ -12,7 +12,7 @@ function c27178262.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c27178262.costfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x3d) and c:IsAbleToGraveAsCost() and Duel.GetMZoneCount(tp,c)>0
+	return c:IsFaceup() and c:IsSetCard(0x103d) and c:IsAbleToGraveAsCost() and Duel.GetMZoneCount(tp,c)>0
 end
 function c27178262.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c27178262.costfilter,tp,LOCATION_MZONE,0,1,nil,tp) end
@@ -21,7 +21,7 @@ function c27178262.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function c27178262.filter(c,e,tp)
-	return c:IsSetCard(0x3d) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x103d) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c27178262.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c27178262.filter(chkc,e,tp) end
