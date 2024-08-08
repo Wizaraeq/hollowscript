@@ -30,7 +30,6 @@ function c8522996.initial_effect(c)
 	e3:SetTarget(c8522996.splimit)
 	c:RegisterEffect(e3)
 end
-c8522996.trap_monster=true
 function c8522996.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:IsCostChecked()
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -70,6 +69,7 @@ function c8522996.chop(e,tp,eg,ep,ev,re,r,rp)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_DOUBLE_TRIBUTE)
+	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetValue(c8522996.condition)
 	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e2)
