@@ -35,6 +35,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.fuop)
 	c:RegisterEffect(e3)
 end
+s.fusion_effect=true
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x1a5) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end

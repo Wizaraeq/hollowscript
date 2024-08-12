@@ -30,6 +30,7 @@ function c59123937.initial_effect(c)
 	e1:SetOperation(c59123937.operation)
 	c:RegisterEffect(e1)
 end
+c59123937.fusion_effect=true
 function c59123937.spcfilter(c,tp)
 	return c:IsSetCard(0xaf) and Duel.GetMZoneCount(tp,c)>0 and (c:IsFaceup() or c:IsControler(tp))
 end
