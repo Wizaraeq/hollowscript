@@ -1352,7 +1352,7 @@ function Auxiliary.SelectTargetFromFieldFirst(tp,f,player,s,o,min,max,ex,...)
 	local ext_params={...}
 	local g=Duel.GetMatchingGroup(f,player,s,o,ex,table.unpack(ext_params)):Filter(Card.IsCanBeEffectTarget,nil)
 	local fg=g:Filter(Card.IsOnField,nil)
-	g:Sub(fg)
+	local fg=g
 	if #fg>=min and #g>0 then
 		local last_hint=Duel.GetLastSelectHint(tp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FIELD_FIRST)
