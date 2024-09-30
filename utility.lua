@@ -1334,7 +1334,7 @@ end
 function Auxiliary.SelectCardFromFieldFirst(tp,f,player,s,o,min,max,ex,...)
 	local ext_params={...}
 	local g=Duel.GetMatchingGroup(f,player,s,o,ex,table.unpack(ext_params))
-	local fg=g:Filter(Card.IsOnField,nil)
+	local fg=g
 	g:Sub(fg)
 	if #fg>=min and #g>0 then
 		local last_hint=Duel.GetLastSelectHint(tp)
