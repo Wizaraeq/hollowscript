@@ -18,7 +18,7 @@ function c50951254.initial_effect(c)
 	e2:SetCode(EVENT_DESTROYED)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP)
 	e2:SetRange(LOCATION_GRAVE)
-	e2:SetCountLimit(1,86346363)
+	e2:SetCountLimit(1,50951254+1)
 	e2:SetCondition(c50951254.spcon)
 	e2:SetTarget(c50951254.sptg)
 	e2:SetOperation(c50951254.spop)
@@ -55,7 +55,8 @@ function c50951254.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c50951254.sfilter,1,nil,tp) and not eg:IsContains(e:GetHandler())
 end
 function c50951254.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsPlayerCanDraw(tp,1)
+		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
