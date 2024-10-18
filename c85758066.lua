@@ -69,23 +69,25 @@ function c85758066.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.SelectMatchingCard(tp,c85758066.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)>0
 		and Duel.GetTurnPlayer()==1-tp then
+		--Must attack
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_FIELD)
-		e1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+		e1:SetCode(EFFECT_MUST_ATTACK)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetTargetRange(0,LOCATION_MZONE)
+		e1:SetCondition(c85758066.effcon)
+		e1:SetOwnerPlayer(tp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		e1:SetValue(c85758066.atklimit)
 		tc:RegisterEffect(e1)
-		local e2=Effect.CreateEffect(e:GetHandler())
-		e2:SetType(EFFECT_TYPE_FIELD)
-		e2:SetCode(EFFECT_MUST_ATTACK)
-		e2:SetRange(LOCATION_MZONE)
-		e2:SetTargetRange(0,LOCATION_MZONE)
-		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_MUST_ATTACK_MONSTER)
+		e2:SetValue(c85758066.atklimit)
 		tc:RegisterEffect(e2)
 	end
 end
+function c85758066.effcon(e)
+	return e:GetHandler():IsControler(e:GetOwnerPlayer())
+end
 function c85758066.atklimit(e,c)
-	return c~=e:GetHandler()
+	return c==e:GetHandler()
 end
