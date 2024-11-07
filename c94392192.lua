@@ -1,4 +1,5 @@
 --クシャトリラ・オーガ
+---@param c Card
 function c94392192.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -85,9 +86,9 @@ function c94392192.rmop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmDecktop(1-tp,ct)
 	local g=Duel.GetDecktopGroup(1-tp,ct)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	Duel.PreserveSelectDeckSequence(true)
+	Duel.RevealSelectDeckSequence(true)
 	local sg=g:FilterSelect(tp,c94392192.rmfilter,1,1,nil,tp)
-	Duel.PreserveSelectDeckSequence(false)
+	Duel.RevealSelectDeckSequence(false)
 	if #sg>0 then
 		Duel.DisableShuffleCheck(true)
 		Duel.Remove(sg,POS_FACEDOWN,REASON_EFFECT)

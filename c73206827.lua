@@ -37,6 +37,15 @@ function c73206827.initial_effect(c)
 	e4:SetTarget(c73206827.rectg)
 	e4:SetOperation(c73206827.recop)
 	c:RegisterEffect(e4)
+	--
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e5:SetCode(73206827)
+	e5:SetRange(LOCATION_FZONE)
+	e5:SetTargetRange(1,0)
+	e5:SetCondition(c73206827.effectcon)
+	c:RegisterEffect(e5)
 end
 c73206827.toss_coin=true
 function c73206827.coincon(e,tp,eg,ep,ev,re,r,rp)
