@@ -1,4 +1,5 @@
 --時の魔術師
+---@param c Card
 function c71625222.initial_effect(c)
 	--destroy
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +12,6 @@ function c71625222.initial_effect(c)
 	e1:SetOperation(c71625222.desop)
 	c:RegisterEffect(e1)
 end
-c71625222.toss_coin=true
 function c71625222.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(nil,tp,0,LOCATION_MZONE,nil)
@@ -37,7 +37,7 @@ function c71625222.desop(e,tp,eg,ep,ev,re,r,rp)
 			sum=sum+math.max(c:GetAttack(),0)
 		end
 		if sum>0 then
-			Duel.Damage(tp,math.ceil(sum/2),REASON_EFFECT)
+			Duel.Damage(tp,math.floor(sum/2),REASON_EFFECT)
 		end
 	end
 end

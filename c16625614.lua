@@ -1,4 +1,5 @@
 --ダーク・サンクチュアリ
+---@param c Card
 function c16625614.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -24,7 +25,6 @@ function c16625614.initial_effect(c)
 	e4:SetOperation(c16625614.operation)
 	c:RegisterEffect(e4)
 end
-c16625614.toss_coin=true
 function c16625614.efilter(e,te)
 	local tc=te:GetHandler()
 	return not tc:IsCode(94212438)
@@ -41,7 +41,7 @@ function c16625614.operation(e,tp,eg,ep,ev,re,r,rp)
 	local coin=Duel.TossCoin(tp,1)
 	if coin==1 then
 		if Duel.NegateAttack() then
-			Duel.Damage(1-tp,math.ceil(tc:GetAttack()/2),REASON_EFFECT)
+			Duel.Damage(1-tp,math.floor(tc:GetAttack()/2),REASON_EFFECT)
 		end
 	end
 end

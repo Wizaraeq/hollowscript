@@ -1,4 +1,5 @@
 --アルカナフォースⅦ－THE CHARIOT
+---@param c Card
 function c34568403.initial_effect(c)
 	--coin
 	local e1=Effect.CreateEffect(c)
@@ -6,7 +7,7 @@ function c34568403.initial_effect(c)
 	e1:SetCategory(CATEGORY_COIN)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
-	e1:SetTarget(c34568403.cointg)
+	e1:SetTarget(aux.ArcanaCoinTarget)
 	e1:SetOperation(c34568403.coinop)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
@@ -16,22 +17,21 @@ function c34568403.initial_effect(c)
 	e3:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
 	c:RegisterEffect(e3)
 end
-c34568403.toss_coin=true
-function c34568403.cointg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_COIN,nil,0,tp,1)
-end
 function c34568403.coinop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	local res=0
-	if c:IsHasEffect(73206827) then
+	local toss=false
+	if Duel.IsPlayerAffectedByEffect(tp,73206827) then
 		res=1-Duel.SelectOption(tp,60,61)
-	else res=Duel.TossCoin(tp,1) end
-	c34568403.arcanareg(c,res)
-	if res==0 then
-	c34568403.arcanareg(c,res)
+	else
+		res=Duel.TossCoin(tp,1)
+		toss=true
 	end
+	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+	if toss then
+		c:RegisterFlagEffect(FLAG_ID_REVERSAL_OF_FATE,RESET_EVENT+RESETS_STANDARD,0,1)
+	end
+	c34568403.arcanareg(c,res)
 end
 function c34568403.arcanareg(c,coin)
 	--coin effect
@@ -49,21 +49,22 @@ function c34568403.arcanareg(c,coin)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_ADJUST)
 	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1)
 	e2:SetOperation(c34568403.ctop)
 	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e2)
-	c:RegisterFlagEffect(36690018,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,coin,63-coin)
+	c:RegisterFlagEffect(FLAG_ID_ARCANA_COIN,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,coin,63-coin)
 	c:RegisterFlagEffect(34568403,RESET_EVENT+RESETS_STANDARD,0,1,coin)
 end
 function c34568403.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetFlagEffectLabel(36690018)==1 and c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE)
+	return c:GetFlagEffectLabel(FLAG_ID_ARCANA_COIN)==1 and c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE)
 end
 function c34568403.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local tc=e:GetHandler():GetBattleTarget()
-	if chk==0 then return (not tc:IsLocation(LOCATION_EXTRA) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		or tc:IsLocation(LOCATION_EXTRA) and Duel.GetLocationCountFromEx(tp,tp,nil,tc)>0)
-		and tc:IsCanBeSpecialSummoned(e,0,tp,false,false) end
+	if chk==0 then return tc:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		and ((tc:IsLocation(LOCATION_GRAVE) or tc:IsLocation(LOCATION_REMOVED) and tc:IsFaceup()) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+			or tc:IsLocation(LOCATION_EXTRA) and tc:IsFaceup() and Duel.GetLocationCountFromEx(tp,tp,nil,tc)>0) end
 	Duel.SetTargetCard(tc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,tc,1,0,0)
 end
@@ -76,11 +77,11 @@ end
 function c34568403.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	--Heads
-	if c:GetFlagEffectLabel(36690018)==1 and c:GetFlagEffectLabel(34568403)==1 then
+	if c:GetFlagEffectLabel(FLAG_ID_ARCANA_COIN)==1 and c:GetFlagEffectLabel(34568403)==1 then
 		c:SetFlagEffectLabel(34568403,0)
 	end
 	--Tails
-	if c:GetFlagEffectLabel(36690018)==0 and c:GetFlagEffectLabel(34568403)==0 then
+	if c:GetFlagEffectLabel(FLAG_ID_ARCANA_COIN)==0 and c:GetFlagEffectLabel(34568403)==0 then
 		c:SetFlagEffectLabel(34568403,1)
 		Duel.GetControl(c,1-tp,0,0)
 	end
