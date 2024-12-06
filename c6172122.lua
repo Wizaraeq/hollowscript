@@ -1,4 +1,5 @@
 --真紅眼融合
+---@param c Card
 function c6172122.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +12,6 @@ function c6172122.initial_effect(c)
 	e1:SetOperation(c6172122.activate)
 	c:RegisterEffect(e1)
 end
-c6172122.fusion_effect=true
 function c6172122.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetActivityCount(tp,ACTIVITY_SUMMON)==0 and Duel.GetActivityCount(tp,ACTIVITY_SPSUMMON)==0 end
 	local e1=Effect.CreateEffect(e:GetHandler())

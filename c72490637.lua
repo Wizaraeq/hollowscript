@@ -1,4 +1,5 @@
 --ダウジング・フュージョン
+---@param c Card
 function c72490637.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -10,7 +11,6 @@ function c72490637.initial_effect(c)
 	e1:SetOperation(c72490637.activate)
 	c:RegisterEffect(e1)
 end
-c72490637.fusion_effect=true
 function c72490637.filter1(c)
 	return c:IsType(TYPE_PENDULUM) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
 end

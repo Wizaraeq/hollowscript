@@ -1,4 +1,5 @@
 --螺旋融合
+---@param c Card
 function c38590361.initial_effect(c)
 	aux.AddCodeList(c,66889139)
 	--Activate
@@ -10,7 +11,6 @@ function c38590361.initial_effect(c)
 	e1:SetOperation(c38590361.activate)
 	c:RegisterEffect(e1)
 end
-c38590361.fusion_effect=true
 function c38590361.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

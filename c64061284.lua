@@ -1,4 +1,5 @@
 --古代の機械融合
+---@param c Card
 function c64061284.initial_effect(c)
 	aux.AddCodeList(c,83104731)
 	--Activate
@@ -10,7 +11,6 @@ function c64061284.initial_effect(c)
 	e1:SetOperation(c64061284.activate)
 	c:RegisterEffect(e1)
 end
-c64061284.fusion_effect=true
 function c64061284.fcheck(tp,sg,fc)
 	if sg:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then
 		return sg:IsExists(c64061284.filterchk,1,nil) end

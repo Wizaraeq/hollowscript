@@ -1,4 +1,5 @@
 --覇道星シュラ
+---@param c Card
 function c32615065.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -39,7 +40,6 @@ function c32615065.initial_effect(c)
 	e3:SetOperation(c32615065.spop)
 	c:RegisterEffect(e3)
 end
-c32615065.fusion_effect=true
 function c32615065.ffilter(c)
 	return c:IsRace(RACE_WARRIOR) and c:IsLevelAbove(5)
 end

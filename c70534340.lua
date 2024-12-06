@@ -1,4 +1,5 @@
 --神炎竜ルベリオン
+---@param c Card
 function c70534340.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -17,7 +18,6 @@ function c70534340.initial_effect(c)
 	e1:SetOperation(c70534340.spop)
 	c:RegisterEffect(e1)
 end
-c70534340.fusion_effect=true
 function c70534340.branded_fusion_check(tp,sg,fc)
 	return aux.gffcheck(sg,Card.IsFusionCode,68468459,Card.IsFusionAttribute,ATTRIBUTE_DARK)
 end

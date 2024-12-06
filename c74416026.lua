@@ -1,4 +1,5 @@
 --デストーイ・マーチ
+---@param c Card
 function c74416026.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -10,7 +11,6 @@ function c74416026.initial_effect(c)
 	e1:SetOperation(c74416026.activate)
 	c:RegisterEffect(e1)
 end
-c74416026.fusion_effect=true
 function c74416026.filter(c,tp)
 	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsSetCard(0xad)
 end

@@ -1,4 +1,5 @@
 --簡素融合
+---@param c Card
 function c63854005.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +12,6 @@ function c63854005.initial_effect(c)
 	e1:SetOperation(c63854005.activate)
 	c:RegisterEffect(e1)
 end
-c63854005.fusion_effect=true
 function c63854005.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,1000) end
 	Duel.PayLPCost(tp,1000)

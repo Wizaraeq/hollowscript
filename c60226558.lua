@@ -1,4 +1,5 @@
 --魂写しの同化
+---@param c Card
 function c60226558.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -26,7 +27,6 @@ function c60226558.initial_effect(c)
 	e3:SetOperation(c60226558.spop)
 	c:RegisterEffect(e3)
 end
-c60226558.fusion_effect=true
 function c60226558.eqlimit(e,c)
 	return c:IsSetCard(0x9d)
 end

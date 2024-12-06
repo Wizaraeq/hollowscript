@@ -1,4 +1,5 @@
 --影依の偽典
+---@param c Card
 function c21011044.initial_effect(c)
 	--activate
 	local e0=Effect.CreateEffect(c)
@@ -18,7 +19,6 @@ function c21011044.initial_effect(c)
 	e1:SetOperation(c21011044.activate)
 	c:RegisterEffect(e1)
 end
-c21011044.fusion_effect=true
 function c21011044.filter0(c)
 	return c:IsOnField() and c:IsAbleToRemove()
 end

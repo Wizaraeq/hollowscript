@@ -1,6 +1,7 @@
 --アマゾネスの秘術
 --not fully implemented
 local s,id,o=GetID()
+---@param c Card
 function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -50,7 +51,6 @@ function s.initial_effect(c)
 		end
 	end
 end
-s.fusion_effect=true
 function s.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

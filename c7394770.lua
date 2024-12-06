@@ -1,4 +1,5 @@
 --ブリリアント・フュージョン
+---@param c Card
 function c7394770.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -28,7 +29,6 @@ function c7394770.initial_effect(c)
 	e3:SetOperation(c7394770.atkop)
 	c:RegisterEffect(e3)
 end
-c7394770.fusion_effect=true
 function c7394770.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end

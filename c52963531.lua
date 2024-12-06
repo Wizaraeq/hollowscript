@@ -1,4 +1,5 @@
 --EMマンモスプラッシュ
+---@param c Card
 function c52963531.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
@@ -23,7 +24,6 @@ function c52963531.initial_effect(c)
 	e3:SetOperation(c52963531.operation)
 	c:RegisterEffect(e3)
 end
-c52963531.fusion_effect=true
 function c52963531.cfilter(c,tp)
 	return c:IsFaceup() and c:IsType(TYPE_FUSION) and c:IsControler(tp)
 end

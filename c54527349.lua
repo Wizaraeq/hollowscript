@@ -1,4 +1,5 @@
 --叛逆の堕天使
+---@param c Card
 function c54527349.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -12,7 +13,6 @@ function c54527349.initial_effect(c)
 	e1:SetOperation(c54527349.activate)
 	c:RegisterEffect(e1)
 end
-c54527349.fusion_effect=true
 function c54527349.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

@@ -1,4 +1,5 @@
 --烙印融合
+---@param c Card
 function c44362883.initial_effect(c)
 	aux.AddCodeList(c,68468459)
 	--Activate
@@ -13,7 +14,6 @@ function c44362883.initial_effect(c)
 	c:RegisterEffect(e1)
 	Duel.AddCustomActivityCounter(44362883,ACTIVITY_SPSUMMON,c44362883.counterfilter)
 end
-c44362883.fusion_effect=true
 function c44362883.counterfilter(c)
 	return not c:IsSummonLocation(LOCATION_EXTRA) or c:IsType(TYPE_FUSION)
 end

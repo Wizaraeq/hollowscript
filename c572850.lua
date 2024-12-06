@@ -1,4 +1,5 @@
 --ティアラメンツ・シェイレーン
+---@param c Card
 function c572850.initial_effect(c)
 	--sp summon
 	local e1=Effect.CreateEffect(c)
@@ -23,7 +24,6 @@ function c572850.initial_effect(c)
 	e2:SetOperation(c572850.activate)
 	c:RegisterEffect(e2)
 end
-c572850.fusion_effect=true
 function c572850.tgfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave()
 end

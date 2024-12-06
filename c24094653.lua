@@ -1,4 +1,5 @@
 --融合
+---@param c Card
 function c24094653.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -9,7 +10,6 @@ function c24094653.initial_effect(c)
 	e1:SetOperation(c24094653.activate)
 	c:RegisterEffect(e1)
 end
-c24094653.fusion_effect=true
 function c24094653.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

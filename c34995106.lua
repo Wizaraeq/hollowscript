@@ -1,4 +1,5 @@
 --白の烙印
+---@param c Card
 function c34995106.initial_effect(c)
 	aux.AddCodeList(c,68468459)
 	--Activate
@@ -31,7 +32,6 @@ function c34995106.initial_effect(c)
 	e3:SetOperation(c34995106.setop)
 	c:RegisterEffect(e3)
 end
-c34995106.fusion_effect=true
 function c34995106.filter1(c,e)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToRemove() and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end

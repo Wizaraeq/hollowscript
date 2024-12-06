@@ -1,5 +1,6 @@
 --ダイナ・ベース
 local s,id,o=GetID()
+---@param c Card
 function s.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -23,7 +24,6 @@ function s.initial_effect(c)
 	e2:SetOperation(s.fusop)
 	c:RegisterEffect(e2)
 end
-s.fusion_effect=true
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetLP(tp)<Duel.GetLP(1-tp)
 end

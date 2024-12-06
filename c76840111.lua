@@ -1,4 +1,5 @@
 --覇王天龍の魂
+---@param c Card
 function c76840111.initial_effect(c)
 	aux.AddCodeList(c,13331639)
 	--activate
@@ -13,7 +14,6 @@ function c76840111.initial_effect(c)
 	e1:SetOperation(c76840111.activate)
 	c:RegisterEffect(e1)
 end
-c76840111.fusion_effect=true
 function c76840111.rfilter(c,tp)
 	return c:GetBaseAttack()==2500 and c:IsRace(RACE_SPELLCASTER) and c:IsType(TYPE_PENDULUM)
 end

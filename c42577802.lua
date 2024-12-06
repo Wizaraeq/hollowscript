@@ -1,4 +1,5 @@
 --フュージョン・ミュートリアス
+---@param c Card
 function c42577802.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +12,6 @@ function c42577802.initial_effect(c)
 	c:RegisterEffect(e1)
 	Duel.AddCustomActivityCounter(42577802,ACTIVITY_CHAIN,aux.FALSE)
 end
-c42577802.fusion_effect=true
 function c42577802.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
 end

@@ -1,5 +1,6 @@
 --超未来融合－オーバーフューチャー・フュージョン
 local s,id,o=GetID()
+---@param c Card
 function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -26,7 +27,6 @@ function s.initial_effect(c)
 	e3:SetOperation(s.fsop)
 	c:RegisterEffect(e3)
 end
-s.fusion_effect=true
 function s.filter(c,tp)
 	return c:IsType(TYPE_FUSION) and Duel.IsExistingMatchingCard(s.sfilter,tp,LOCATION_DECK,0,1,nil,c)
 end

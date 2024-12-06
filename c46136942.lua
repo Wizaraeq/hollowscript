@@ -1,4 +1,5 @@
 --EMオッドアイズ・ディゾルヴァー
+---@param c Card
 function c46136942.initial_effect(c)
 	aux.EnablePendulumAttribute(c)
 	--fusion (p)
@@ -32,7 +33,6 @@ function c46136942.initial_effect(c)
 	e3:SetOperation(c46136942.mfop)
 	c:RegisterEffect(e3)
 end
-c46136942.fusion_effect=true
 function c46136942.pffilter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

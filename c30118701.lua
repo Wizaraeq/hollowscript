@@ -1,4 +1,5 @@
 --地雷星トドロキ
+---@param c Card
 function c30118701.initial_effect(c)
 	--special summon (hand)
 	local e1=Effect.CreateEffect(c)
@@ -27,7 +28,6 @@ function c30118701.initial_effect(c)
 	e2:SetOperation(c30118701.spop)
 	c:RegisterEffect(e2)
 end
-c30118701.fusion_effect=true
 function c30118701.hspcfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost()
 end

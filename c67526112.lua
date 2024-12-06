@@ -1,4 +1,5 @@
 --ラピッド・トリガー
+---@param c Card
 function c67526112.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +12,6 @@ function c67526112.initial_effect(c)
 	e1:SetOperation(c67526112.activate)
 	c:RegisterEffect(e1)
 end
-c67526112.fusion_effect=true
 function c67526112.filter1(c,e)
 	return c:IsOnField() and not c:IsImmuneToEffect(e) and c:IsDestructable(e)
 end

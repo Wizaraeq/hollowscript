@@ -1,4 +1,5 @@
 --フュージョン・デステニー
+---@param c Card
 function c52947044.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -10,7 +11,6 @@ function c52947044.initial_effect(c)
 	e1:SetOperation(c52947044.activate)
 	c:RegisterEffect(e1)
 end
-c52947044.fusion_effect=true
 function c52947044.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end

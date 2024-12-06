@@ -1,4 +1,5 @@
 --オッドアイズ・フュージョン
+---@param c Card
 function c48144509.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -10,7 +11,6 @@ function c48144509.initial_effect(c)
 	e1:SetOperation(c48144509.activate)
 	c:RegisterEffect(e1)
 end
-c48144509.fusion_effect=true
 function c48144509.filter1(c,e)
 	return c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
 end

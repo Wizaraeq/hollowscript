@@ -1,4 +1,5 @@
 --究極宝玉陣
+---@param c Card
 function c36328300.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -22,7 +23,6 @@ function c36328300.initial_effect(c)
 	e2:SetOperation(c36328300.plop)
 	c:RegisterEffect(e2)
 end
-c36328300.fusion_effect=true
 function c36328300.confilter(c,tp)
 	return c:IsPreviousSetCard(0x1034) and c:IsPreviousControler(tp)
 end

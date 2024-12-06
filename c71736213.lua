@@ -1,4 +1,5 @@
 --花騎士団の駿馬
+---@param c Card
 function c71736213.initial_effect(c)
 	--to hand
 	local e1=Effect.CreateEffect(c)
@@ -25,7 +26,6 @@ function c71736213.initial_effect(c)
 	e3:SetOperation(c71736213.fusop)
 	c:RegisterEffect(e3)
 end
-c71736213.fusion_effect=true
 function c71736213.thfilter(c)
 	return c:IsSetCard(0x107a) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsAbleToHand()
 end

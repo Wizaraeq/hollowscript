@@ -1,4 +1,5 @@
 --ダイノルフィア・ドメイン
+---@param c Card
 function c26631975.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -22,7 +23,6 @@ function c26631975.initial_effect(c)
 	e2:SetOperation(c26631975.cdop)
 	c:RegisterEffect(e2)
 end
-c26631975.fusion_effect=true
 function c26631975.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end

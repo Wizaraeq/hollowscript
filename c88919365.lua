@@ -1,4 +1,5 @@
 --ヴァリアンツの武者－北条
+---@param c Card
 function c88919365.initial_effect(c)
 	aux.AddCodeList(c,49568943)
 	--pendulum summon
@@ -36,7 +37,6 @@ function c88919365.initial_effect(c)
 	e3:SetOperation(c88919365.mvop)
 	c:RegisterEffect(e3)
 end
-c88919365.fusion_effect=true
 function c88919365.cfilter(c)
 	return c:IsSetCard(0x17d) and c:IsAttribute(ATTRIBUTE_WATER) and c:IsFaceup()
 end

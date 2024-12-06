@@ -1,4 +1,5 @@
 --煉獄の虚夢
+---@param c Card
 function c31444249.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -33,7 +34,6 @@ function c31444249.initial_effect(c)
 	e4:SetOperation(c31444249.spop)
 	c:RegisterEffect(e4)
 end
-c31444249.fusion_effect=true
 function c31444249.lvtg(e,c)
 	return c:IsSetCard(0xbb) and c:GetOriginalLevel()>=2
 end

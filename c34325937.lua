@@ -1,4 +1,5 @@
 --方界合神
+---@param c Card
 function c34325937.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -23,7 +24,6 @@ function c34325937.initial_effect(c)
 	e2:SetOperation(c34325937.spop)
 	c:RegisterEffect(e2)
 end
-c34325937.fusion_effect=true
 function c34325937.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

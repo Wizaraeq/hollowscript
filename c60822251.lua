@@ -1,4 +1,5 @@
 --天融星カイキ
+---@param c Card
 function c60822251.initial_effect(c)
 	--Fusion Summon
 	local e1=Effect.CreateEffect(c)
@@ -27,7 +28,6 @@ function c60822251.initial_effect(c)
 	e2:SetOperation(c60822251.spop)
 	c:RegisterEffect(e2)
 end
-c60822251.fusion_effect=true
 function c60822251.fuscon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	return ph~=PHASE_DAMAGE and ph~=PHASE_DAMAGE_CAL

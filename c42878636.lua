@@ -1,4 +1,5 @@
 --古代の機械猟犬
+---@param c Card
 function c42878636.initial_effect(c)
 	--damage
 	local e1=Effect.CreateEffect(c)
@@ -31,7 +32,6 @@ function c42878636.initial_effect(c)
 	e3:SetOperation(c42878636.spop)
 	c:RegisterEffect(e3)
 end
-c42878636.fusion_effect=true
 function c42878636.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetTargetPlayer(1-tp)

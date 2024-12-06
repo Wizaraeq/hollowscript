@@ -1,4 +1,5 @@
 --エッジインプ・サイズ
+---@param c Card
 function c29280589.initial_effect(c)
 	--fusion summon
 	local e1=Effect.CreateEffect(c)
@@ -24,7 +25,6 @@ function c29280589.initial_effect(c)
 	e2:SetValue(c29280589.repval)
 	c:RegisterEffect(e2)
 end
-c29280589.fusion_effect=true
 function c29280589.condition(e,tp,eg,ep,ev,re,r,rp)
 	return (Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2) and Duel.GetTurnPlayer()==1-tp
 end

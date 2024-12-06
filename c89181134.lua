@@ -1,4 +1,5 @@
 --捕食植物サンデウ・キンジー
+---@param c Card
 function c89181134.initial_effect(c)
 	--fusattribute
 	local e1=Effect.CreateEffect(c)
@@ -20,7 +21,6 @@ function c89181134.initial_effect(c)
 	e2:SetOperation(c89181134.operation)
 	c:RegisterEffect(e2)
 end
-c89181134.fusion_effect=true
 function c89181134.attrtg(e,c)
 	return c:GetCounter(0x1041)>0
 end

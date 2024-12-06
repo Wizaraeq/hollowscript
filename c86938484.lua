@@ -1,4 +1,5 @@
 --シャドール・ネフィリム
+---@param c Card
 function c86938484.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkType,TYPE_FLIP),2,2)
@@ -23,7 +24,6 @@ function c86938484.initial_effect(c)
 	e2:SetOperation(c86938484.spop2)
 	c:RegisterEffect(e2)
 end
-c86938484.fusion_effect=true
 function c86938484.spfilter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

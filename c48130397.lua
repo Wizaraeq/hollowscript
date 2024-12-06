@@ -1,4 +1,5 @@
 --超融合
+---@param c Card
 function c48130397.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +12,6 @@ function c48130397.initial_effect(c)
 	e1:SetOperation(c48130397.activate)
 	c:RegisterEffect(e1)
 end
-c48130397.fusion_effect=true
 function c48130397.filter0(c)
 	return c:IsFaceup() and c:IsCanBeFusionMaterial()
 end

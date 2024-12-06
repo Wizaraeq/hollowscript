@@ -1,4 +1,5 @@
 --スキャッター・フュージョン
+---@param c Card
 function c40597694.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -23,7 +24,6 @@ function c40597694.initial_effect(c)
 	e3:SetOperation(c40597694.desop)
 	c:RegisterEffect(e3)
 end
-c40597694.fusion_effect=true
 function c40597694.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>0
 end

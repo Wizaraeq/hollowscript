@@ -1,4 +1,5 @@
 --破壊剣士融合
+---@param c Card
 function c41940225.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -22,7 +23,6 @@ function c41940225.initial_effect(c)
 	e2:SetOperation(c41940225.thop)
 	c:RegisterEffect(e2)
 end
-c41940225.fusion_effect=true
 function c41940225.filter0(c)
 	return c:IsFaceup() and c:IsCanBeFusionMaterial()
 end

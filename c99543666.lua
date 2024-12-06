@@ -1,4 +1,5 @@
 --烙印劇城デスピア
+---@param c Card
 function c99543666.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -29,7 +30,6 @@ function c99543666.initial_effect(c)
 	e3:SetOperation(c99543666.spop)
 	c:RegisterEffect(e3)
 end
-c99543666.fusion_effect=true
 function c99543666.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end

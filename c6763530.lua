@@ -1,4 +1,5 @@
 --烙印追放
+---@param c Card
 function c6763530.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -12,7 +13,6 @@ function c6763530.initial_effect(c)
 	e1:SetOperation(c6763530.activate)
 	c:RegisterEffect(e1)
 end
-c6763530.fusion_effect=true
 function c6763530.filter(c,e,tp)
 	return (c:IsSetCard(0x164) or c:IsType(TYPE_FUSION) and c:IsLevelAbove(8)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end

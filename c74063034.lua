@@ -1,4 +1,5 @@
 --召喚魔術
+---@param c Card
 function c74063034.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -21,7 +22,6 @@ function c74063034.initial_effect(c)
 	e2:SetOperation(c74063034.tdop)
 	c:RegisterEffect(e2)
 end
-c74063034.fusion_effect=true
 function c74063034.mfilter0(c)
 	return c:IsOnField() and c:IsAbleToRemove()
 end

@@ -1,5 +1,6 @@
 --合成獣融合
 local s,id,o=GetID()
+---@param c Card
 function s.initial_effect(c)
 	aux.AddCodeList(c,4796100,5818798,77207191)
 	--Activate
@@ -23,7 +24,6 @@ function s.initial_effect(c)
 	e2:SetTarget(s.gytg)
 	c:RegisterEffect(e2)
 end
-s.fusion_effect=true
 function s.fscon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	return ph==PHASE_MAIN1 or ph==PHASE_MAIN2
