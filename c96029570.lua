@@ -68,7 +68,7 @@ function s.recop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.aufilter(c,tp,e)
 	return c:IsFaceup() and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_GRAVE)
-		and c:IsLocation(LOCATION_MZONE) and (not e or c:IsCanBeEffectTarget(e))
+		and c:IsLocation(LOCATION_MZONE) and bit.band(c:GetOriginalType(),TYPE_MONSTER)~=0 and (not e or c:IsCanBeEffectTarget(e))
 end
 function s.autg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g=eg:Filter(s.aufilter,nil,tp,e)
@@ -83,7 +83,7 @@ function s.autg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.auop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetTargetsRelateToChain():GetFirst()
-	if tc:IsFaceup() then
+	if tc and tc:IsFaceup() then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
