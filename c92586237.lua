@@ -1,4 +1,5 @@
 --武神－マヒトツ
+---@param c Card
 function c92586237.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -76,6 +77,7 @@ function c92586237.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
 	local g=Duel.SelectMatchingCard(tp,c92586237.thfilter,tp,LOCATION_GRAVE,0,1,1,nil,code)
 	if g:GetCount()>0 then
+		Duel.HintSelection(g)
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 	end
 end

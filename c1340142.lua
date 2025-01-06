@@ -70,7 +70,7 @@ end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.NegateSummon(eg)
-	if Duel.Destroy(eg,REASON_EFFECT)>0 and Duel.IsCanRemoveCounter(tp,1,0,0x6a,3,REASON_EFFECT) then
+	if Duel.IsCanRemoveCounter(tp,1,0,0x6a,3,REASON_EFFECT) then
 		Duel.BreakEffect()
 		Duel.RemoveCounter(tp,1,0,0x6a,3,REASON_EFFECT)
 	end

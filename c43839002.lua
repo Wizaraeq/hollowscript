@@ -38,6 +38,7 @@ function c43839002.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetLabelObject(tc)
 		e1:SetCountLimit(1)
 		e1:SetCondition(c43839002.retcon)
+		e1:SetTarget(c43839002.rettg)
 		e1:SetOperation(c43839002.retop)
 		Duel.RegisterEffect(e1,tp)
 		if tc:IsFacedown() then return end
@@ -51,6 +52,10 @@ function c43839002.activate(e,tp,eg,ep,ev,re,r,rp)
 end
 function c43839002.retcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp and Duel.GetTurnCount()~=e:GetLabel()
+end
+function c43839002.rettg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	e:Reset()
 end
 function c43839002.retop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()

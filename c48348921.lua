@@ -64,6 +64,7 @@ function c48348921.econ(e)
 	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,93717133)
 end
 function c48348921.efilter(e,te)
+	if te:GetOwner()==e:GetOwner() then return false end
 	return te:IsActiveType(TYPE_MONSTER) and te:GetOwnerPlayer()~=e:GetHandlerPlayer()
 end
 function c48348921.atkval(e,c)
