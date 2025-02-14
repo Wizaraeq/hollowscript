@@ -5,6 +5,7 @@ function c5990062.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCost(c5990062.cost)
+	e1:SetTarget(c5990062.target)
 	e1:SetOperation(c5990062.activate)
 	c:RegisterEffect(e1)
 end
@@ -14,8 +15,14 @@ end
 function c5990062.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND+LOCATION_ONFIELD,0)
 	g:RemoveCard(e:GetHandler())
-	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>0 and g:GetCount()>0 and not g:IsExists(c5990062.cfilter,1,nil) end
+	if chk==0 then return g:FilterCount(Card.IsLocation,nil,LOCATION_HAND)>0
+		and g:FilterCount(Card.IsLocation,nil,LOCATION_ONFIELD)>0
+		and not g:IsExists(c5990062.cfilter,1,nil) end
 	Duel.SendtoGrave(g,REASON_COST)
+end
+function c5990062.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLP(tp)~=Duel.GetLP(1-tp)
+		and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>0 end
 end
 function c5990062.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetDecktopGroup(tp,1)

@@ -1,5 +1,4 @@
 --瀑征竜－タイダル
----@param c Card
 function c26400609.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -27,7 +26,7 @@ function c26400609.initial_effect(c)
 	--tograve
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(26400609,2))
-	e3:SetCategory(CATEGORY_TOGRAVE)
+	e3:SetCategory(CATEGORY_HANDES)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_HAND)
 	e3:SetCountLimit(1,26400609)

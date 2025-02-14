@@ -1,5 +1,4 @@
 --地征竜－リアクタン
----@param c Card
 function c91020571.initial_effect(c)
 	aux.AddCodeList(c,90411554)
 	--spsummon

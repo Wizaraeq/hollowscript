@@ -57,12 +57,10 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		local tag=g:Select(tp,1,1,nil)
 		Duel.SendtoHand(tag,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tag)
-		Duel.ShuffleDeck(tp)
 	end
 end
 function s.desfilter2(c,tp)
-	return c:IsPreviousControler(tp) and c:IsReason(REASON_EFFECT) and (c:IsPreviousLocation(LOCATION_MZONE) or c:IsType(TYPE_MONSTER))
-		and not c:IsPreviousLocation(LOCATION_SZONE)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousControler(tp) and c:IsReason(REASON_EFFECT)
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.desfilter2,1,nil,tp)

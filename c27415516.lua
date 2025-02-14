@@ -1,5 +1,4 @@
 --水征竜－ストリーム
----@param c Card
 function c27415516.initial_effect(c)
 	aux.AddCodeList(c,26400609)
 	--spsummon

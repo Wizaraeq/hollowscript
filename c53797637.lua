@@ -1,5 +1,4 @@
 --炎征竜－バーナー
----@param c Card
 function c53797637.initial_effect(c)
 	aux.AddCodeList(c,53804307)
 	--spsummon
