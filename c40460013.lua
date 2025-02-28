@@ -14,7 +14,7 @@ function c40460013.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_TOHAND)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_BATTLE_DESTROYING)
+	e2:SetCode(EVENT_BATTLE_DESTROYED)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCountLimit(1,40460013+o)
@@ -62,7 +62,7 @@ function c40460013.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(mg,REASON_EFFECT+REASON_DISCARD)
 	end
 end
-function c40460013.thfilter(c,tp)
+function c40460013.thfilter(c,tp,e)
 	if c:IsRace(RACE_FIEND) and c:IsPreviousControler(tp) then return true end
 	local rc=c:GetBattleTarget()
 	return rc:IsRace(RACE_FIEND)
@@ -70,7 +70,7 @@ function c40460013.thfilter(c,tp)
 			or rc:IsLocation(LOCATION_MZONE) and rc:IsControler(tp))
 end
 function c40460013.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c40460013.thfilter,1,nil,tp)
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c40460013.thfilter,1,nil,tp,e)
 end
 function c40460013.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
