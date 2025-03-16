@@ -1,5 +1,7 @@
 --白銀の城の火吹炉
 function c74018812.initial_effect(c)
+	--same effect send this card to grave and summon another card check
+	local e0=aux.AddThisCardInGraveAlreadyCheck(c)
 	--set
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(74018812,0))
@@ -20,6 +22,7 @@ function c74018812.initial_effect(c)
 	e2:SetCode(EVENT_LEAVE_FIELD)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetLabelObject(e0)
 	e2:SetCountLimit(1,74018813)
 	e2:SetCondition(c74018812.spcon)
 	e2:SetTarget(c74018812.sptg)
@@ -49,12 +52,13 @@ function c74018812.stop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SSet(tp,g:GetFirst())
 	end
 end
-function c74018812.cfilter(c)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsReason(REASON_EFFECT)
+function c74018812.cfilter(c,se)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsReason(REASON_EFFECT) and (se==nil or c:GetReasonEffect()~=se)
 end
 function c74018812.spcon(e,tp,eg,ep,ev,re,r,rp)
+	local se=e:GetLabelObject():GetLabelObject()
 	return re and rp==tp and re:IsActiveType(TYPE_TRAP) and re:GetHandler():GetOriginalType()==TYPE_TRAP
-		and eg:IsExists(c74018812.cfilter,1,nil) and not eg:IsContains(e:GetHandler())
+		and eg:IsExists(c74018812.cfilter,1,nil,se) and not eg:IsContains(e:GetHandler())
 end
 function c74018812.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
