@@ -61,7 +61,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.tgfilter(c,e,tp)
 	return c:IsCanBeEffectTarget(e) and c:IsRace(RACE_FISH)
-		and c:IsAbleToDeck() or c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		and (c:IsAbleToDeck() or c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 function s.tdfilter1(c,g,e,tp)
 	return c:IsAbleToDeck() and g:IsExists(Card.IsCanBeSpecialSummoned,1,c,e,0,tp,false,false)
