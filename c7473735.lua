@@ -49,7 +49,7 @@ function s.filter1(c,e,tp,mg)
 	m1:AssumeProperty(ASSUME_DEFENSE,m1:GetTextDefense())
 	m2:AssumeProperty(ASSUME_DEFENSE,m2:GetTextDefense())
 	local g=Group.FromCards(m1,m2)
-	return c:IsType(TYPE_FUSION) and c:CheckFusionMaterial(g) and not c:IsCode(41209827)
+	return c:IsType(TYPE_FUSION) and c:CheckFusionMaterial(g) and not c:IsCode(41209827,1906812,11270236,26050548,93860227)
 end
 function s.filter2(c,e,tp,mg)
 	local m1=mg:GetFirst()
