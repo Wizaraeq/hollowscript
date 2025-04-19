@@ -14,13 +14,15 @@ function c57662975.initial_effect(c)
 	e1:SetOperation(c57662975.operation)
 	c:RegisterEffect(e1)
 end
-function c57662975.cfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToGraveAsCost()
+function c57662975.cfilter(c,e,tp)
+	local eq=c:GetEquipGroup()
+	eq:AddCard(c)
+	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToGraveAsCost() and Duel.IsExistingMatchingCard(c57662975.dfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,eq)
 end
 function c57662975.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c57662975.cfilter,tp,LOCATION_ONFIELD,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c57662975.cfilter,tp,LOCATION_ONFIELD,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c57662975.cfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c57662975.cfilter,tp,LOCATION_ONFIELD,0,1,1,nil,e,tp)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function c57662975.dfilter(c)
