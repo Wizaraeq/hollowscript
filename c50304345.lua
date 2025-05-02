@@ -31,10 +31,10 @@ function c50304345.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 		e1:SetCode(EVENT_PHASE+PHASE_END)
 		e1:SetCountLimit(1)
-		e1:SetRange(LOCATION_GRAVE)
+		e1:SetRange(LOCATION_GRAVE+LOCATION_REMOVED)
 		e1:SetTarget(c50304345.drtarget)
 		e1:SetOperation(c50304345.droperation)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_REMOVE+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	end
 end
