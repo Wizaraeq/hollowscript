@@ -34,19 +34,19 @@ function c72181263.initial_effect(c)
 end
 function c72181263.desfilter1(c,tp,ec)
 	return c:IsFaceup() and c:IsSetCard(0xaf,0xae) 
-		and Duel.IsExistingTarget(c72181263.desfilter2,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c,ec)
+		and Duel.IsExistingTarget(c72181263.desfilter2,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c)
 end
-function c72181263.desfilter2(c,ec)
-	return c~=ec and c:IsType(TYPE_SPELL+TYPE_TRAP)
+function c72181263.desfilter2(c)
+	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function c72181263.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingTarget(c72181263.desfilter1,tp,LOCATION_ONFIELD,0,1,nil,tp,c) end
+	if chk==0 then return Duel.IsExistingTarget(c72181263.desfilter1,tp,LOCATION_ONFIELD,0,1,c,tp,c) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectTarget(tp,c72181263.desfilter1,tp,LOCATION_ONFIELD,0,1,1,nil,tp,c)
+	local g1=Duel.SelectTarget(tp,c72181263.desfilter1,tp,LOCATION_ONFIELD,0,1,1,c,tp,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g2=Duel.SelectTarget(tp,c72181263.desfilter2,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,g1:GetFirst(),c)
+	local g2=Duel.SelectTarget(tp,c72181263.desfilter2,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,g1:GetFirst())
 	g1:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,2,0,0)
 end

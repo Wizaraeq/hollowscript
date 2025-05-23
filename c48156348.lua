@@ -3,7 +3,7 @@ function c48156348.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
 	aux.AddFusionProcCodeFun(c,41470137,aux.FilterBoolFunction(Card.IsFusionSetCard,0x1019),1,true,true)
-	aux.AddContactFusionProcedure(c,c48156348.cfilter,LOCATION_ONFIELD,0,aux.tdcfop(c))
+	aux.AddContactFusionProcedure(c,c48156348.cfilter,LOCATION_ONFIELD,0,aux.ContactFusionSendToDeck(c))
 	--spsummon condition
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -68,7 +68,9 @@ function c48156348.filter(c,e,tp)
 end
 function c48156348.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		return Duel.GetMZoneCount(tp,e:GetHandler())>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133)
+		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+		if e:GetHandler():GetSequence()<5 then ft=ft+1 end
+		return ft>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133)
 			and Duel.IsExistingMatchingCard(c48156348.filter,tp,LOCATION_DECK,0,2,nil,e,tp)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_DECK)
