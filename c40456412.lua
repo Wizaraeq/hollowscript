@@ -18,13 +18,14 @@ end
 function c40456412.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c40456412.cfilter,tp,LOCATION_ONFIELD,0,1,nil)
 end
-function c40456412.desfilter(c)
-	return c:IsCode(13331639) and c:IsFaceup()
+function c40456412.desfilter(c,e,tp)
+	return c:IsCode(13331639) and c:IsFaceup() and Duel.IsExistingMatchingCard(c40456412.spfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil,e,tp,c)
 end
-function c40456412.spfilter(c,e,tp)
+function c40456412.spfilter(c,e,tp,ec)
 	return ((c:IsSetCard(0x99) and c:IsType(TYPE_PENDULUM)) or (c:IsCode(13331639) and c:IsAttribute(ATTRIBUTE_LIGHT)))
-		and ((c:IsLocation(LOCATION_DECK) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0)
-		or (c:IsLocation(LOCATION_EXTRA) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0))
+		and ((c:IsLocation(LOCATION_DECK) and Duel.GetMZoneCount(tp,ec)>0)
+		or (c:IsLocation(LOCATION_EXTRA) and Duel.GetLocationCountFromEx(tp,tp,ec,c)>0))
+
 		and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function c40456412.psfilter(c)
@@ -34,10 +35,9 @@ function c40456412.ssfilter(c)
 	return c:IsType(TYPE_QUICKPLAY) and c:IsSSetable()
 end
 function c40456412.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g1=Duel.GetMatchingGroup(c40456412.desfilter,tp,LOCATION_ONFIELD,0,nil)
-	local g2=Duel.GetMatchingGroup(c40456412.spfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,nil,e,tp)
+	local g1=Duel.GetMatchingGroup(c40456412.desfilter,tp,LOCATION_ONFIELD,0,nil,e,tp)
 	local b1=(Duel.GetFlagEffect(tp,40456412+1)==0 or not e:IsCostChecked())
-		and g1:GetCount()>0 and g2:GetCount()>0
+		and g1:GetCount()>0
 	local b2=(Duel.GetFlagEffect(tp,40456412+2)==0 or not e:IsCostChecked())
 		and (Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1))
 		and Duel.IsExistingMatchingCard(c40456412.psfilter,tp,LOCATION_EXTRA,0,1,nil)
@@ -72,12 +72,14 @@ function c40456412.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c40456412.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectMatchingCard(tp,c40456412.desfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
-	local g2=Duel.GetMatchingGroup(c40456412.spfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,nil,e,tp)
-	if Duel.Destroy(g1,REASON_EFFECT)>0 and g2:GetCount()>0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local sc=g2:Select(tp,1,1,nil)
-		Duel.SpecialSummon(sc,0,tp,tp,true,false,POS_FACEUP)
+	local g1=Duel.SelectMatchingCard(tp,c40456412.desfilter,tp,LOCATION_ONFIELD,0,1,1,nil,e,tp)
+	if Duel.Destroy(g1,REASON_EFFECT)>0 then
+		local g2=Duel.GetMatchingGroup(c40456412.spfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,nil,e,tp)
+		if g2:GetCount()>0 then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+			local sc=g2:Select(tp,1,1,nil)
+			Duel.SpecialSummon(sc,0,tp,tp,true,false,POS_FACEUP)
+		end
 	end
 end
 function c40456412.psop(e,tp,eg,ep,ev,re,r,rp)
