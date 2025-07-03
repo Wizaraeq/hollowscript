@@ -56,10 +56,12 @@ function c9024198.setop(e,tp,eg,ep,ev,re,r,rp)
 	local tc2=g1:GetNext()
 	if Duel.MoveToField(tc1,tp,tp,LOCATION_PZONE,POS_FACEUP,false) then
 		if Duel.MoveToField(tc2,tp,tp,LOCATION_PZONE,POS_FACEUP,false) then
-			Duel.Damage(tp,1000,REASON_EFFECT)
 			tc2:SetStatus(STATUS_EFFECT_ENABLED,true)
+			tc1:SetStatus(STATUS_EFFECT_ENABLED,true)
+			Duel.Damage(tp,1000,REASON_EFFECT)
+		else
+			tc1:SetStatus(STATUS_EFFECT_ENABLED,true)
 		end
-		tc1:SetStatus(STATUS_EFFECT_ENABLED,true)
 	end
 end
 function c9024198.splimit(e,c)
