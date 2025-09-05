@@ -36,7 +36,7 @@ function c27642961.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	--destroy
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetCode(EVENT_PHASE+PHASE_END)
 	e1:SetCountLimit(1)
 	e1:SetRange(LOCATION_SZONE)
@@ -70,6 +70,7 @@ function c27642961.drcon(e,tp,eg,ep,ev,re,r,rp)
 		local rc=re:GetHandler()
 		return eg:IsExists(c27642961.cfilter,1,nil,tp)
 			and rc and rc:IsSetCard(0xee) and rc:IsControler(tp) and re:IsActiveType(TYPE_MONSTER)
+			and re:GetActivateLocation()==LOCATION_MZONE
 	end
 	return false
 end
