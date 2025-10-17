@@ -24,7 +24,7 @@ function c36569343.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c36569343.cfilter(c,tp)
-	return c:IsControler(tp) and c:IsReason(REASON_DESTROY) and c:IsAttribute(ATTRIBUTE_FIRE) and c:IsPreviousLocation(LOCATION_MZONE)
+	return c:IsControler(tp) and c:IsReason(REASON_DESTROY) and c:IsAttribute(ATTRIBUTE_FIRE)
 end
 function c36569343.tgcon1(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c36569343.cfilter,1,nil,tp)
