@@ -103,7 +103,7 @@ function s.atkfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0xaf)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
-	local ct=Duel.GetMatchingGroupCount(aux.AND(Card.IsFaceup,Card.IsType),tp,0,LOCATION_REMOVED,nil,TYPE_PENDULUM)
+	local ct=Duel.GetMatchingGroupCount(aux.AND(Card.IsFaceup,Card.IsType),tp,0,LOCATION_EXTRA,nil,TYPE_PENDULUM)
 	if ct==0 then return end
 	local tg=Duel.GetDecktopGroup(1-tp,ct)
 	Duel.DisableShuffleCheck()
