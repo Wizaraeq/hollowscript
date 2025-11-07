@@ -60,8 +60,9 @@ function s.atop(e,tp,eg,ep,ev,re,r,rp)
 		if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 		Duel.GetControl(c,1-tp)
 	else
-		Duel.Damage(tp,c:GetOverlayCount()*400,REASON_EFFECT)
+		if Duel.Damage(tp,c:GetOverlayCount()*400,REASON_EFFECT)>0 then
 		local mg=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_MZONE,0,nil)
 		Duel.Destroy(mg,REASON_EFFECT)
+		end
 	end
 end
