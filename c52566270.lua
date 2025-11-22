@@ -24,7 +24,6 @@ function c52566270.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local cg=Duel.SelectMatchingCard(tp,c52566270.costfilter,tp,LOCATION_DECK,0,1,1,nil)
 	Duel.SendtoGrave(cg,REASON_COST)
 	e:SetLabel(cg:GetFirst():GetCode())
-	e:GetHandler():RegisterFlagEffect(52566270,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1)
 end
 function c52566270.cfilter(c,oc)
 	return c:IsFaceup() and c:IsCode(oc:GetCode())
@@ -35,7 +34,7 @@ function c52566270.spfilter(c,e,tp)
 end
 function c52566270.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or c:IsFacedown() or c:GetFlagEffect(52566270)==0 then return end
+	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_CHANGE_CODE)

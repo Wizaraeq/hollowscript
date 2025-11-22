@@ -19,14 +19,14 @@ function c80280737.filter2(c,e,tp,tcode)
 end
 function c80280737.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetReleaseGroup(tp,false):Filter(c80280737.filter1,nil,e,tp)
-	if Duel.GetFlagEffect(tp,101303054)>Duel.GetFlagEffect(tp,80280737) then
+	if Duel.GetFlagEffect(tp,91002901)>Duel.GetFlagEffect(tp,80280737) then
 		g:Merge(Duel.GetMatchingGroup(c80280737.filter1,tp,LOCATION_EXTRA,0,nil,e,tp))
 	end
 	if chk==0 then return e:IsCostChecked() and g:GetCount()>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 	local rg=g:Select(tp,1,1,nil)
 	if rg:IsExists(Card.IsLocation,1,nil,LOCATION_EXTRA) then
-		Duel.Hint(HINT_CARD,0,101303054)
+		Duel.Hint(HINT_CARD,0,91002901)
 		Duel.RegisterFlagEffect(tp,80280737,RESET_PHASE+PHASE_END,0,1)
 	end
 	aux.UseExtraReleaseCount(rg,tp)

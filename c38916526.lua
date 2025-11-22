@@ -61,7 +61,7 @@ function c38916526.cfilter(c,e,tp)
 	if c:IsLocation(LOCATION_HAND) then
 		return c:IsSetCard(0x114) and c:IsDiscardable()
 	else
-		return e:GetHandler():IsSetCard(0x114) and c:IsAbleToRemoveAsCost() and c:IsHasEffect(101303062,tp)
+		return e:GetHandler():IsSetCard(0x114) and c:IsAbleToRemoveAsCost() and c:IsHasEffect(53557529,tp)
 	end
 end
 function c38916526.negcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -69,7 +69,7 @@ function c38916526.negcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)
 	local g=Duel.SelectMatchingCard(tp,c38916526.cfilter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil,e,tp)
 	local tc=g:GetFirst()
-	local te=tc:IsHasEffect(101303062,tp)
+	local te=tc:IsHasEffect(53557529,tp)
 	if te then
 		te:UseCountLimit(tp)
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT+REASON_REPLACE)
