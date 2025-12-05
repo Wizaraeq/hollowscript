@@ -100,7 +100,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.tffilter(c,tp)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsType(TYPE_CONTINUOUS) and c:IsSetCard(0xae) and not c:IsForbidden() and c:CheckUniqueOnField(tp)
+	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsType(TYPE_CONTINUOUS) and c:IsSetCard(0xae) and c:IsFaceupEx() and not c:IsForbidden() and c:CheckUniqueOnField(tp)
 end
 function s.mfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x10af)
@@ -119,20 +119,24 @@ function s.tftg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	end
 end
 function s.tfop(e,tp,eg,ep,ev,re,r,rp)
-	local tg=Duel.GetTargetsRelateToChain()
-	if #tg==0 then return end
-	local gg=Group.CreateGroup()
-	local ft=math.min(g:GetCount(),Duel.GetLocationCount(tp,LOCATION_SZONE))
-	if ft<#tg then
+	local g=Duel.GetTargetsRelateToChain()
+	local sct=Duel.GetLocationCount(tp,LOCATION_SZONE)
+	local ct=math.min(g:GetCount(),sct)
+	local pg=g
+	if ct<=0 then
+		pg=Group.CreateGroup()
+	elseif g:GetCount()>ct then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-		local sg=tg:FilterSelect(tp,s.tffilter,ft,ft,nil,tp)
-		gg=tg-sg
-		tg=sg
+		pg=g:Select(tp,ct,ct,nil)
+		g:Sub(pg)
+	else
+		g=Group.CreateGroup()
 	end
-	for tc in aux.Next(tg) do
+	for tc in aux.Next(pg) do
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end
-	if #gg>0 then
-		Duel.SendtoGrave(gg,REASON_RULE)
+	local sg=g:Filter(Card.IsLocation,nil,LOCATION_REMOVED)
+	if sg:GetCount()>0 then
+		Duel.SendtoGrave(sg,REASON_RULE)
 	end
 end

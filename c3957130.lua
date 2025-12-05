@@ -1,7 +1,7 @@
 --トゥリスヴァレル・ドラゴン
 local s,id,o=GetID()
 function s.initial_effect(c)
-	aux.AddCodeList(c,67526112,20071842,23219325)
+	aux.AddCodeList(c,67526112,20071842,38129297)
 	--link summon
 	aux.AddLinkProcedure(c,s.mfilter,2,99,s.lcheck)
 	c:EnableReviveLimit()
