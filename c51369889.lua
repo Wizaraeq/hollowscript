@@ -72,7 +72,7 @@ function c51369889.cfilter(c,e,tp)
 		and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousControler(tp)
 end
 function c51369889.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c51369889.cfilter,1,nil,e,tp)
+	return eg:IsExists(c51369889.cfilter,1,nil,e,tp) and not eg:IsContains(e:GetHandler())
 end
 function c51369889.damfilter(c)
 	return c:IsType(TYPE_XYZ) and c:IsRace(RACE_MACHINE) and c:IsAbleToRemoveAsCost() and c:GetRank()>0
