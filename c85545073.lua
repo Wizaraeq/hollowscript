@@ -1,5 +1,4 @@
 --デストーイ・シザー・ベアー
----@param c Card
 function c85545073.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -7,7 +6,6 @@ function c85545073.initial_effect(c)
 	--equip
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(85545073,0))
-	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_BATTLE_DESTROYING)
 	e1:SetCondition(c85545073.eqcon)
@@ -20,7 +18,7 @@ function c85545073.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=c:GetBattleTarget()
 	if not c:IsRelateToBattle() or c:IsFacedown() then return false end
 	e:SetLabelObject(tc)
-	return tc:IsLocation(LOCATION_GRAVE) and tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) and not tc:IsForbidden()
+	return tc:IsLocation(LOCATION_GRAVE) and tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE)
 end
 function c85545073.eqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

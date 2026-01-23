@@ -2,7 +2,6 @@
 function c7548747.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -18,7 +17,6 @@ end
 function c7548747.eqfilter(c,check)
 	return (c:IsFaceup() or not c:IsLocation(LOCATION_MZONE)) and c:IsSetCard(0x150) and c:IsType(TYPE_MONSTER) and not c:IsLevel(4)
 		or check and c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x150) and c:IsType(TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK)
-		and not c:IsForbidden()
 end
 function c7548747.gfilter(c,type)
 	return c:IsSetCard(0x150) and c:IsType(type)
@@ -36,7 +34,6 @@ function c7548747.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and Duel.IsExistingTarget(c7548747.filter,tp,LOCATION_MZONE,0,1,nil,tp,check) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	Duel.SelectTarget(tp,c7548747.filter,tp,LOCATION_MZONE,0,1,1,nil,tp,check)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,nil,1,tp,LOCATION_EXTRA+LOCATION_MZONE+LOCATION_GRAVE)
 end
 function c7548747.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()

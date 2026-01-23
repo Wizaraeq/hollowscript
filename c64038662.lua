@@ -22,7 +22,7 @@ function c64038662.filter1(c)
 	return c:IsFaceup() and c:IsSetCard(0x56)
 end
 function c64038662.filter2(c,e,tp)
-	return c:IsFaceup() and c:GetEquipTarget() and c:IsSetCard(0x56) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
+	return c:IsFaceup() and c:IsSetCard(0x56) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function c64038662.eftg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then
@@ -40,7 +40,7 @@ function c64038662.eftg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	else op=Duel.SelectOption(tp,aux.Stringid(64038662,3))+2 end
 	e:SetLabel(op)
 	if op==1 then
-		e:SetCategory(CATEGORY_EQUIP)
+		e:SetCategory(0)
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(64038662,4))
 		local g1=Duel.SelectTarget(tp,c64038662.filter1,tp,LOCATION_MZONE,0,1,1,nil)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)

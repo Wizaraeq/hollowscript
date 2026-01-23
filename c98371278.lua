@@ -3,7 +3,6 @@ function c98371278.initial_effect(c)
 	--equip
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(98371278,0))
-	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -25,7 +24,7 @@ function c98371278.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c98371278.eqfilter(c)
-	return c:IsRace(RACE_DRAGON) and c:IsLevelBelow(4) and not c:IsForbidden()
+	return c:IsRace(RACE_DRAGON) and c:IsLevelBelow(4)
 end
 function c98371278.tgfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_DRAGON)

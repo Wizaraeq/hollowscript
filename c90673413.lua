@@ -2,7 +2,7 @@
 function c90673413.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -65,7 +65,7 @@ end
 function c90673413.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetPreviousEquipTarget()
-	return c:IsReason(REASON_LOST_TARGET) and c:IsReason(REASON_DESTROY) and tc:IsLocation(LOCATION_OVERLAY)
+	return c:IsReason(REASON_LOST_TARGET) and tc:IsLocation(LOCATION_OVERLAY)
 end
 function c90673413.atkfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)

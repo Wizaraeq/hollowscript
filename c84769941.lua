@@ -1,5 +1,4 @@
 --対壊獣用決戦兵器スーパーメカドゴラン
----@param c Card
 function c84769941.initial_effect(c)
 	c:EnableReviveLimit()
 	c:SetUniqueOnField(1,0,aux.FilterBoolFunction(Card.IsSetCard,0xd3),LOCATION_MZONE)
@@ -15,7 +14,6 @@ function c84769941.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(84769941,0))
 	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCategory(CATEGORY_EQUIP)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1)
 	e2:SetCost(c84769941.eqcost)

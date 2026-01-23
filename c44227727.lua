@@ -1,5 +1,4 @@
 --海造賊－進水式
----@param c Card
 function c44227727.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -14,7 +13,6 @@ function c44227727.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(44227727,1))
 	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCategory(CATEGORY_EQUIP)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCountLimit(1,44227727)

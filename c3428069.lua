@@ -1,12 +1,10 @@
 --破壊剣の使い手－バスター・ブレイダー
----@param c Card
 function c3428069.initial_effect(c)
 	--Code
 	aux.EnableChangeCode(c,78193831,LOCATION_MZONE+LOCATION_GRAVE)
 	--Equip
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(3428069,0))
-	e2:SetCategory(CATEGORY_EQUIP)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_DESTROYED)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)

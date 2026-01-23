@@ -1,11 +1,9 @@
 --甲虫装機 ホーネット
----@param c Card
 function c69207766.initial_effect(c)
 	--equip
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetDescription(aux.Stringid(69207766,0))
-	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
 	e1:SetTarget(c69207766.eqtg)

@@ -1,5 +1,4 @@
 --捕食植物モーレイ・ネペンテス
----@param c Card
 function c22011689.initial_effect(c)
 	--atk
 	local e1=Effect.CreateEffect(c)
@@ -12,7 +11,6 @@ function c22011689.initial_effect(c)
 	--equip
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(22011689,0))
-	e2:SetCategory(CATEGORY_EQUIP)
 	e2:SetCode(EVENT_BATTLE_DESTROYING)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCondition(c22011689.eqcon)
@@ -37,7 +35,7 @@ end
 function c22011689.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
-	return c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsType(TYPE_MONSTER) and not bc:IsForbidden()
+	return c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsType(TYPE_MONSTER)
 		and (bc:IsLocation(LOCATION_GRAVE) or bc:IsFaceup() and bc:IsLocation(LOCATION_EXTRA+LOCATION_REMOVED))
 end
 function c22011689.eqtg(e,tp,eg,ep,ev,re,r,rp,chk)
