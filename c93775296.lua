@@ -2,7 +2,7 @@
 function c93775296.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_MSET)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -31,9 +31,5 @@ function c93775296.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
 	if g:GetCount()==0 then return end
 	if g:GetCount()>ft or (g:GetCount()>1 and Duel.IsPlayerAffectedByEffect(tp,59822133)) then return end
-	if Duel.SpecialSummon(g,0,tp,1-tp,false,false,POS_DEFENSE)~=0 then
-		fdg=Duel.GetOperatedGroup():Filter(Card.IsFacedown,nil)
-		if #fdg==0 then return end
-		Duel.ConfirmCards(1-tp,fdg)
-	end
+	Duel.SpecialSummon(g,0,tp,1-tp,false,false,POS_DEFENSE)
 end

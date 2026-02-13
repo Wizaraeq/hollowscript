@@ -1,5 +1,4 @@
 --バージェストマ・カンブロラスター
----@param c Card
 function c36346532.initial_effect(c)
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0xd4),2,2)
 	c:EnableReviveLimit()
@@ -14,7 +13,7 @@ function c36346532.initial_effect(c)
 	--to grave/set card
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(36346532,0))
-	e2:SetCategory(CATEGORY_TOGRAVE)
+	e2:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SSET)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_MZONE)

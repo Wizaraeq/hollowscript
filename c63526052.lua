@@ -4,7 +4,7 @@ function s.initial_effect(c)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_POSITION)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_POSITION+CATEGORY_MSET)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_HAND)
@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_MSET)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetCountLimit(1,id+o)
 	e2:SetRange(LOCATION_MZONE)
@@ -58,7 +58,7 @@ function s.gselect(sg,lv)
 	return sg:GetSum(Card.GetLevel)==lv
 end
 function s.gcheck(lv)
-	return  function(sg)
+	return	function(sg)
 				return aux.dncheck(sg) and sg:GetSum(Card.GetLevel)<=lv
 			end
 end
@@ -118,9 +118,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	aux.GCheckAdditional=s.gcheck(lv)
 	local sg=g:SelectSubGroup(tp,s.gselect,false,1,ft,lv)
 	aux.GCheckAdditional=nil
-	if Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_DEFENSE)~=0 then
-		fdg=Duel.GetOperatedGroup():Filter(Card.IsFacedown,nil)
-		if #fdg==0 then return end
-		Duel.ConfirmCards(1-tp,fdg)
-	end
+	Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_DEFENSE)
 end

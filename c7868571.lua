@@ -1,11 +1,10 @@
 --メタルフォーゼ・シルバード
----@param c Card
 function c7868571.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--destroy and set
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_DESTROY)
+	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_SSET)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_PZONE)

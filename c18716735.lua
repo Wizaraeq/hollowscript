@@ -1,12 +1,11 @@
 --レアメタルフォーゼ・ビスマギア
----@param c Card
 function c18716735.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--destroy and set
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(18716735,0))
-	e1:SetCategory(CATEGORY_DESTROY)
+	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_SSET)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_PZONE)

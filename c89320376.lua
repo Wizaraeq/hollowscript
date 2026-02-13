@@ -21,6 +21,7 @@ function c89320376.initial_effect(c)
 	--pos (face-up)
 	local e3=e2:Clone()
 	e3:SetDescription(aux.Stringid(89320376,1))
+	e3:SetCategory(CATEGORY_POSITION+CATEGORY_MSET)
 	e3:SetCost(c89320376.poscost)
 	e3:SetTarget(c89320376.postg2)
 	e3:SetOperation(c89320376.posop2)
@@ -76,7 +77,7 @@ function c89320376.postg1(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c89320376.posop1(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc:IsRelateToEffect(e) and tc:IsFacedown() then
 		local pos1=0
 		if not tc:IsPosition(POS_FACEUP_ATTACK) then pos1=pos1+POS_FACEUP_ATTACK end
 		if not tc:IsPosition(POS_FACEUP_DEFENSE) then pos1=pos1+POS_FACEUP_DEFENSE end

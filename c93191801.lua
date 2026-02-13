@@ -14,6 +14,7 @@ function c93191801.initial_effect(c)
 	--set
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(93191801,1))
+	e2:SetCategory(CATEGORY_SSET)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_GRAVE)
@@ -25,7 +26,6 @@ function c93191801.initial_effect(c)
 	e2:SetOperation(c93191801.setop)
 	c:RegisterEffect(e2)
 end
-c93191801.trap_monster=true
 function c93191801.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:IsCostChecked()
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0

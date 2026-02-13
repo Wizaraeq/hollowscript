@@ -2,7 +2,7 @@
 function c50766506.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_MSET)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,TIMINGS_CHECK_MONSTER)
@@ -12,16 +12,9 @@ function c50766506.initial_effect(c)
 	--Destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
-	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetCode(EVENT_LEAVE_FIELD_P)
-	e2:SetOperation(c50766506.checkop)
+	e2:SetCode(EVENT_LEAVE_FIELD)
+	e2:SetOperation(c50766506.desop)
 	c:RegisterEffect(e2)
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
-	e3:SetCode(EVENT_LEAVE_FIELD)
-	e3:SetOperation(c50766506.desop)
-	e3:SetLabelObject(e2)
-	c:RegisterEffect(e3)
 end
 function c50766506.cfilter(c,e,tp,ft)
 	local lv=c:GetLevel()
@@ -62,13 +55,7 @@ function c50766506.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummonComplete()
 	Duel.ConfirmCards(1-tp,cg)
 end
-function c50766506.checkop(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetHandler():IsDisabled() then
-		e:SetLabel(1)
-	else e:SetLabel(0) end
-end
 function c50766506.desop(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetLabelObject():GetLabel()~=0 then return end
 	local g=e:GetHandler():GetCardTarget():Filter(Card.IsLocation,nil,LOCATION_MZONE)
 	Duel.Destroy(g,REASON_EFFECT)
 end

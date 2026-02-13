@@ -2,7 +2,7 @@
 function c73575650.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SEARCH+CATEGORY_TOHAND)
+	e1:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SEARCH+CATEGORY_TOHAND+CATEGORY_SSET)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCountLimit(1,73575650+EFFECT_COUNT_CODE_OATH)
@@ -47,12 +47,9 @@ function c73575650.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local g1=Duel.SelectMatchingCard(tp,c73575650.tgfilter1,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil,tp)
 		local tc1=g1:GetFirst()
-		if tc1 then
-			att=tc1:GetAttribute()
-		end
 		if tc1 and Duel.SendtoGrave(tc1,REASON_EFFECT)~=0 and tc1:IsLocation(LOCATION_GRAVE) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-			local g2=Duel.SelectMatchingCard(tp,c73575650.thfilter1,tp,LOCATION_DECK,0,1,1,nil,att,tc1:GetCode())
+			local g2=Duel.SelectMatchingCard(tp,c73575650.thfilter1,tp,LOCATION_DECK,0,1,1,nil,tc1:GetAttribute(),tc1:GetCode())
 			if g2:GetCount()>0 then
 				Duel.SendtoHand(g2,nil,REASON_EFFECT)
 				Duel.ConfirmCards(1-tp,g2)
@@ -62,12 +59,9 @@ function c73575650.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local g1=Duel.SelectMatchingCard(tp,c73575650.tgfilter2,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil,tp)
 		local tc1=g1:GetFirst()
-		if tc1 then
-			att=tc1:GetAttribute()
-		end
 		if tc1 and Duel.SendtoGrave(tc1,REASON_EFFECT)~=0 and tc1:IsLocation(LOCATION_GRAVE) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-			local g2=Duel.SelectMatchingCard(tp,c73575650.thfilter2,tp,LOCATION_DECK,0,1,1,nil,att,tc1:GetOriginalLevel())
+			local g2=Duel.SelectMatchingCard(tp,c73575650.thfilter2,tp,LOCATION_DECK,0,1,1,nil,tc1:GetAttribute(),tc1:GetOriginalLevel())
 			if g2:GetCount()>0 then
 				Duel.SendtoHand(g2,nil,REASON_EFFECT)
 				Duel.ConfirmCards(1-tp,g2)
