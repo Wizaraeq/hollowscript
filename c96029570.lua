@@ -11,14 +11,14 @@ function s.initial_effect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_RECOVER)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2:SetCode(EVENT_CUSTOM+id+o*2)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCode(EVENT_DESTROYED)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP)
 	e2:SetCountLimit(1,id)
-	e2:SetCondition(s.reccon)
 	e2:SetTarget(s.rectg)
 	e2:SetOperation(s.recop)
 	c:RegisterEffect(e2)
+	aux.RegisterMergedDelayedEvent(c,id+o*2,EVENT_DESTROYED)
 	--atk up
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
@@ -50,14 +50,11 @@ function s.cfilter(c,tp)
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousControler(tp)
 		and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP)
 end
-function s.reccon(e,tp,eg,ep,ev,re,r,rp)
+function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local dg=eg:Filter(s.cfilter,nil,tp)
 	local atk=dg:GetSum(Card.GetTextAttack)
+	if chk==0 then return atk>0 end
 	e:SetLabel(atk)
-	return atk>0
-end
-function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(e:GetLabel())
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,e:GetLabel())

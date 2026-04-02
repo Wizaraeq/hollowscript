@@ -18,28 +18,32 @@ function s.filter(c)
 		and c:CheckActivateEffect(true,true,false)~=nil
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then
-		local te=e:GetLabelObject():GetFirst():CheckActivateEffect(true,true,false)
-		local tg=te:GetTarget()
-		return tg(e,tp,eg,ep,ev,re,r,rp,0,chkc)
-	end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.filter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local tc=Duel.SelectTarget(tp,s.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil):GetFirst()
+	local g=Duel.SelectTarget(tp,s.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil)
+	local tc=g:GetFirst()
+	Duel.ClearTargetCard()
+	tc:CreateEffectRelation(e)
 	e:SetLabelObject(tc)
-	local te=tc:CheckActivateEffect(true,true,true)
-	e:SetProperty(EFFECT_FLAG_CARD_TARGET|te:GetProperty())
+	local te,ceg,cep,cev,cre,cr,crp=g:GetFirst():CheckActivateEffect(true,true,true)
+	e:SetProperty(te:GetProperty())
 	local tg=te:GetTarget()
-	if tg then
-		tg(e,tp,eg,ep,ev,re,r,rp,1)
-	end
+	if tg then tg(e,tp,ceg,cep,cev,cre,cr,crp,1) end
 	Duel.ClearOperationInfo(0)
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,tc,1,tp,0)
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	if not tc:IsRelateToEffect(e) or Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)==0 then return end
-	local te=tc:CheckActivateEffect(true,true,true)
-	local op=te:GetOperation()
-	if op then op(e,tp,eg,ep,ev,re,r,rp) end
+	local fc=e:GetLabelObject()
+	if fc and fc:IsRelateToChain() and Duel.Remove(fc,POS_FACEUP,REASON_EFFECT)>0
+		and fc:IsLocation(LOCATION_REMOVED) then
+		local fe=fc:CheckActivateEffect(true,true,true)
+		if fe then
+			local op=fe:GetOperation()
+			if op then
+				Duel.BreakEffect()
+				op(e,tp,eg,ep,ev,re,r,rp)
+			end
+		end
+	end
 end

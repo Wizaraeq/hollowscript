@@ -60,18 +60,17 @@ function c9012916.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c9012916.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsFaceup() and tc:IsLocation(LOCATION_MZONE) and not tc:IsImmuneToEffect(e) then
+	if tc:IsRelateToEffect(e) and tc:IsFaceup() and not tc:IsImmuneToEffect(e) then
 		local val=e:GetLabel()
 		local atk=tc:GetAttack()
-		local nv=math.min(atk,val)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(-val)
 		tc:RegisterEffect(e1)
-		if not tc:IsHasEffect(EFFECT_REVERSE_UPDATE) then
-			Duel.Damage(1-tp,nv,REASON_EFFECT)
-		end
+		if tc:IsHasEffect(EFFECT_REVERSE_UPDATE) then return end
+		if val>atk then Duel.Damage(1-tp,atk,REASON_EFFECT)
+		else Duel.Damage(1-tp,val,REASON_EFFECT) end
 	end
 end
