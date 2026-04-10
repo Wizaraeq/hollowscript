@@ -1,6 +1,6 @@
 --召喚魔術
----@param c Card
 function c74063034.initial_effect(c)
+	aux.AddCodeList(c,86120751)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(74063034,0))

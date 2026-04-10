@@ -5,6 +5,7 @@ function c97973962.initial_effect(c)
 	aux.AddLinkProcedure(c,nil,2,2,c97973962.spcheck)
 	--code
 	aux.EnableChangeCode(c,86120751,LOCATION_MZONE+LOCATION_GRAVE)
+	aux.AddCodeList(c,86120751,74063034)
 	--search
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(97973962,0))
@@ -30,14 +31,7 @@ function c97973962.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c97973962.spcheck(g)
-	local att=0
-	local tc=g:GetFirst()
-	while tc do
-		if bit.band(att,tc:GetLinkAttribute())~=0 then return false end
-		att=bit.bor(att,tc:GetLinkAttribute())
-		tc=g:GetNext()
-	end
-	return g:GetClassCount(Card.GetLinkRace)==g:GetCount() and true
+	return g:GetClassCount(Card.GetLinkRace)==g:GetCount() and g:GetClassCount(Card.GetLinkAttribute)==g:GetCount()
 end
 function c97973962.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(Card.IsSummonType,1,nil,SUMMON_TYPE_FUSION)

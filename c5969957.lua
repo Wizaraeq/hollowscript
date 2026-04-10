@@ -25,7 +25,7 @@ function c5969957.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c5969957.spcfilter(c,tp)
-	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsAttribute(ATTRIBUTE_DARK)
+	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:GetPreviousAttributeOnField()&ATTRIBUTE_DARK==ATTRIBUTE_DARK
 		and c:IsSummonLocation(LOCATION_EXTRA) and c:IsPreviousControler(tp)
 		and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP)
 end
