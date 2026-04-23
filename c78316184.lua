@@ -1,6 +1,6 @@
 --サイバー・エンジェル－美朱濡－
----@param c Card
 function c78316184.initial_effect(c)
+	aux.AddCodeList(c,39996157)
 	c:EnableReviveLimit()
 	--destroy
 	local e1=Effect.CreateEffect(c)

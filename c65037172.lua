@@ -1,6 +1,6 @@
 --サイバース・セイジ
----@param c Card
 function c65037172.initial_effect(c)
+	aux.AddCodeList(c,34767865)
 	c:EnableReviveLimit()
 	--fusion summon
 	local e1=Effect.CreateEffect(c)
