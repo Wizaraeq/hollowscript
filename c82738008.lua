@@ -1,5 +1,4 @@
 --赫の烙印
----@param c Card
 function c82738008.initial_effect(c)
 	aux.AddCodeList(c,68468459)
 	--Activate
@@ -69,7 +68,7 @@ function c82738008.activate(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 			e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-			tc:RegisterEffect(e1)
+			tc:RegisterEffect(e1,true)
 			tc:CompleteProcedure()
 		end
 	end

@@ -5,7 +5,6 @@ function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.conditon)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
@@ -40,9 +39,10 @@ function s.descheck(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.conditon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetFlagEffect(tp,id)>0
+	return Duel.GetFlagEffect(tp,id)>0 and Duel.GetFlagEffect(tp,id+o)==0
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	Duel.RegisterFlagEffect(tp,id+o,RESET_PHASE+PHASE_END,0,1)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_BP_TWICE)
