@@ -2,10 +2,10 @@
 function c97973962.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
+	aux.AddCodeList(c,74063034,458748,47457347)
 	aux.AddLinkProcedure(c,nil,2,2,c97973962.spcheck)
 	--code
 	aux.EnableChangeCode(c,86120751,LOCATION_MZONE+LOCATION_GRAVE)
-	aux.AddCodeList(c,86120751,74063034)
 	--search
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(97973962,0))

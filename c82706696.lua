@@ -78,7 +78,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	if seq>-1 then
 		Duel.ConfirmDecktop(tp,dct-seq)
 		if e:GetHandler():IsSetCard(0x1dd) then
-			Duel.RaiseEvent(e:GetHandler(),EVENT_CUSTOM+101304092,e,0,tp,tp,0)
+			Duel.RaiseEvent(e:GetHandler(),EVENT_CUSTOM+1595137,e,0,tp,tp,0)
 		end
 		Duel.DisableShuffleCheck()
 		Duel.SetLP(tp,Duel.GetLP(tp)-(dct-seq)*400)

@@ -50,7 +50,7 @@ function c24731391.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c24731391.val(e,re,dam,r,rp,rc)
-	return math.ceil(dam/2)
+	return math.floor(dam/2)
 end
 function c24731391.filter(c)
 	return c:IsType(TYPE_LINK)
