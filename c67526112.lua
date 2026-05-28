@@ -12,6 +12,9 @@ function c67526112.initial_effect(c)
 	e1:SetOperation(c67526112.activate)
 	c:RegisterEffect(e1)
 end
+function c67526112.filter0(c,e)
+	return c:IsOnField() and c:IsDestructable(e)
+end
 function c67526112.filter1(c,e)
 	return c:IsOnField() and not c:IsImmuneToEffect(e) and c:IsDestructable(e)
 end
@@ -22,7 +25,7 @@ end
 function c67526112.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=tp
-		local mg1=Duel.GetFusionMaterial(tp):Filter(Card.IsOnField,nil)
+		local mg1=Duel.GetFusionMaterial(tp):Filter(c67526112.filter0,nil,e)
 		local res=Duel.IsExistingMatchingCard(c67526112.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil,chkf)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)

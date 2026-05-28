@@ -50,17 +50,18 @@ end
 function s.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:CheckRemoveOverlayCard(tp,1,REASON_COST) end
-	c:RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function s.tdfilter(c)
 	return c:IsAbleToDeck()
 end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local c=e:GetHandler()
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(1-tp) and s.tdfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(s.tdfilter,tp,0,LOCATION_GRAVE,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(s.tdfilter,tp,0,LOCATION_GRAVE,1,nil) and c:CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectTarget(tp,s.tdfilter,tp,0,LOCATION_GRAVE,1,1,nil)
+	c:RemoveOverlayCard(tp,1,1,REASON_COST)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,0,0)
 end
 function s.tdop(e,tp,eg,ep,ev,re,r,rp)
@@ -72,7 +73,6 @@ end
 function s.sptcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:CheckRemoveOverlayCard(tp,2,REASON_COST) end
-	c:RemoveOverlayCard(tp,2,2,REASON_COST)
 end
 function s.sptfilter(c,e,tp)
 	local res1=c:IsType(TYPE_MONSTER) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -82,8 +82,9 @@ function s.sptfilter(c,e,tp)
 	return res1 or res2
 end
 function s.spttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local c=e:GetHandler()
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(1-tp) and s.sptfilter(chkc,e,tp) end
-	if chk==0 then return Duel.IsExistingTarget(s.sptfilter,tp,0,LOCATION_GRAVE,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingTarget(s.sptfilter,tp,0,LOCATION_GRAVE,1,nil,e,tp) and c:CheckRemoveOverlayCard(tp,2,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	local g=Duel.SelectTarget(tp,s.sptfilter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp)
@@ -94,6 +95,7 @@ function s.spttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		e:SetCategory(CATEGORY_SSET)
 		Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
 	end
+	c:RemoveOverlayCard(tp,2,2,REASON_COST)
 end
 function s.sptop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
