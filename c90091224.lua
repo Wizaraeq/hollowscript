@@ -1,4 +1,4 @@
---四天の龍ダーク・リベリオン・エクシーズ・ドラゴン
+--四天の龍 ダーク・リベリオン・エクシーズ・ドラゴン
 local s,id,o=GetID()
 function s.initial_effect(c)
 	--xyz summon
@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.destg)
 	e1:SetOperation(s.desop)
 	c:RegisterEffect(e1)
-	--disable
+	--xyz summon
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -29,57 +29,19 @@ function s.initial_effect(c)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 end
-function s.desfilter1(c,e,tp)
-	return c:IsControler(tp) and (not e or c:IsCanBeEffectTarget(e))
-end
-function s.desfilter2(c,e,tp)
-	return c:IsControler(1-tp) and (not e or c:IsCanBeEffectTarget(e))
-end
-function s.fselect(g,e,tp)
-	return g:FilterCount(s.desfilter1,nil,e,tp)==g:FilterCount(s.desfilter2,nil,e,tp)
-end
-function s.SelectSub(g1,g2,tp)
-	local max=math.min(#g1,#g2)
-	local sg1=Group.CreateGroup()
-	local sg2=Group.CreateGroup()
-	local sg=sg1+sg2
-	local fg=g1+g2
-	local finish=false
-	while true do
-		finish=#sg1==#sg2 and #sg>0
-		local sc=fg:SelectUnselect(sg,tp,finish,finish,2,max*2)
-		if not sc then break end
-		if sg:IsContains(sc) then
-			if g1:IsContains(sc) then
-				sg1:RemoveCard(sc)
-			else
-				sg2:RemoveCard(sc)
-			end
-		else
-			if g1:IsContains(sc) then
-				sg1:AddCard(sc)
-			else
-				sg2:AddCard(sc)
-			end
-		end
-		sg=sg1+sg2
-		fg=g1+g2-sg
-		if #sg1>=max then
-			fg=fg-g1
-		end
-		if #sg2>=max then
-			fg=fg-g2
-		end
-	end
-	return sg
+function s.desfilter(c,e)
+	return c:IsCanBeEffectTarget(e)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local c=e:GetHandler()
-	local g1=Duel.GetMatchingGroup(s.desfilter1,tp,LOCATION_ONFIELD,0,nil,e,tp)
-	local g2=Duel.GetMatchingGroup(s.desfilter2,tp,0,LOCATION_ONFIELD,nil,e,tp)
 	if chkc then return false end
-	if chk==0 then return g1:GetCount()>0 and g2:GetCount()>0 end
-	local sg=s.SelectSub(g1,g2,tp)
+	local g=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,e)
+	if chk==0 then
+		return g:IsExists(Card.IsControler,1,nil,tp) and g:IsExists(Card.IsControler,1,nil,1-tp)
+	end
+	local g1=g:Filter(Card.IsControler,nil,tp)
+	local g2=g:Filter(Card.IsControler,nil,1-tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local sg=aux.SelectSameCount(tp,g1,g2)
 	Duel.SetTargetCard(sg)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,sg,sg:GetCount(),0,0)
 end
