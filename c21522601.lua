@@ -60,12 +60,12 @@ end
 function c21522601.costfilter(c,tp,res)
 	if c:IsLocation(LOCATION_HAND) then return c:IsType(TYPE_SPELL) and c:IsDiscardable() end
 	return c:IsFaceup() and c:IsAbleToGraveAsCost() and c:IsHasEffect(83289866,tp)
-		or not c:IsCode(100261028) and c:IsSetCard(0x128)
+		or not c:IsCode(32353566) and c:IsSetCard(0x128)
 		and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToGraveAsCost()
 		and c:IsLocation(LOCATION_DECK) and res
 end
 function c21522601.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local res=Duel.IsPlayerAffectedByEffect(tp,100261028) and e:GetHandler():IsSetCard(0x128)
+	local res=Duel.IsPlayerAffectedByEffect(tp,32353566) and e:GetHandler():IsSetCard(0x128)
 	if chk==0 then return Duel.IsExistingMatchingCard(c21522601.costfilter,tp,LOCATION_HAND+LOCATION_SZONE+LOCATION_DECK,0,1,nil,tp,res) end
 	local g=Duel.GetMatchingGroup(c21522601.costfilter,tp,LOCATION_HAND+LOCATION_SZONE+LOCATION_DECK,0,nil,tp,res)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)

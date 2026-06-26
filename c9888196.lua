@@ -90,7 +90,6 @@ function c9888196.hdcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c9888196.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 end
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,0,1-tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,0,1-tp,LOCATION_HAND)
 end
 function c9888196.hdop(e,tp,eg,ep,ev,re,r,rp)

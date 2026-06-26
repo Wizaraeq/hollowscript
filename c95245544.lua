@@ -16,7 +16,7 @@ function c95245544.initial_effect(c)
 	c:RegisterEffect(e1)
 	--draw
 	local e2=Effect.CreateEffect(c)
-	e2:SetCategory(CATEGORY_DRAW+CATEGORY_REMOVE+CATEGORY_HANDES)
+	e2:SetCategory(CATEGORY_DRAW+CATEGORY_REMOVE+CATEGORY_TOGRAVE)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCountLimit(1,95245545)
@@ -31,12 +31,12 @@ end
 function c95245544.costfilter(c,tp,res)
 	if c:IsLocation(LOCATION_HAND) then return c:IsType(TYPE_SPELL) and c:IsDiscardable() end
 	return c:IsFaceup() and c:IsAbleToGraveAsCost() and c:IsHasEffect(83289866,tp)
-		or not c:IsCode(100261028) and c:IsSetCard(0x128)
+		or not c:IsCode(32353566) and c:IsSetCard(0x128)
 		and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToGraveAsCost()
 		and c:IsLocation(LOCATION_DECK) and res
 end
 function c95245544.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local res=Duel.IsPlayerAffectedByEffect(tp,100261028) and e:GetHandler():IsSetCard(0x128)
+	local res=Duel.IsPlayerAffectedByEffect(tp,32353566) and e:GetHandler():IsSetCard(0x128)
 	if chk==0 then return e:GetHandler():IsReleasable()
 		and Duel.IsExistingMatchingCard(c95245544.costfilter,tp,LOCATION_HAND+LOCATION_SZONE+LOCATION_DECK,0,1,nil,tp,res) end
 	local g=Duel.GetMatchingGroup(c95245544.costfilter,tp,LOCATION_HAND+LOCATION_SZONE+LOCATION_DECK,0,nil,tp,res)

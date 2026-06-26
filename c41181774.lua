@@ -25,20 +25,16 @@ function c41181774.initial_effect(c)
 	--handes
 	local e7=Effect.CreateEffect(c)
 	e7:SetDescription(aux.Stringid(41181774,0))
-	e7:SetCategory(CATEGORY_TODECK+CATEGORY_HANDES)
+	e7:SetCategory(CATEGORY_TODECK+CATEGORY_HANDES_OPPO)
 	e7:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e7:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e7:SetCode(EVENT_SUMMON_SUCCESS)
-	e7:SetCondition(c41181774.hdcon)
 	e7:SetTarget(c41181774.hdtg)
 	e7:SetOperation(c41181774.hdop)
 	c:RegisterEffect(e7)
 end
 function c41181774.sdcon(e)
 	return not Duel.IsExistingMatchingCard(Card.IsFaceup,0,LOCATION_FZONE,LOCATION_FZONE,1,nil)
-end
-function c41181774.hdcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsLocation(LOCATION_MZONE)
 end
 function c41181774.hdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) and chkc:IsAbleToDeck() end
