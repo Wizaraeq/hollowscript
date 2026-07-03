@@ -1,5 +1,6 @@
 --グローアップ・ブルーム
 function c92964816.initial_effect(c)
+	aux.AddCodeList(c,4064256)
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SEARCH+CATEGORY_SPECIAL_SUMMON+CATEGORY_DECKDES)
 	e1:SetDescription(aux.Stringid(92964816,0))

@@ -1,5 +1,6 @@
 --イモータル・ルーラー
 function c32485518.initial_effect(c)
+	aux.AddCodeList(c,4064256)
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
