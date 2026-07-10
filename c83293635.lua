@@ -13,13 +13,10 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function s.csfilter(c)
-	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE)
-end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	return ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
-		and eg:IsExists(s.csfilter,1,nil)
+		and eg:IsExists(Card.IsReason,1,nil,REASON_BATTLE+REASON_EFFECT)
 end
 function s.tfilter(c)
 	return c:IsType(TYPE_XYZ) and c:IsSetCard(0x48) and c:IsCanOverlay()
@@ -48,7 +45,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not tc:IsRelateToChain() then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local sc=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_EXTRA,0,1,1,nil,tc,e,tp):GetFirst()
-	if sc and Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP) then
+	if sc and Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)>0 then
 		Duel.Overlay(sc,tc)
 		local no=aux.GetXyzNumber(sc)
 		local g=Duel.GetMatchingGroup(s.sfilter,tp,LOCATION_DECK,0,nil)

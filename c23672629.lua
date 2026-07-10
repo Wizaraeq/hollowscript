@@ -53,14 +53,14 @@ function c23672629.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c23672629.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if Duel.RemoveOverlayCard(tp,1,0,1,1,REASON_EFFECT) and tc:IsRelateToEffect(e) then
+	if Duel.RemoveOverlayCard(tp,1,0,1,1,REASON_EFFECT)>0 and tc:IsRelateToEffect(e) then
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
 function c23672629.cfilter(c,tp)
 	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp)
 		and bit.band(c:GetPreviousAttributeOnField(),ATTRIBUTE_WATER)~=0 and bit.band(c:GetPreviousTypeOnField(),TYPE_XYZ)~=0
-		and c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD)
+		and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c23672629.tpcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c23672629.cfilter,1,nil,tp) and not eg:IsContains(e:GetHandler())

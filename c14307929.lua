@@ -14,6 +14,12 @@ function s.initial_effect(c)
 	e1:SetTarget(s.thtg)
 	e1:SetOperation(s.thop)
 	c:RegisterEffect(e1)
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_MATERIAL_CHECK)
+	e3:SetValue(s.valcheck)
+	e3:SetLabelObject(e1)
+	c:RegisterEffect(e3)
 	--
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
@@ -28,12 +34,19 @@ function s.initial_effect(c)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 end
-function s.cfilter(c)
-	return bit.band(c:GetType(),TYPE_SYNCHRO+TYPE_TUNER)==TYPE_SYNCHRO+TYPE_TUNER
+function s.matfilter(c)
+	return c:IsType(TYPE_SYNCHRO) and c:IsType(TYPE_TUNER)
+end
+function s.valcheck(e,c)
+	local g=c:GetMaterial()
+	if g:IsExists(s.matfilter,1,nil) then
+		e:GetLabelObject():SetLabel(1)
+	else
+		e:GetLabelObject():SetLabel(0)
+	end
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-	local g=e:GetHandler():GetMaterial()
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) and g:IsExists(s.cfilter,1,nil)
+	return e:GetLabel()==1 and e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 function s.filter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
