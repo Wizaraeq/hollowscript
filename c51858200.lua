@@ -1,5 +1,4 @@
 --捕食惑星
----@param c Card
 function c51858200.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -39,6 +38,9 @@ function c51858200.initial_effect(c)
 	e3:SetOperation(c51858200.spop)
 	c:RegisterEffect(e3)
 end
+c51858200.mentioned_counter={
+	[0x1041]=true,
+}
 function c51858200.cfilter(c)
 	return c:IsLocation(LOCATION_MZONE) and c:GetCounter(0x1041)>0
 end

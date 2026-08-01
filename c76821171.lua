@@ -1,6 +1,5 @@
 --ヴァルモニカの異神－ジュラルメ
 local s,id,o=GetID()
----@param c Card
 function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--material
@@ -36,6 +35,9 @@ function s.initial_effect(c)
 	e3:SetOperation(s.taop)
 	c:RegisterEffect(e3)
 end
+s.mentioned_counter={
+	[0x6a]=true,
+}
 function s.cfilter(c)
 	return c:GetOriginalRace()&RACE_FAIRY>0 and c:GetOriginalType()&TYPE_MONSTER>0 and c:GetCounter(0x6a)>2
 end

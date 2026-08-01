@@ -80,6 +80,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e7)
 	Duel.AddCustomActivityCounter(id,ACTIVITY_SPSUMMON,s.counterfilter)
 end
+s.mentioned_counter={
+	[0x71]=true,
+}
 function s.counterfilter(c)
 	return c:IsFacedown()
 end
@@ -212,5 +215,6 @@ function s.damcon2(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.damop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,id)
+	e:GetHandler():ResetFlagEffect(id+o)
 	Duel.Damage(1-tp,900,REASON_EFFECT)
 end

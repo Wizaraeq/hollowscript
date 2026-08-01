@@ -23,6 +23,9 @@ function c14957440.initial_effect(c)
 	e2:SetOperation(c14957440.tkop)
 	c:RegisterEffect(e2)
 end
+c14957440.mentioned_counter={
+	[0x59]=true,
+}
 function c14957440.atkfilter(c)
 	return c:IsFacedown() or c:IsFaceup() and not c:IsType(TYPE_TUNER)
 end
@@ -59,13 +62,13 @@ function c14957440.tkop(e,tp,eg,ep,ev,re,r,rp)
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)
 			e2:SetCode(EFFECT_SET_ATTACK)
-			e2:SetValue(token:GetLevel()*500)
+			e2:SetValue(c:GetCounter(0x59)*500)
 			e2:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD)
 			token:RegisterEffect(e2)
 			local e3=Effect.CreateEffect(c)
 			e3:SetType(EFFECT_TYPE_SINGLE)
 			e3:SetCode(EFFECT_SET_DEFENSE)
-			e3:SetValue(token:GetLevel()*500)
+			e3:SetValue(c:GetCounter(0x59)*500)
 			e3:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD)
 			token:RegisterEffect(e3)
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)

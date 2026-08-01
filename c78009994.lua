@@ -22,6 +22,9 @@ function c78009994.initial_effect(c)
 	e2:SetOperation(c78009994.spop)
 	c:RegisterEffect(e2)
 end
+c78009994.mentioned_counter={
+	[0x22]=true,
+}
 function c78009994.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if eg:GetFirst()~=e:GetHandler() then
 		e:GetHandler():AddCounter(0x22,1)
@@ -36,7 +39,7 @@ function c78009994.spfilter(c,lv,e,tp)
 	return c:IsLevelBelow(lv) and c:IsRace(RACE_DRAGON) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c78009994.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMZoneCount(tp,e:GetHandler())>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
 		and Duel.IsExistingMatchingCard(c78009994.spfilter,tp,LOCATION_DECK,0,1,nil,e:GetHandler():GetCounter(0x22),e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
