@@ -1,5 +1,4 @@
 --始源の帝王
----@param c Card
 function c8522996.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -75,7 +74,8 @@ function c8522996.chop(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(e2)
 end
 function c8522996.condition(e,c)
-	return c:IsAttribute(e:GetHandler():GetAttribute())
+	local ec=e:GetHandler()
+	return c:IsAttribute(ec:GetAttribute()) and (ec:IsFaceup() or c:GetControler()==ec:GetControler())
 end
 function c8522996.splimit(e,c,tp,sumtp,sumpos)
 	return not c:IsAttribute(e:GetHandler():GetAttribute())

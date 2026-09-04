@@ -1,5 +1,4 @@
 --アルカナリーディング
----@param c Card
 function c11819473.initial_effect(c)
 	aux.AddCodeList(c,73206827)
 	--Activate
@@ -70,7 +69,7 @@ function c11819473.activate(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.SelectMatchingCard(1-tp,c11819473.thfilter2,1-tp,LOCATION_DECK,0,1,1,nil,1-tp)
 		if g:GetCount()>0 then
 			g:GetFirst():SetStatus(STATUS_TO_HAND_WITHOUT_CONFIRM,true)
-			Duel.SendtoHand(g,nil,REASON_EFFECT)
+			Duel.SendtoHand(g,nil,REASON_EFFECT,1-tp)
 		end
 	end
 end
