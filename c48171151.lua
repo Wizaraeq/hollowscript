@@ -14,12 +14,11 @@ function s.initial_effect(c)
 	e1:SetOperation(s.pop)
 	c:RegisterEffect(e1)
 	--special summon
-	local custom_code=aux.RegisterMergedDelayedEvent_ToSingleCard(c,id,EVENT_DESTROYED)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_GRAVE_SPSUMMON)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(custom_code)
+	e2:SetCode(EVENT_CUSTOM+id)
 	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCountLimit(1,id+o)
@@ -40,6 +39,25 @@ function s.initial_effect(c)
 	e3:SetTarget(s.fsptg)
 	e3:SetOperation(s.fspop)
 	c:RegisterEffect(e3)
+	if not s.global_check then
+		s.global_check=true
+		local ge1=Effect.CreateEffect(c)
+		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge1:SetCode(EVENT_DESTROYED)
+		ge1:SetCondition(s.regcon)
+		ge1:SetOperation(s.regop)
+		Duel.RegisterEffect(ge1,0)
+	end
+end
+function s.spcfilter(c,tp)
+	return c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP) and c:IsReason(REASON_BATTLE+REASON_EFFECT)
+		and c:GetOriginalType()&TYPE_MONSTER~=0 and c:IsPreviousLocation(LOCATION_ONFIELD)
+end
+function s.regcon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.spcfilter,1,nil,tp)
+end
+function s.regop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.RaiseEvent(eg,EVENT_CUSTOM+id,re,r,rp,ep,e:GetLabel())
 end
 function s.pfilter(c,tp)
 	return c:IsType(TYPE_PENDULUM) and not c:IsCode(id) and c:GetLeftScale()==1
@@ -66,12 +84,8 @@ function s.pop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1,true)
 	end
 end
-function s.desfilter(c,tp)
-	return c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP) and c:IsReason(REASON_BATTLE+REASON_EFFECT)
-		and c:GetOriginalType()&TYPE_MONSTER~=0 and c:IsPreviousLocation(LOCATION_ONFIELD)
-end
 function s.spcon1(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.desfilter,1,nil,tp)
+	return ev==tp
 end
 function s.spfilter1(c,e,tp)
 	if not c:IsCanBeSpecialSummoned(e,0,tp,false,false) or not c:IsControler(tp) then return false end
@@ -85,7 +99,7 @@ function s.sptg1(e,tp,eg,ep,ev,re,r,rp,chk)
 		return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 			and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 	end
-	local desg=eg:Filter(s.desfilter,nil,tp)
+	local desg=eg:Filter(s.spcfilter,nil,tp)
 	Duel.SetTargetCard(desg)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 end
