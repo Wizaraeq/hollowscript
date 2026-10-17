@@ -4,7 +4,7 @@ function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_DECKDES+CATEGORY_GRAVE_SPSUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_DECKDES+CATEGORY_DECK_SPSUMMON+CATEGORY_GRAVE_SPSUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,TIMINGS_CHECK_MONSTER+TIMING_END_PHASE)
@@ -27,7 +27,6 @@ function s.initial_effect(c)
 	e2:SetOperation(s.rmop)
 	c:RegisterEffect(e2)
 end
-s.trap_monster=true
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:IsCostChecked()
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0

@@ -30,7 +30,7 @@ function s.cfilter(c,tp)
 	return c:IsLevel(10) and not c:IsCode(id)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil,tp)
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(s.cfilter,1,nil,tp)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
