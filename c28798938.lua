@@ -1,5 +1,6 @@
 --双天の獅使－阿吽
 function c28798938.initial_effect(c)
+	aux.AddCodeList(c,85360035,11759079)
 	--fusion summon
 	c:EnableReviveLimit()
 	aux.AddFusionProcFunRep(c,aux.FilterBoolFunction(Card.IsSetCard,0x14f),2,true)

@@ -1,5 +1,6 @@
 --E・HERO ネオス・クルーガー
 function c90307498.initial_effect(c)
+	aux.AddCodeList(c,5126490)
 	c:EnableReviveLimit()
 	aux.AddFusionProcCode2(c,89943723,78371393,true,true)
 	--spsummon condition
